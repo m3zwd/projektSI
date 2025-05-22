@@ -1,20 +1,23 @@
 <?php
 
 /**
- * Recipe entity.
+ * Category entity.
  */
 
 namespace App\Entity;
 
-use App\Repository\RecipeRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Class Recipe.
+ * Class Category.
  */
-#[ORM\Entity(repositoryClass: RecipeRepository::class)]
-#[ORM\Table(name: 'recipes')]
-class Recipe
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ORM\Table(name: 'categories')]
+#[ORM\UniqueConstraint(name: 'uq_categories_title', columns: ['title'])]
+#[UniqueEntity(fields: ['title'])]
+class Category
 {
     /**
      * Primary key.
@@ -27,7 +30,7 @@ class Recipe
     /**
      * Title.
      */
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 64)]
     private ?string $title = null;
 
     /**
@@ -41,15 +44,6 @@ class Recipe
      */
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $updatedAt = null;
-
-    /**
-     * Category.
-     *
-     * @var Category
-     */
-    #[ORM\ManyToOne(targetEntity: Category::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Category $category = null;
 
     /**
      * Getter for Id.
@@ -119,27 +113,5 @@ class Recipe
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * Getter for category.
-     *
-     * @return Category|null
-     */
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    /**
-     * Setter for category.
-     *
-     * @return $this
-     */
-    public function setCategory(?Category $category): static
-    {
-        $this->category = $category;
-
-        return $this;
     }
 }
