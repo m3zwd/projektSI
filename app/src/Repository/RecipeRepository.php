@@ -44,6 +44,11 @@ class RecipeRepository extends ServiceEntityRepository
      */
     public function queryAll(): QueryBuilder
     {
-        return $this->createQueryBuilder('recipe');
+        return $this->createQueryBuilder('recipe')
+            ->select(
+                'partial recipe.{id, createdAt, updatedAt, title}',
+                'partial category.{id, title}'
+            )
+            ->join('recipe.category', 'category');
     }
 }

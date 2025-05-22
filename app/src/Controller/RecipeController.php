@@ -29,6 +29,7 @@ class RecipeController extends AbstractController
      * @return Response HTTP response
      */
     #[Route(
+        '/recipe/',
         name: 'recipe_index',
         methods: 'GET'
     )]
