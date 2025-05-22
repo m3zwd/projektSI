@@ -7,8 +7,8 @@
 namespace App\Controller;
 
 use App\Entity\Recipe;
-use App\Repository\RecipeRepository;
-use Knp\Component\Pager\PaginatorInterface;
+use App\Service\RecipeService;
+use App\Service\RecipeServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
@@ -20,11 +20,16 @@ use Symfony\Component\Routing\Attribute\Route;
 class RecipeController extends AbstractController
 {
     /**
+     * Constructor.
+     */
+    public function __construct(private readonly RecipeServiceInterface $recipeService)
+    {
+    }
+
+    /**
      * Index action.
      *
-     * @param RecipeRepository   $recipeRepository Recipe repository
-     * @param PaginatorInterface $paginator        Paginator
-     * @param int                $page             Default page number
+     * @param int $page Page number
      *
      * @return Response HTTP response
      */
@@ -33,21 +38,13 @@ class RecipeController extends AbstractController
         name: 'recipe_index',
         methods: 'GET'
     )]
-    public function index(RecipeRepository $recipeRepository, PaginatorInterface $paginator, #[MapQueryParameter] int $page = 1): Response
+    public function index(#[MapQueryParameter] int $page = 1): Response
     {
-        $pagination = $paginator->paginate(
-            $recipeRepository->queryAll(),
-            $page,
-            RecipeRepository::PAGINATOR_ITEMS_PER_PAGE,
-            [
-                'sortFieldAllowList' => ['recipe.id', 'recipe.createdAt', 'recipe.updatedAt', 'recipe.title'],
-                'defaultSortFieldName' => 'recipe.updatedAt',
-                'defaultSortDirection' => 'desc',
-            ]
-        );
+        $pagination = $this->recipeService->getPaginatedList($page);
 
         return $this->render('recipe/index.html.twig', ['pagination' => $pagination]);
     }
+
     /**
      * View action.
      *
