@@ -2,9 +2,9 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en" datatype="plaintext" original="file.ext">
     <body>
-      <trans-unit id="label.actions">
-        <source>label.actions</source>
-        <target>Actions</target>
+      <trans-unit id="title.recipe_list">
+        <source>title.recipe_list</source>
+        <target>Recipes list</target>
       </trans-unit>
       <trans-unit id="label.id">
         <source>label.id</source>
@@ -22,6 +22,10 @@
         <source>label.updated_at</source>
         <target>Updated at</target>
       </trans-unit>
+      <trans-unit id="label.category">
+        <source>label.category</source>
+        <target>Category</target>
+      </trans-unit>
       <trans-unit id="message.empty_list">
         <source>message.empty_list</source>
         <target>List is empty.</target>
@@ -30,9 +34,9 @@
         <source>message.record_not_found</source>
         <target>Record not found.</target>
       </trans-unit>
-      <trans-unit id="title.recipe_list">
-        <source>title.recipe_list</source>
-        <target>Recipes list</target>
+      <trans-unit id="label.actions">
+        <source>label.actions</source>
+        <target>Actions</target>
       </trans-unit>
       <trans-unit id="action.view">
         <source>action.view</source>
@@ -47,9 +51,9 @@
           <target>Recipe details #%id%</target>
       </trans-unit>
       <trans-unit id="action.back_to_list">
-                <source>action.back_to_list</source>
-                <target>Back to list</target>
-            </trans-unit>
+          <source>action.back_to_list</source>
+          <target>Back to list</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
