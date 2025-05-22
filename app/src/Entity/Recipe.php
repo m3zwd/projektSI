@@ -44,8 +44,6 @@ class Recipe
 
     /**
      * Category.
-     *
-     * @var Category
      */
     #[ORM\ManyToOne(targetEntity: Category::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -123,8 +121,6 @@ class Recipe
 
     /**
      * Getter for category.
-     *
-     * @return Category|null
      */
     public function getCategory(): ?Category
     {
@@ -133,6 +129,8 @@ class Recipe
 
     /**
      * Setter for category.
+     *
+     * @param Category|null $category Category
      *
      * @return $this
      */

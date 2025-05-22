@@ -2,10 +2,22 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en" datatype="plaintext" original="file.ext">
     <body>
+      <!-- Messages -->
+      <trans-unit id="message.empty_list">
+        <source>message.empty_list</source>
+        <target>List is empty.</target>
+      </trans-unit>
+      <trans-unit id="message.record_not_found">
+        <source>message.record_not_found</source>
+        <target>Record not found.</target>
+      </trans-unit>
+
+      <!-- Recipes list - main -->
       <trans-unit id="title.recipe_list">
         <source>title.recipe_list</source>
         <target>Recipes list</target>
       </trans-unit>
+      <!-- Recipes table columns -->
       <trans-unit id="label.id">
         <source>label.id</source>
         <target>Id</target>
@@ -26,14 +38,6 @@
         <source>label.category</source>
         <target>Category</target>
       </trans-unit>
-      <trans-unit id="message.empty_list">
-        <source>message.empty_list</source>
-        <target>List is empty.</target>
-      </trans-unit>
-      <trans-unit id="message.record_not_found">
-        <source>message.record_not_found</source>
-        <target>Record not found.</target>
-      </trans-unit>
       <trans-unit id="label.actions">
         <source>label.actions</source>
         <target>Actions</target>
@@ -42,17 +46,37 @@
         <source>action.view</source>
         <target>View</target>
       </trans-unit>
+      <!-- View recipe details -->
       <trans-unit id="title.action_view">
         <source>title.recipe_view</source>
         <target>Recipe view #%id%</target>
       </trans-unit>
       <trans-unit id="title.recipe_details">
-          <source>title.recipe_details</source>
-          <target>Recipe details #%id%</target>
+        <source>title.recipe_details</source>
+        <target>Recipe details #%id%</target>
       </trans-unit>
       <trans-unit id="action.back_to_list">
-          <source>action.back_to_list</source>
-          <target>Back to list</target>
+        <source>action.back_to_list</source>
+        <target>Back to list</target>
+      </trans-unit>
+
+      <!-- Category list - main -->
+      <trans-unit id="title.category_list">
+        <source>title.category_list</source>
+        <target>Category list</target>
+      </trans-unit>
+      <!-- View category details -->
+      <trans-unit id="title.category_details">
+          <source>title.category_details</source>
+          <target>Category details #%id%</target>
+      </trans-unit>
+      <trans-unit id="title.category_recipes">
+          <source>title.category_recipes</source>
+          <target>Category recipes</target>
+      </trans-unit>
+      <trans-unit id="message.no_recipes_in_category">
+          <source>message.no_recipes_in_category</source>
+          <target>No recipes in category</target>
       </trans-unit>
     </body>
   </file>

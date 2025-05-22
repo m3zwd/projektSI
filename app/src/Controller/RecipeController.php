@@ -17,7 +17,6 @@ use Symfony\Component\Routing\Attribute\Route;
 /**
  * Class RecipeController.
  */
-#[Route('/recipe')]
 class RecipeController extends AbstractController
 {
     /**
@@ -48,7 +47,6 @@ class RecipeController extends AbstractController
 
         return $this->render('recipe/index.html.twig', ['pagination' => $pagination]);
     }
-
     /**
      * View action.
      *
@@ -57,7 +55,7 @@ class RecipeController extends AbstractController
      * @return Response HTTP response
      */
     #[Route(
-        '/{id}',
+        '/recipe/{id}',
         name: 'recipe_view',
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET'
