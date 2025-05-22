@@ -1,17 +1,19 @@
 <?php
+
 /**
- * Recipe service interface.
+ * Category service interface.
  */
 
 namespace App\Service;
 
+use App\Entity\Category;
 use App\Entity\Recipe;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
- * Interface RecipeServiceInterface.
+ * Interface CategoryServiceInterface.
  */
-interface RecipeServiceInterface
+interface CategoryServiceInterface
 {
     /**
      * Get paginated list.
@@ -21,4 +23,13 @@ interface RecipeServiceInterface
      * @return PaginationInterface<string, mixed> Paginated list
      */
     public function getPaginatedList(int $page): PaginationInterface;
+
+    /**
+     * Find recipes by category.
+     *
+     * @param Category $category Category entity
+     *
+     * @return array<Recipe> List of recipes
+     */
+    public function getRecipesByCategory(Category $category): array;
 }

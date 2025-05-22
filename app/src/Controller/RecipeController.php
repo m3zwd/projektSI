@@ -21,6 +21,8 @@ class RecipeController extends AbstractController
 {
     /**
      * Constructor.
+     *
+     * @param RecipeServiceInterface $recipeService
      */
     public function __construct(private readonly RecipeServiceInterface $recipeService)
     {
