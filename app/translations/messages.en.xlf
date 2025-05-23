@@ -92,6 +92,16 @@
         <source>message.created_successfully</source>
         <target>Created successfully.</target>
       </trans-unit>
+
+      <!-- Edit method -->
+      <trans-unit id="title.category_edit">
+        <source>title.category_edit</source>
+        <target>Edit category</target>
+      </trans-unit>
+      <trans-unit id="message.edited_successfully">
+        <source>message.edited_successfully</source>
+        <target>Edited successfully.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
