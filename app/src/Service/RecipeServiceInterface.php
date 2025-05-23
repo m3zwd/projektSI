@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Recipe service interface.
  */
 
 namespace App\Service;
 
-use App\Entity\Recipe;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**

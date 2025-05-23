@@ -33,13 +33,11 @@ class CategoryService implements CategoryServiceInterface
      * Constructor.
      *
      * @param CategoryRepository $categoryRepository Category repository
+     * @param RecipeRepository   $recipeRepository   Recipe repository
      * @param PaginatorInterface $paginator          Paginator
      */
-    public function __construct(
-        private readonly CategoryRepository $categoryRepository,
-        private readonly RecipeRepository $recipeRepository,
-        private readonly PaginatorInterface $paginator
-    ) {
+    public function __construct(private readonly CategoryRepository $categoryRepository, private readonly RecipeRepository $recipeRepository, private readonly PaginatorInterface $paginator)
+    {
     }
 
     /**
@@ -66,12 +64,24 @@ class CategoryService implements CategoryServiceInterface
     /**
      * Find recipes by category.
      *
-     * @param Category $category
-     *
      * @return array|Recipe[]
      */
     public function getRecipesByCategory(Category $category): array
     {
         return $this->recipeRepository->findBy(['category' => $category]);
+    }
+
+    /**
+     * Save entity.
+     *
+     * @param Category $category Category entity
+     */
+    public function save(Category $category): void
+    {
+        $category->setUpdatedAt(new \DateTimeImmutable());
+        if (null === $category->getId()) {
+            $category->setCreatedAt(new \DateTimeImmutable());
+        }
+        $this->categoryRepository->save($category);
     }
 }

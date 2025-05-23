@@ -32,4 +32,11 @@ interface CategoryServiceInterface
      * @return array<Recipe> List of recipes
      */
     public function getRecipesByCategory(Category $category): array;
+
+    /**
+     * Save entity.
+     *
+     * @param Category $category Category entity
+     */
+    public function save(Category $category): void;
 }

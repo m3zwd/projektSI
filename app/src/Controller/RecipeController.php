@@ -7,7 +7,6 @@
 namespace App\Controller;
 
 use App\Entity\Recipe;
-use App\Service\RecipeService;
 use App\Service\RecipeServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,8 +20,6 @@ class RecipeController extends AbstractController
 {
     /**
      * Constructor.
-     *
-     * @param RecipeServiceInterface $recipeService
      */
     public function __construct(private readonly RecipeServiceInterface $recipeService)
     {

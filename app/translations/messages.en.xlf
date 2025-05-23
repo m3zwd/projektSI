@@ -78,6 +78,20 @@
           <source>message.no_recipes_in_category</source>
           <target>No recipes in category</target>
       </trans-unit>
+
+      <!-- Create method -->
+      <trans-unit id="title.category_create">
+        <source>title.category_create</source>
+        <target>Create category</target>
+      </trans-unit>
+      <trans-unit id="action.save">
+        <source>action.save</source>
+        <target>Save</target>
+      </trans-unit>
+      <trans-unit id="message.created_successfully">
+        <source>message.created_successfully</source>
+        <target>Created successfully.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

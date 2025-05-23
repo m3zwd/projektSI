@@ -121,6 +121,8 @@ class Recipe
 
     /**
      * Getter for category.
+     *
+     * @return Category|null Category entity or null if not set
      */
     public function getCategory(): ?Category
     {
