@@ -35,6 +35,14 @@
                         <a href="{{ url('recipe_view', {id: recipe.id}) }}" title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}
                         </a>
+                        |
+                        <a href="{{ url('recipe_edit', {id: recipe.id}) }}" title="{{ 'action.edit'|trans }}">
+                            {{ 'action.edit'|trans }}
+                        </a>
+                        |
+                        <a href="{{ url('recipe_delete', {id: recipe.id}) }}" title="{{ 'action.delete'|trans }}">
+                            {{ 'action.delete'|trans }}
+                        </a>
                     </td>
                 </tr>
             {% endfor %}
@@ -44,6 +52,12 @@
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
         </div>
+
+        <p>
+            <a href="{{ url('recipe_create') }}" class="btn btn-primary">
+                {{ 'action.recipe_create'|trans }}
+            </a>
+        </p>
 
     {% else %}
         {% include 'default/_single_alert_message.html.twig' with {

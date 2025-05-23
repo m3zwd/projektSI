@@ -96,6 +96,18 @@
         <source>title.category_create</source>
         <target>Create category</target>
       </trans-unit>
+      <trans-unit id="action.recipe_create">
+        <source>action.recipe_create</source>
+        <target> Create recipe</target>
+      </trans-unit>
+      <trans-unit id="title.recipe_create">
+        <source>title.recipe_create</source>
+        <target>Create recipe</target>
+      </trans-unit>
+      <trans-unit id="label.none">
+        <source>label.none</source>
+        <target>Choose category</target>
+      </trans-unit>
       <trans-unit id="action.save">
         <source>action.save</source>
         <target>Save</target>
@@ -114,6 +126,10 @@
         <source>title.category_edit</source>
         <target>Edit category</target>
       </trans-unit>
+      <trans-unit id="title.recipe_edit">
+        <source>title.recipe_edit</source>
+        <target>Edit recipe</target>
+      </trans-unit>
       <trans-unit id="message.edited_successfully">
         <source>message.edited_successfully</source>
         <target>Edited successfully.</target>
@@ -127,6 +143,10 @@
       <trans-unit id="title.category_delete">
         <source>title.category_delete</source>
         <target>Delete category</target>
+      </trans-unit>
+      <trans-unit id="title.recipe_delete">
+        <source>title.recipe_delete</source>
+        <target>Delete recipe</target>
       </trans-unit>
       <trans-unit id="message.deleted_successfully">
         <source>message.deleted_successfully</source>

@@ -9,7 +9,6 @@ namespace App\Entity;
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use DateTimeImmutable;
 
 /**
  * Class Recipe.
@@ -34,21 +33,17 @@ class Recipe
 
     /**
      * Created at.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?\DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     /**
      * Updated at.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'update')]
-    private ?\DateTimeImmutable $updatedAt;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * Category.
@@ -59,12 +54,10 @@ class Recipe
 
     /**
      * Slug.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 64)]
     #[Gedmo\Slug(fields: ['title'])]
-    private ?string $slug;
+    private ?string $slug = null;
 
     /**
      * Getter for Id.

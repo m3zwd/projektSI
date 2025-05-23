@@ -66,4 +66,26 @@ class RecipeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    /**
+     * Save entity.
+     *
+     * @param Recipe $recipe Recipe entity
+     */
+    public function save(Recipe $recipe): void
+    {
+        $this->getEntityManager()->persist($recipe);
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param Recipe $recipe Recipe entity
+     */
+    public function delete(Recipe $recipe): void
+    {
+        $this->getEntityManager()->remove($recipe);
+        $this->getEntityManager()->flush();
+    }
 }
