@@ -7,6 +7,9 @@
 namespace App\Entity;
 
 use App\Repository\RecipeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -54,11 +57,20 @@ class Recipe
     private ?\DateTimeImmutable $updatedAt = null;
 
     /**
+     * Comment.
+     */
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Type('string')]
+    #[Assert\Length(min: 3, max: 65535)]
+    private ?string $comment = null;
+
+    /**
      * Category.
      */
     #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull]
+    #[Assert\NotBlank]
+    #[Assert\Type(Category::class)]
     private ?Category $category = null;
 
     /**
@@ -69,6 +81,24 @@ class Recipe
     #[Assert\Length(min: 3, max: 255)]
     #[Gedmo\Slug(fields: ['title'])]
     private ?string $slug = null;
+
+    /**
+     * Tags.
+     *
+     * @var Collection<int, Tag>
+     */
+    #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    #[ORM\JoinTable(name: 'recipes_tags')]
+    #[Assert\Valid]
+    private Collection $tags;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
 
     /**
      * Getter for Id.
@@ -141,6 +171,26 @@ class Recipe
     }
 
     /**
+     * Getter for comment.
+     *
+     * @return string|null Comment
+     */
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    /**
+     * Setter for comment.
+     *
+     * @param string|null $comment Comment
+     */
+    public function setComment(?string $comment): void
+    {
+        $this->comment = $comment;
+    }
+
+    /**
      * Getter for category.
      *
      * @return Category|null Category entity or null if not set
@@ -154,14 +204,10 @@ class Recipe
      * Setter for category.
      *
      * @param Category|null $category Category
-     *
-     * @return $this
      */
-    public function setCategory(?Category $category): static
+    public function setCategory(?Category $category): void
     {
         $this->category = $category;
-
-        return $this;
     }
 
     /**
@@ -186,5 +232,37 @@ class Recipe
         $this->slug = $slug;
 
         return $this;
+    }
+
+    /**
+     * Getter for tags.
+     *
+     * @return Collection<int, Tag> Tags collection
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    /**
+     * Add tag.
+     *
+     * @param Tag $tag Tag entity
+     */
+    public function addTag(Tag $tag): void
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+    }
+
+    /**
+     * Remove tag.
+     *
+     * @param Tag $tag
+     */
+    public function removeTag(Tag $tag): void
+    {
+        $this->tags->removeElement($tag);
     }
 }
