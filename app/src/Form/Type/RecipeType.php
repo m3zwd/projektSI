@@ -8,6 +8,7 @@ namespace App\Form\Type;
 
 use App\Entity\Category;
 use App\Entity\Recipe;
+use App\Entity\Tag;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -50,6 +51,21 @@ class RecipeType extends AbstractType
                 'label' => 'label.category',
                 'placeholder' => 'label.none',
                 'required' => true,
+            ]
+        );
+        $builder->add(
+            'tags',
+            EntityType::class,
+            [
+                'class' => Tag::class,
+                'choice_label' => function ($tag): string {
+                    return $tag->getTitle();
+                },
+                'label' => 'label.tags',
+                'placeholder' => 'label.none',
+                'required' => false,
+                'expanded' => true,
+                'multiple' => true,
             ]
         );
     }
