@@ -6,6 +6,7 @@
 
 namespace App\Service;
 
+use App\Entity\Recipe;
 use App\Entity\Tag;
 
 /**
@@ -21,4 +22,18 @@ interface TagServiceInterface
      * @return Tag|null Tag entity
      */
     public function findOneByTitle(string $title): ?Tag;
+
+    /**
+     * Save entity.
+     *
+     * @param Tag $tag Tag entity
+     */
+    public function save(Tag $tag): void;
+
+    /**
+     * Delete entity.
+     *
+     * @param Tag $tag Tag entity
+     */
+    public function delete(Tag $tag): void;
 }

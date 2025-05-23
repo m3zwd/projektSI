@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Task type.
+ * Recipe type.
  */
 
 namespace App\Form\Type;
 
 use App\Entity\Category;
 use App\Entity\Recipe;
-use App\Entity\Tag;
+use App\Form\DataTransformer\TagsDataTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,6 +20,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class RecipeType extends AbstractType
 {
+    /**
+     * Constructor.
+     *
+     * @param TagsDataTransformer $tagsDataTransformer Tags data transformer
+     */
+    public function __construct(private readonly TagsDataTransformer $tagsDataTransformer)
+    {
+    }
+
     /**
      * Builds the form.
      *
@@ -55,18 +64,16 @@ class RecipeType extends AbstractType
         );
         $builder->add(
             'tags',
-            EntityType::class,
+            TextType::class,
             [
-                'class' => Tag::class,
-                'choice_label' => function ($tag): string {
-                    return $tag->getTitle();
-                },
                 'label' => 'label.tags',
-                'placeholder' => 'label.none',
                 'required' => false,
-                'expanded' => true,
-                'multiple' => true,
+                'attr' => ['max_length' => 128],
             ]
+        );
+
+        $builder->get('tags')->addModelTransformer(
+            $this->tagsDataTransformer
         );
     }
 

@@ -19,6 +19,16 @@
             <dd>{{  recipe.title }}</dd>
             <dt>{{ 'label.category'|trans }}</dt>
             <dd>{{  recipe.category.title }}</dd>
+            <dt>{{ 'label.tags'|trans }}</dt>
+            <dd>
+                {% if recipe.tags is not empty %}
+                    {% for tag in recipe.tags %}
+                        <span class="badge bg-info text-dark">{{ tag.title }}</span>
+                    {% endfor %}
+                {% else %}
+                    <span class="text-muted">{{ 'label.none'|trans }}</span>
+                {% endif %}
+            </dd>
         </dl>
         <p>
             <a href="{{ url('recipe_index') }}" title="{{ 'action.back_to_list'|trans }}">
