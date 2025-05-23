@@ -12,12 +12,11 @@
         <target>Record not found.</target>
       </trans-unit>
 
-      <!-- Recipes list - main -->
+      <!-- Recipes list -->
       <trans-unit id="title.recipe_list">
         <source>title.recipe_list</source>
         <target>Recipes list</target>
       </trans-unit>
-      <!-- Recipes table columns -->
       <trans-unit id="label.id">
         <source>label.id</source>
         <target>Id</target>
@@ -42,11 +41,12 @@
         <source>label.actions</source>
         <target>Actions</target>
       </trans-unit>
+
+      <!-- View action for recipes -->
       <trans-unit id="action.view">
         <source>action.view</source>
         <target>View</target>
       </trans-unit>
-      <!-- View recipe details -->
       <trans-unit id="title.action_view">
         <source>title.recipe_view</source>
         <target>Recipe view #%id%</target>
@@ -60,12 +60,12 @@
         <target>Back to list</target>
       </trans-unit>
 
-      <!-- Category list - main -->
+      <!-- Category list -->
       <trans-unit id="title.category_list">
         <source>title.category_list</source>
         <target>Category list</target>
       </trans-unit>
-      <!-- View category details -->
+      <!-- View action for categories -->
       <trans-unit id="title.category_details">
           <source>title.category_details</source>
           <target>Category details #%id%</target>
@@ -79,7 +79,11 @@
           <target>No recipes in category</target>
       </trans-unit>
 
-      <!-- Create method -->
+      <!-- Create action -->
+      <trans-unit id="action.category_create">
+        <source>action.category_create</source>
+        <target> Create category</target>
+      </trans-unit>
       <trans-unit id="title.category_create">
         <source>title.category_create</source>
         <target>Create category</target>
@@ -93,7 +97,11 @@
         <target>Created successfully.</target>
       </trans-unit>
 
-      <!-- Edit method -->
+      <!-- Edit action -->
+      <trans-unit id="action.edit">
+        <source>action.edit</source>
+        <target>Edit</target>
+      </trans-unit>
       <trans-unit id="title.category_edit">
         <source>title.category_edit</source>
         <target>Edit category</target>
@@ -103,14 +111,14 @@
         <target>Edited successfully.</target>
       </trans-unit>
 
-      <!-- Delete method -->
-      <trans-unit id="title.category_delete">
-        <source>title.category_delete</source>
-        <target>Delete category</target>
-      </trans-unit>
+      <!-- Delete action -->
       <trans-unit id="action.delete">
         <source>action.delete</source>
         <target>Delete</target>
+      </trans-unit>
+      <trans-unit id="title.category_delete">
+        <source>title.category_delete</source>
+        <target>Delete category</target>
       </trans-unit>
       <trans-unit id="message.deleted_successfully">
         <source>message.deleted_successfully</source>
