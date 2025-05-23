@@ -102,6 +102,20 @@
         <source>message.edited_successfully</source>
         <target>Edited successfully.</target>
       </trans-unit>
+
+      <!-- Delete method -->
+      <trans-unit id="title.category_delete">
+        <source>title.category_delete</source>
+        <target>Delete category</target>
+      </trans-unit>
+      <trans-unit id="action.delete">
+        <source>action.delete</source>
+        <target>Delete</target>
+      </trans-unit>
+      <trans-unit id="message.deleted_successfully">
+        <source>message.deleted_successfully</source>
+        <target>Deleted successfully.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

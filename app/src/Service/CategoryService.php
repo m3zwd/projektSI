@@ -64,6 +64,8 @@ class CategoryService implements CategoryServiceInterface
     /**
      * Find recipes by category.
      *
+     * @param Category $category Category entity
+     *
      * @return array|Recipe[]
      */
     public function getRecipesByCategory(Category $category): array
@@ -83,5 +85,15 @@ class CategoryService implements CategoryServiceInterface
             $category->setCreatedAt(new \DateTimeImmutable());
         }
         $this->categoryRepository->save($category);
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param Category $category Category entity
+     */
+    public function delete(Category $category): void
+    {
+        $this->categoryRepository->delete($category);
     }
 }
