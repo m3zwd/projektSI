@@ -7,8 +7,11 @@
 namespace App\Repository;
 
 use App\Entity\Recipe;
+use App\entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,17 +21,6 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RecipeRepository extends ServiceEntityRepository
 {
-    /**
-     * Items per page.
-     *
-     * Use constants to define configuration options that rarely change instead
-     * of specifying them in configuration files.
-     * See https://symfony.com/doc/current/best_practices.html#configuration
-     *
-     * @constant int
-     */
-    public const PAGINATOR_ITEMS_PER_PAGE = 10;
-
     /**
      * Constructor.
      *
@@ -52,5 +44,26 @@ class RecipeRepository extends ServiceEntityRepository
                 'partial category.{id, title}'
             )
             ->join('recipe.category', 'category');
+    }
+
+    /**
+     * Count recipes by category.
+     *
+     * @param Category $category Category
+     *
+     * @return int Number of recipes in category
+     *
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countByCategory(Category $category): int
+    {
+        $qb = $this->createQueryBuilder('recipe');
+
+        return $qb->select($qb->expr()->countDistinct('recipe.id'))
+            ->where('recipe.category = :category')
+            ->setParameter(':category', $category)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

@@ -160,11 +160,23 @@ class Recipe
         return $this;
     }
 
+    /**
+     * Getter for slug.
+     *
+     * @return string|null Slug
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * Setter for slug.
+     *
+     * @param string|null $slug Slug
+     *
+     * @return static Returns self
+     */
     public function setSlug(?string $slug): static
     {
         $this->slug = $slug;

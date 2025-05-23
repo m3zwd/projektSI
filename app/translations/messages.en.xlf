@@ -11,6 +11,14 @@
         <source>message.record_not_found</source>
         <target>Record not found.</target>
       </trans-unit>
+      <trans-unit id="message.form_error">
+        <source>message.form_error</source>
+        <target>Form error.</target>
+      </trans-unit>
+      <trans-unit id="message.category_contains_recipes">
+        <source>message.category_contains_recipes</source>
+        <target>Category contains recipes.</target>
+      </trans-unit>
 
       <!-- Recipes list -->
       <trans-unit id="title.recipe_list">
