@@ -4,8 +4,11 @@
     {{ 'title.category_list'|trans }}
 {% endblock %}
 
-{% block body %}
+{% block title_header %}
     <h1>{{ 'title.category_list'|trans }}</h1>
+{% endblock %}
+
+{% block body %}
     {% if pagination is defined and pagination.items|length %}
 
         <div class="navigation text-center">
