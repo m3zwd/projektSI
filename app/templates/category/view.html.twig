@@ -4,9 +4,11 @@
     {{ 'title.category_details'|trans({'%id%': category.id|default('')}) }}
 {% endblock %}
 
-{% block body %}
+{% block title_header %}
     <h1>{{ 'title.category_details'|trans({'%id%': category.id|default('')}) }}</h1>
+{% endblock %}
 
+{% block body %}
     {% if category is defined %}
         <dl class="dl-horizontal">
             <dt>{{ 'label.id'|trans }}</dt>

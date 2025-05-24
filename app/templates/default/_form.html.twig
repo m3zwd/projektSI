@@ -12,8 +12,11 @@ parameters:
     {{ page_title }}
 {% endblock %}
 
-{% block body %}
+{% block title_header %}
     <h1>{{ page_title }}</h1>
+{% endblock %}
+
+{% block body %}
     {{ form_start(form) }}
     {% if false == form.vars.valid %}
         {% include 'default/_single_alert_message.html.twig' with {
