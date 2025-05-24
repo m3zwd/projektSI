@@ -23,7 +23,7 @@
             <dd>
                 {% if recipe.tags|length > 0 %}
                     {% for tag in recipe.tags %}
-                        <span class="badge bg-info text-dark">{{ tag.title }}</span>
+                        <span class="badge bg-secondary">{{ tag.title }}</span>
                     {% endfor %}
                 {% else %}
                     <span class="text-muted">{{ 'label.none'|trans }}</span>

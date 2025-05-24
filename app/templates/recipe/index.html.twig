@@ -32,15 +32,13 @@
                     <td>{{ recipe.title }}</td>
                     <td>{{ recipe.category.title }}</td>
                     <td>
-                        <a href="{{ url('recipe_view', {id: recipe.id}) }}" title="{{ 'action.view'|trans }}">
+                        <a href="{{ url('recipe_view', {id: recipe.id}) }}" class="btn btn-outline-success btn-sm" title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}
                         </a>
-                        |
-                        <a href="{{ url('recipe_edit', {id: recipe.id}) }}" title="{{ 'action.edit'|trans }}">
+                        <a href="{{ url('recipe_edit', {id: recipe.id}) }}" class="btn btn-outline-info btn-sm" title="{{ 'action.edit'|trans }}">
                             {{ 'action.edit'|trans }}
                         </a>
-                        |
-                        <a href="{{ url('recipe_delete', {id: recipe.id}) }}" title="{{ 'action.delete'|trans }}">
+                        <a href="{{ url('recipe_delete', {id: recipe.id}) }}" class="btn btn-outline-danger btn-sm" title="{{ 'action.delete'|trans }}">
                             {{ 'action.delete'|trans }}
                         </a>
                     </td>

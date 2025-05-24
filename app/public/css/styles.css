@@ -1,0 +1,76 @@
+/* Formularze */
+form label {
+    font-weight: bold;
+}
+
+form label.required::after {
+    content: ' *';
+    color: red;
+}
+
+/* Nadpisania Bootstrapa */
+/* Nagłówki tabel */
+table.table-striped th {
+    color: #660033;
+    font-weight: bold;
+}
+
+/* Przyciski */
+.btn-primary {
+    background-color: #660033;
+    border-color: #660033;
+}
+
+.btn-primary:hover {
+    background-color: #cc3366;
+    border-color: #cc3366;
+}
+
+/* Linki */
+/* Linki na stronach glownych */
+a {
+    color: #660033;
+}
+
+a:hover {
+    color: #cc3366;
+}
+
+/* Linki w formularzach */
+.btn.btn-link {
+    color: #660033;
+}
+
+.btn.btn-link:hover {
+    color: #cc3366;
+}
+
+/* Paginacja */
+/* Linki w paginacji (np. numery stron) */
+.navigation .pagination .page-link {
+    color: #660033;
+    border-color: #660033;
+}
+
+.navigation .pagination .page-link:hover {
+    color: #cc3366;
+    border-color: #cc3366;
+}
+
+/* Aktywna strona, z wyróżnionym tłem i tekstem */
+.navigation .pagination .page-item.active .page-link {
+    background-color: #660033;
+    border-color: #660033;
+    color: white;
+}
+
+/* Nieaktywne strony (np. "Poprzednia") */
+.navigation .pagination .page-item.disabled .page-link {
+    color: #999999;
+    pointer-events: none;
+}
+
+/* Tagi (w widoku pojedynczego przepisu) */
+.badge.bg-secondary {
+    background-color: #660033 !important;
+}
