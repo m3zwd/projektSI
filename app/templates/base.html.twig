@@ -28,7 +28,7 @@
                     {{ 'action.logout'|trans }} </a>
             <!-- zeby przycisk Log in nie wyswietlal sie na formularzu logowania -->
             {% elseif app.request.attributes.get('_route') != 'app_login' %}
-                <a href="{{ path('app_login') }}" class="btn btn-outline-primary btn-sm">
+                <a href="{{ path('app_login') }}" class="btn btn-primary">
                     {{ 'action.login'|trans }}
                 </a>
             {% endif %}

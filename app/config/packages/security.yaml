@@ -41,7 +41,12 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/url/\d+/edit, roles: ROLE_USER}
+        - { path: ^/url/\d+/delete, roles: ROLE_USER}
+        - { path: ^/tag/\d+/edit, roles: ROLE_USER}
+        - { path: ^/tag/\d+/delete, roles: ROLE_USER}
+        - { path: ^/, roles: PUBLIC_ACCESS }
 
 when@test:
     security:
