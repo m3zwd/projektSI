@@ -6,7 +6,6 @@
 
 namespace App\Repository;
 
-use App\Entity\Recipe;
 use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -22,8 +21,6 @@ class TagRepository extends ServiceEntityRepository
 {
     /**
      * Constructor.
-     *
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {

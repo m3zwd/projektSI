@@ -19,6 +19,34 @@
         <source>message.category_contains_recipes</source>
         <target>Category contains recipes.</target>
       </trans-unit>
+      <trans-unit id="message.no_recipes_in_category">
+          <source>message.no_recipes_in_category</source>
+          <target>No recipes in category.</target>
+      </trans-unit>
+      <trans-unit id="message.created_successfully">
+        <source>message.created_successfully</source>
+        <target>Created successfully.</target>
+      </trans-unit>
+      <trans-unit id="message.edited_successfully">
+        <source>message.edited_successfully</source>
+        <target>Edited successfully.</target>
+      </trans-unit>
+      <trans-unit id="message.deleted_successfully">
+        <source>message.deleted_successfully</source>
+        <target>Deleted successfully.</target>
+      </trans-unit>
+      <trans-unit id="message.passwordChanged">
+        <source>message.passwordChanged</source>
+        <target>Password changed.</target>
+      </trans-unit>
+      <trans-unit id="message.passwordTooShort">
+        <source>message.passwordTooShort</source>
+        <target>Password is too short.</target>
+      </trans-unit>
+      <trans-unit id="message.invalidCurrentPassword">
+        <source>message.invalidCurrentPassword</source>
+        <target>Current password invalid.</target>
+      </trans-unit>
 
       <!-- Recipes list -->
       <trans-unit id="title.recipe_list">
@@ -82,10 +110,6 @@
           <source>title.category_recipes</source>
           <target>Category recipes</target>
       </trans-unit>
-      <trans-unit id="message.no_recipes_in_category">
-          <source>message.no_recipes_in_category</source>
-          <target>No recipes in category</target>
-      </trans-unit>
 
       <!-- Create action -->
       <trans-unit id="action.category_create">
@@ -112,10 +136,6 @@
         <source>action.save</source>
         <target>Save</target>
       </trans-unit>
-      <trans-unit id="message.created_successfully">
-        <source>message.created_successfully</source>
-        <target>Created successfully.</target>
-      </trans-unit>
 
       <!-- Edit action -->
       <trans-unit id="action.edit">
@@ -130,10 +150,6 @@
         <source>title.recipe_edit</source>
         <target>Edit recipe</target>
       </trans-unit>
-      <trans-unit id="message.edited_successfully">
-        <source>message.edited_successfully</source>
-        <target>Edited successfully.</target>
-      </trans-unit>
 
       <!-- Delete action -->
       <trans-unit id="action.delete">
@@ -147,10 +163,6 @@
       <trans-unit id="title.recipe_delete">
         <source>title.recipe_delete</source>
         <target>Delete recipe</target>
-      </trans-unit>
-      <trans-unit id="message.deleted_successfully">
-        <source>message.deleted_successfully</source>
-        <target>Deleted successfully.</target>
       </trans-unit>
 
       <!-- Tags (in Create recipe) -->
@@ -167,6 +179,28 @@
       <trans-unit id="action.logout">
         <source>action.logout</source>
         <target>Log out</target>
+      </trans-unit>
+
+      <!-- Change password -->
+      <trans-unit id="title.changePassword">
+        <source>title.changePassword</source>
+        <target>Change password</target>
+      </trans-unit>
+      <trans-unit id="action.changePassword">
+        <source>action.changePassword</source>
+        <target>Change password</target>
+      </trans-unit>
+      <trans-unit id="label.currentPassword">
+        <source>label.currentPassword</source>
+        <target>Current password</target>
+      </trans-unit>
+      <trans-unit id="label.newPassword">
+        <source>label.newPassword</source>
+        <target>New password</target>
+      </trans-unit>
+      <trans-unit id="label.repeatPassword">
+        <source>label.repeatPassword</source>
+        <target>Repeat password</target>
       </trans-unit>
     </body>
   </file>

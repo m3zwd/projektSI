@@ -6,7 +6,6 @@
 
 namespace App\Service;
 
-use App\Entity\Recipe;
 use App\Entity\Tag;
 use App\Repository\TagRepository;
 
