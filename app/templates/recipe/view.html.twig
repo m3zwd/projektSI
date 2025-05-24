@@ -21,7 +21,7 @@
             <dd>{{  recipe.category.title }}</dd>
             <dt>{{ 'label.tags'|trans }}</dt>
             <dd>
-                {% if recipe.tags is not empty %}
+                {% if recipe.tags|length > 0 %}
                     {% for tag in recipe.tags %}
                         <span class="badge bg-info text-dark">{{ tag.title }}</span>
                     {% endfor %}

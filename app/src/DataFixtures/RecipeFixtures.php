@@ -8,6 +8,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Recipe;
+use App\Entity\Tag;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Generator;
@@ -48,6 +49,12 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
             $category = $this->getRandomReference('category', Category::class);
             $recipe->setCategory($category);
 
+            $tags = $this->getRandomReferenceList('tag', Tag::class, rand(1, 5));
+            foreach ($tags as $tag) {
+                /** @var Tag $tag */
+                $recipe->addTag($tag);
+            }
+
             return $recipe;
         });
     }
@@ -62,6 +69,9 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
      */
     public function getDependencies(): array
     {
-        return [CategoryFixtures::class];
+        return [
+            CategoryFixtures::class,
+            TagFixtures::class,
+        ];
     }
 }
