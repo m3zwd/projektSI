@@ -48,15 +48,17 @@
             </tbody>
         </table>
 
-        <div class="navigation text-center">
-            {{ knp_pagination_render(pagination) }}
-        </div>
+        <div class="bottom">
+            <div class="navigation text-center">
+                {{ knp_pagination_render(pagination) }}
+            </div>
 
-        <p>
-            <a href="{{ url('category_create') }}" class="btn btn-primary">
-                {{ 'action.category_create'|trans }}
-            </a>
-        </p>
+            <p>
+                <a href="{{ url('category_create') }}" class="btn btn-primary">
+                    {{ 'action.category_create'|trans }}
+                </a>
+            </p>
+        </div>
 
     {% else %}
         {% include 'default/_single_alert_message.html.twig' with {

@@ -186,8 +186,8 @@
         <source>title.changePassword</source>
         <target>Change password</target>
       </trans-unit>
-      <trans-unit id="action.changePassword">
-        <source>action.changePassword</source>
+      <trans-unit id="action.change_password">
+        <source>action.change_password</source>
         <target>Change password</target>
       </trans-unit>
       <trans-unit id="label.currentPassword">

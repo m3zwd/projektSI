@@ -1,4 +1,4 @@
-/* Header - tytul strony, nazwa uzytkownika i przycisk logowania */
+/* Header - tytul strony, nazwa uzytkownika i opcje logowania */
 .header {
     padding: 12px 24px;
     display: flex;
@@ -12,13 +12,35 @@
 
 .login_header {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.user_show {
+    display: flex;
+    flex-direction: row;
+}
+
+.user_show p {
+    font-weight: bold;
+    margin: 15px;
+}
+
+.log_options {
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.login_header p {
-    font-weight: bold;
-    margin: 6px 0;
+.log_options a {
+    margin: 3px 0;
+}
+
+/* paginator i przycisk create */
+.bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 /* Formularze */
