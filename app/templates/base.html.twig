@@ -29,17 +29,22 @@
                 <div class="log_options">
                     <a href="{{ path('app_logout') }}" class="btn btn-outline-secondary btn-sm">
                     {{ 'action.logout'|trans }} </a>
-                    <!-- zeby przycisk change password nie wyswietlal sie na formularzu zmiany hasla -->
+                    <!-- zeby przycisk Change password nie wyswietlal sie na formularzu zmiany hasla -->
                     {% if app.request.attributes.get('_route') != 'user_change_password' %}
                         <a href="{{ path('user_change_password') }}" class="btn btn-outline-secondary btn-sm">
                         {{ 'action.change_password'|trans }} </a>
                     {% endif %}
                 </div>
-            <!-- zeby przycisk Log in nie wyswietlal sie na formularzu logowania -->
-            {% elseif app.request.attributes.get('_route') != 'app_login' %}
-                <a href="{{ path('app_login') }}" class="btn btn-primary">
-                    {{ 'action.login'|trans }}
-                </a>
+            <!-- zeby przyciski login i register nie wyswietlaly sie na formularzach logowania i rejestracji -->
+            {% elseif (app.request.attributes.get('_route') != 'app_login') and (app.request.attributes.get('_route') != 'app_register') %}
+                <div class="login_register">
+                    <a href="{{ path('app_login') }}" class="btn btn-primary">
+                        {{ 'action.login'|trans }}
+                    </a>
+                    <a href="{{ path('app_register') }}" class="btn btn-primary">
+                        {{ 'action.register'|trans }}
+                    </a>
+                </div>
             {% endif %}
         </div>
     </header>

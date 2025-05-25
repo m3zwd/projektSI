@@ -1,6 +1,6 @@
 /* Header - tytul strony, nazwa uzytkownika i opcje logowania */
 .header {
-    padding: 12px 24px;
+    padding: 12px 24px 0 12px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -34,6 +34,10 @@
 
 .log_options a {
     margin: 3px 0;
+}
+
+.login_register a {
+    margin: 2px;
 }
 
 /* paginator i przycisk create */

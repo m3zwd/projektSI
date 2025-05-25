@@ -2,52 +2,6 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en" datatype="plaintext" original="file.ext">
     <body>
-      <!-- Messages -->
-      <trans-unit id="message.empty_list">
-        <source>message.empty_list</source>
-        <target>List is empty.</target>
-      </trans-unit>
-      <trans-unit id="message.record_not_found">
-        <source>message.record_not_found</source>
-        <target>Record not found.</target>
-      </trans-unit>
-      <trans-unit id="message.form_error">
-        <source>message.form_error</source>
-        <target>Form error.</target>
-      </trans-unit>
-      <trans-unit id="message.category_contains_recipes">
-        <source>message.category_contains_recipes</source>
-        <target>Category contains recipes.</target>
-      </trans-unit>
-      <trans-unit id="message.no_recipes_in_category">
-          <source>message.no_recipes_in_category</source>
-          <target>No recipes in category.</target>
-      </trans-unit>
-      <trans-unit id="message.created_successfully">
-        <source>message.created_successfully</source>
-        <target>Created successfully.</target>
-      </trans-unit>
-      <trans-unit id="message.edited_successfully">
-        <source>message.edited_successfully</source>
-        <target>Edited successfully.</target>
-      </trans-unit>
-      <trans-unit id="message.deleted_successfully">
-        <source>message.deleted_successfully</source>
-        <target>Deleted successfully.</target>
-      </trans-unit>
-      <trans-unit id="message.passwordChanged">
-        <source>message.passwordChanged</source>
-        <target>Password changed.</target>
-      </trans-unit>
-      <trans-unit id="message.passwordTooShort">
-        <source>message.passwordTooShort</source>
-        <target>Password is too short.</target>
-      </trans-unit>
-      <trans-unit id="message.invalidCurrentPassword">
-        <source>message.invalidCurrentPassword</source>
-        <target>Current password invalid.</target>
-      </trans-unit>
-
       <!-- Recipes list -->
       <trans-unit id="title.recipe_list">
         <source>title.recipe_list</source>
@@ -201,6 +155,90 @@
       <trans-unit id="label.repeatPassword">
         <source>label.repeatPassword</source>
         <target>Repeat password</target>
+      </trans-unit>
+
+      <!-- Register -->
+      <trans-unit id="title.register">
+        <source>title.register</source>
+        <target>Register</target>
+      </trans-unit>
+      <trans-unit id="action.register">
+        <source>action.register</source>
+        <target>Register</target>
+      </trans-unit>
+      <trans-unit id="label.email">
+        <source>label.email</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="label.password">
+        <source>label.password</source>
+        <target>Password</target>
+      </trans-unit>
+
+      <!-- Messages -->
+      <trans-unit id="message.empty_list">
+        <source>message.empty_list</source>
+        <target>List is empty.</target>
+      </trans-unit>
+      <trans-unit id="message.record_not_found">
+        <source>message.record_not_found</source>
+        <target>Record not found.</target>
+      </trans-unit>
+      <trans-unit id="message.form_error">
+        <source>message.form_error</source>
+        <target>Form error.</target>
+      </trans-unit>
+      <trans-unit id="message.category_contains_recipes">
+        <source>message.category_contains_recipes</source>
+        <target>Category contains recipes.</target>
+      </trans-unit>
+      <trans-unit id="message.no_recipes_in_category">
+          <source>message.no_recipes_in_category</source>
+          <target>No recipes in category.</target>
+      </trans-unit>
+      <trans-unit id="message.created_successfully">
+        <source>message.created_successfully</source>
+        <target>Created successfully.</target>
+      </trans-unit>
+      <trans-unit id="message.edited_successfully">
+        <source>message.edited_successfully</source>
+        <target>Edited successfully.</target>
+      </trans-unit>
+      <trans-unit id="message.deleted_successfully">
+        <source>message.deleted_successfully</source>
+        <target>Deleted successfully.</target>
+      </trans-unit>
+      <trans-unit id="message.passwordChanged">
+        <source>message.passwordChanged</source>
+        <target>Password changed.</target>
+      </trans-unit>
+      <trans-unit id="message.passwordTooShort">
+        <source>message.passwordTooShort</source>
+        <target>Password too short.</target>
+      </trans-unit>
+      <trans-unit id="message.invalidCurrentPassword">
+        <source>message.invalidCurrentPassword</source>
+        <target>Current password invalid.</target>
+      </trans-unit>
+      <trans-unit id="message.passwordMismatch">
+        <source>message.passwordMismatch</source>
+        <target>Passwords mismatch.</target>
+      </trans-unit>
+      <trans-unit id="message.passwordBlank">
+        <source>message.passwordBlank</source>
+        <target>Password blank.</target>
+      </trans-unit>
+      <trans-unit id="message.emailBlank">
+        <source>message.emailBlank</source>
+        <target>Email blank.</target>
+      </trans-unit>
+      <trans-unit id="message.invalidEmail">
+        <source>message.invalidEmail</source>
+        <target>Email invalid.</target>
+      </trans-unit>
+      <trans-unit id="message.registration_successful">
+        <source>message.registration_successful</source>
+        <target>Registration successful.</target>
       </trans-unit>
     </body>
   </file>
