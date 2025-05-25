@@ -21,6 +21,8 @@ class TagRepository extends ServiceEntityRepository
 {
     /**
      * Constructor.
+     *
+     * @param ManagerRegistry $registry Manager registry
      */
     public function __construct(ManagerRegistry $registry)
     {

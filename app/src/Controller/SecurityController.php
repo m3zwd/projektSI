@@ -100,9 +100,11 @@ class SecurityController extends AbstractController
      * Register action.
      *
      * @param Request                     $request        Request
-     * @param UserPasswordHasherInterface $passwordHasher Password hasher
      * @param EntityManagerInterface      $entityManager  Entity manager
+     * @param UserPasswordHasherInterface $passwordHasher Password hasher
      * @param TranslatorInterface         $translator     Translator interface
+     *
+     * @return Response HTTP response
      */
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator): Response
@@ -130,5 +132,4 @@ class SecurityController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
 }

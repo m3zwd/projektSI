@@ -258,6 +258,8 @@ class Recipe
 
     /**
      * Remove tag.
+     *
+     * @param Tag $tag Tag entity
      */
     public function removeTag(Tag $tag): void
     {
