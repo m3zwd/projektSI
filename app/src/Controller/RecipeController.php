@@ -7,6 +7,7 @@
 namespace App\Controller;
 
 use App\Entity\Recipe;
+use App\Entity\User;
 use App\Form\Type\RecipeType;
 use App\Service\RecipeServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -86,7 +87,10 @@ class RecipeController extends AbstractController
     )]
     public function create(Request $request): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
         $recipe = new Recipe();
+        $recipe->setAuthor($user);
         $form = $this->createForm(RecipeType::class, $recipe);
         $form->handleRequest($request);
 

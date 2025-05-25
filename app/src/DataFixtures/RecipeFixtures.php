@@ -9,6 +9,7 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\Recipe;
 use App\Entity\Tag;
+use App\Entity\User;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Generator;
@@ -46,14 +47,19 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
+            $recipe->setComment($this->faker->realText(1024));
             $category = $this->getRandomReference('category', Category::class);
             $recipe->setCategory($category);
 
-            $tags = $this->getRandomReferenceList('tag', Tag::class, random_int(1, 5));
+            /** @var Tag[] $tags */
+            $tags = $this->getRandomReferenceList('tag', Tag::class, $this->faker->numberBetween(0, 5));
             foreach ($tags as $tag) {
-                /* @var Tag $tag */
                 $recipe->addTag($tag);
             }
+
+            /** @var User $author */
+            $author = $this->getRandomReference('user', User::class);
+            $recipe->setAuthor($author);
 
             return $recipe;
         });
@@ -69,9 +75,6 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
      */
     public function getDependencies(): array
     {
-        return [
-            CategoryFixtures::class,
-            TagFixtures::class,
-        ];
+        return [CategoryFixtures::class, TagFixtures::class, UserFixtures::class];
     }
 }
