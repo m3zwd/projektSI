@@ -175,6 +175,12 @@
         <target>Password</target>
       </trans-unit>
 
+      <!-- Author -->
+      <trans-unit id="label.author">
+        <source>label.author</source>
+        <target>Author</target>
+      </trans-unit>
+
       <!-- Messages -->
       <trans-unit id="message.empty_list">
         <source>message.empty_list</source>

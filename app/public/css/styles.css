@@ -40,7 +40,7 @@
     margin: 2px;
 }
 
-/* paginator i przycisk create */
+/* Paginator i przycisk create */
 .bottom {
     display: flex;
     flex-direction: row;
@@ -58,7 +58,11 @@ form label.required::after {
 }
 
 /* Nadpisania Bootstrapa */
-/* Nagłówki tabel */
+.table.table-striped td {
+    font-size: 15px;
+    vertical-align: middle;
+}
+
 table.table-striped th {
     color: #660033;
     font-weight: bold;

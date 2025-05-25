@@ -21,6 +21,8 @@
             <dd>{{  recipe.title }}</dd>
             <dt>{{ 'label.category'|trans }}</dt>
             <dd>{{  recipe.category.title }}</dd>
+            <dt>{{ 'label.author'|trans }}</dt>
+            <dd>{{  recipe.author.email }}</dd>
             <dt>{{ 'label.tags'|trans }}</dt>
             <dd>
                 {% if recipe.tags|length > 0 %}
@@ -32,6 +34,7 @@
                 {% endif %}
             </dd>
         </dl>
+
         <p>
             <a href="{{ url('recipe_index') }}" title="{{ 'action.back_to_list'|trans }}">
                 {{ 'action.back_to_list'|trans }}

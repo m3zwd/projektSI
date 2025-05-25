@@ -23,6 +23,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'recipe.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'recipe.title') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.author'|trans, 'recipe.author.email') }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
@@ -34,6 +35,7 @@
                     <td>{{ recipe.updatedAt|date('Y/m/d') }}</td>
                     <td>{{ recipe.title }}</td>
                     <td>{{ recipe.category.title }}</td>
+                    <td>{{ recipe.author.email }}</td>
                     <td>
                         <a href="{{ url('recipe_view', {id: recipe.id}) }}" class="btn btn-outline-success btn-sm" title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}
