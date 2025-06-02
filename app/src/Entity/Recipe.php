@@ -94,14 +94,12 @@ class Recipe
 
     /**
      * Author.
-     *
-     * @var User|null
      */
     #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank]
     #[Assert\Type(User::class)]
-    private ?User $author;
+    private ?User $author = null;
 
     /**
      * Constructor.
@@ -279,8 +277,6 @@ class Recipe
 
     /**
      * Getter for author.
-     *
-     * @return User|null
      */
     public function getAuthor(): ?User
     {
@@ -289,8 +285,6 @@ class Recipe
 
     /**
      * Setter for author.
-     *
-     * @param User|null $author
      */
     public function setAuthor(?User $author): void
     {

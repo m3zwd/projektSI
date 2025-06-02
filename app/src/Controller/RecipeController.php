@@ -69,18 +69,6 @@ class RecipeController extends AbstractController
     )]
     public function view(Recipe $recipe): Response
     {
-        /* nie działa, tzn wyswietla sie komunikat "Record not found" ale wyswietlaja sie tez dane przepisu
-        if ($recipe->getAuthor() !== $this->getUser()) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans('message.record_not_found')
-            );
-        }
-        uzytkownik, zasob, uprawnienie - w systemie unixowym mechanizm ACL potrzebuje tych danych
-        w metodzie isGranted przekazuje, jakie uprawnienie
-        uprawniwnie: VIEW, subject - nazwa zmiennej, obiekt na ktorym jest uprawnienie
-        */
-
         return $this->render(
             'recipe/view.html.twig',
             ['recipe' => $recipe]

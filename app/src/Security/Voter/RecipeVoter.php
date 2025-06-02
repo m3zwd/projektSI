@@ -40,14 +40,14 @@ final class RecipeVoter extends Voter
     /**
      * Determines if the attribute and subject are supported by this voter.
      *
-     * @param  string $attribute An attribute
-     * @param  mixed  $subject   The subject to secure, e.g. an object the user wants to access or any other PHP type
+     * @param string $attribute An attribute
+     * @param mixed  $subject   The subject to secure, e.g. an object the user wants to access or any other PHP type
      *
-     * @return bool   Result
+     * @return bool Result
      */
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::DELETE, self::EDIT, self::VIEW])
+        return in_array($attribute, [self::DELETE, self::EDIT])
             && $subject instanceof Recipe;
     }
 
@@ -55,11 +55,11 @@ final class RecipeVoter extends Voter
      * Perform a single access check operation on a given attribute, subject and token.
      * It is safe to assume that $attribute and $subject already passed the "supports()" method check.
      *
-     * @param  string         $attribute Permission name
-     * @param  mixed          $subject   Object
-     * @param  TokenInterface $token     Security token
+     * @param string         $attribute Permission name
+     * @param mixed          $subject   Object
+     * @param TokenInterface $token     Security token
      *
-     * @return bool                      Vote result
+     * @return bool Vote result
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
@@ -76,22 +76,8 @@ final class RecipeVoter extends Voter
         return match ($attribute) {
             self::EDIT => $this->canEdit($subject, $user),
             self::DELETE => $this->canDelete($subject, $user),
-            self::VIEW => $this->canView($subject, $user),
             default => false,
         };
-    }
-
-    /**
-     * Checks if user can delete recipe.
-     *
-     * @param Recipe        $recipe Recipe entity
-     * @param UserInterface $user   User
-     *
-     * @return bool Result
-     */
-    private function canDelete(Recipe $recipe, UserInterface $user): bool
-    {
-        return $recipe->getAuthor() === $user;
     }
 
     /**
@@ -104,19 +90,38 @@ final class RecipeVoter extends Voter
      */
     private function canEdit(Recipe $recipe, UserInterface $user): bool
     {
-        return $recipe->getAuthor() === $user;
+        // sprawdza czy uzytkownik, który próbuje edytować przepis, jest jego autorem
+        if ($recipe->getAuthor() === $user) {
+            return true;
+        }
+
+        // sprawdza, czy uzytkownik ma przypisaną role admina
+        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+            return true;
+        }
+
+        // jesli uzytkownik nie jest autorem ani adminem, to nie pozwala na edycje
+        return false;
     }
 
     /**
-     * Checks if user can view recipe.
+     * Checks if user can delete recipe.
      *
      * @param Recipe        $recipe Recipe entity
      * @param UserInterface $user   User
      *
      * @return bool Result
      */
-    private function canView(Recipe $recipe, UserInterface $user): bool
+    private function canDelete(Recipe $recipe, UserInterface $user): bool
     {
-        return $recipe->getAuthor() === $user;
+        if ($recipe->getAuthor() === $user) {
+            return true;
+        }
+
+        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+            return true;
+        }
+
+        return false;
     }
 }
