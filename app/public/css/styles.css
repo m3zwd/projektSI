@@ -59,7 +59,7 @@ form label.required::after {
 
 /* Nadpisania Bootstrapa */
 .table.table-striped td {
-    font-size: 15px;
+    font-size: 13px;
     vertical-align: middle;
 }
 

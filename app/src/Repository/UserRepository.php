@@ -8,6 +8,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -48,28 +49,36 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-    //    /**
-    //     * @return User[] Returns an array of User objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Query all records.
+     *
+     * @return QueryBuilder Query Builder
+     */
+    public function queryAll(): QueryBuilder
+    {
+        return $this->createQueryBuilder('user')
+            ->select('partial user.{id, email, roles, password}');
+    }
 
-    //    public function findOneBySomeField($value): ?User
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * Save entity.
+     *
+     * @param User $user User entity
+     */
+    public function save(User $user): void
+    {
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param User $user User entity
+     */
+    public function delete(User $user): void
+    {
+        $this->getEntityManager()->remove($user);
+        $this->getEntityManager()->flush();
+    }
 }

@@ -181,6 +181,16 @@
         <target>Author</target>
       </trans-unit>
 
+      <!-- User -->
+      <trans-unit id="title.user_list">
+        <source>title.user_list</source>
+        <target>User list</target>
+      </trans-unit>
+      <trans-unit id="label.roles">
+        <source>label.roles</source>
+        <target>Roles</target>
+      </trans-unit>
+
       <!-- Messages -->
       <trans-unit id="message.empty_list">
         <source>message.empty_list</source>

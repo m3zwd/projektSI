@@ -9,6 +9,7 @@ namespace App\Controller;
 use App\Entity\Recipe;
 use App\Entity\User;
 use App\Form\Type\RecipeType;
+use App\Security\Voter\RecipeVoter;
 use App\Service\RecipeServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -67,6 +69,18 @@ class RecipeController extends AbstractController
     )]
     public function view(Recipe $recipe): Response
     {
+        /* nie działa, tzn wyswietla sie komunikat "Record not found" ale wyswietlaja sie tez dane przepisu
+        if ($recipe->getAuthor() !== $this->getUser()) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.record_not_found')
+            );
+        }
+        uzytkownik, zasob, uprawnienie - w systemie unixowym mechanizm ACL potrzebuje tych danych
+        w metodzie isGranted przekazuje, jakie uprawnienie
+        uprawniwnie: VIEW, subject - nazwa zmiennej, obiekt na ktorym jest uprawnienie
+        */
+
         return $this->render(
             'recipe/view.html.twig',
             ['recipe' => $recipe]
@@ -125,6 +139,7 @@ class RecipeController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET|PUT'
     )]
+    #[IsGranted(RecipeVoter::EDIT, subject: 'recipe')]
     public function edit(Request $request, Recipe $recipe): Response
     {
         $form = $this->createForm(
@@ -171,6 +186,7 @@ class RecipeController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET|DELETE'
     )]
+    #[IsGranted(RecipeVoter::DELETE, subject: 'recipe')]
     public function delete(Request $request, Recipe $recipe): Response
     {
         $form = $this->createForm(FormType::class, $recipe, [

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.user_list'|trans }}
+{% endblock %}
+
+{% block title_header %}
+    <h1>{{ 'title.user_list'|trans }}</h1>
+{% endblock %}
+
+{% block body %}
+    {% if pagination is defined and pagination.items|length %}
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'user.id') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.email'|trans, 'user.email') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.roles'|trans, 'user.roles') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.password'|trans, 'user.password') }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in pagination.items %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.roles|join(', ') }}</td>
+                    <td>{{ user.password }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="bottom">
+            <div class="navigation text-center">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+
+            <p>
+                <a href="{{ url('recipe_create') }}" class="btn btn-primary">
+                    {{ 'action.recipe_create'|trans }}
+                </a>
+            </p>
+        </div>
+
+    {% else %}
+        {% include 'default/_single_alert_message.html.twig' with {
+            type: 'warning',
+            message: 'message.empty_list'|trans
+        } %}
+    {% endif %}
+{% endblock %}

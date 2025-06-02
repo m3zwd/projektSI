@@ -10,7 +10,6 @@
 
 {% block body %}
     {% if pagination is defined and pagination.items|length %}
-
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
         </div>
@@ -31,19 +30,19 @@
             {% for recipe in pagination.items %}
                 <tr>
                     <td>{{ recipe.id }}</td>
-                    <td>{{ recipe.createdAt|date('Y/m/d') }}</td>
-                    <td>{{ recipe.updatedAt|date('Y/m/d') }}</td>
+                    <td>{{ recipe.createdAt|format_date('long') }}</td>
+                    <td>{{ recipe.updatedAt|format_date('long') }}</td>
                     <td>{{ recipe.title }}</td>
                     <td>{{ recipe.category.title }}</td>
                     <td>{{ recipe.author.email }}</td>
                     <td>
-                        <a href="{{ url('recipe_view', {id: recipe.id}) }}" class="btn btn-outline-success btn-sm" title="{{ 'action.view'|trans }}">
+                        <a class="btn btn-outline-success btn-sm" href="{{ url('recipe_view', {id: recipe.id}) }}" title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}
                         </a>
-                        <a href="{{ url('recipe_edit', {id: recipe.id}) }}" class="btn btn-outline-info btn-sm" title="{{ 'action.edit'|trans }}">
+                        <a class="btn btn-outline-info btn-sm" href="{{ url('recipe_edit', {id: recipe.id}) }}" title="{{ 'action.edit'|trans }}">
                             {{ 'action.edit'|trans }}
                         </a>
-                        <a href="{{ url('recipe_delete', {id: recipe.id}) }}" class="btn btn-outline-danger btn-sm" title="{{ 'action.delete'|trans }}">
+                        <a class="btn btn-outline-danger btn-sm" href="{{ url('recipe_delete', {id: recipe.id}) }}" title="{{ 'action.delete'|trans }}">
                             {{ 'action.delete'|trans }}
                         </a>
                     </td>
