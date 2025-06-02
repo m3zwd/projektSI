@@ -60,11 +60,13 @@
                 {{ knp_pagination_render(pagination) }}
             </div>
 
-            <p>
-                <a href="{{ url('recipe_create') }}" class="btn btn-primary">
-                    {{ 'action.recipe_create'|trans }}
-                </a>
-            </p>
+            {% if is_granted('ROLE_USER') %}
+                <p>
+                    <a href="{{ url('recipe_create') }}" class="btn btn-primary">
+                        {{ 'action.recipe_create'|trans }}
+                    </a>
+                </p>
+            {% endif %}
         </div>
 
     {% else %}

@@ -36,12 +36,14 @@
                         <a href="{{ url('category_view', {id: category.id}) }}" class="btn btn-outline-success btn-sm" title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}
                         </a>
-                        <a href="{{ url('category_edit', {id: category.id}) }}" class="btn btn-outline-info btn-sm" title="{{ 'action.edit'|trans }}">
-                            {{ 'action.edit'|trans }}
-                        </a>
-                        <a href="{{ url('category_delete', {id: category.id}) }}" class="btn btn-outline-danger btn-sm" title="{{ 'action.delete'|trans }}">
-                            {{ 'action.delete'|trans }}
-                        </a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ url('category_edit', {id: category.id}) }}" class="btn btn-outline-info btn-sm" title="{{ 'action.edit'|trans }}">
+                                {{ 'action.edit'|trans }}
+                            </a>
+                            <a href="{{ url('category_delete', {id: category.id}) }}" class="btn btn-outline-danger btn-sm" title="{{ 'action.delete'|trans }}">
+                                {{ 'action.delete'|trans }}
+                            </a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
@@ -53,11 +55,13 @@
                 {{ knp_pagination_render(pagination) }}
             </div>
 
-            <p>
-                <a href="{{ url('category_create') }}" class="btn btn-primary">
-                    {{ 'action.category_create'|trans }}
-                </a>
-            </p>
+            {% if is_granted('ROLE_ADMIN') %}
+                <p>
+                    <a href="{{ url('category_create') }}" class="btn btn-primary">
+                        {{ 'action.category_create'|trans }}
+                    </a>
+                </p>
+            {% endif %}
         </div>
 
     {% else %}

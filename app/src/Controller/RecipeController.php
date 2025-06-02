@@ -87,6 +87,7 @@ class RecipeController extends AbstractController
         name: 'recipe_create',
         methods: 'GET|POST',
     )]
+    #[IsGranted('ROLE_USER')]
     public function create(Request $request): Response
     {
         /** @var User $user */
