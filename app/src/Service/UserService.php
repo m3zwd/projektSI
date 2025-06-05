@@ -8,6 +8,9 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Repository\RecipeRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -30,10 +33,11 @@ class UserService implements UserServiceInterface
     /**
      * Constructor.
      *
-     * @param UserRepository     $userRepository User repository
-     * @param PaginatorInterface $paginator      Paginator
+     * @param UserRepository     $userRepository     User repository
+     * @param RecipeRepository   $recipeRepository   Recipe repository
+     * @param PaginatorInterface $paginator          Paginator
      */
-    public function __construct(private readonly UserRepository $userRepository, private readonly PaginatorInterface $paginator)
+    public function __construct(private readonly UserRepository $userRepository, private readonly RecipeRepository $recipeRepository, private readonly PaginatorInterface $paginator)
     {
     }
 
@@ -76,5 +80,23 @@ class UserService implements UserServiceInterface
     public function delete(User $user): void
     {
         $this->userRepository->delete($user);
+    }
+
+    /**
+     * Can User be deleted?
+     *
+     * @param User $user User entity
+     *
+     * @return bool Result
+     */
+    public function canBeDeleted(User $user): bool
+    {
+        try {
+            $result = $this->recipeRepository->countByUser($user);
+
+            return $result <= 0;
+        } catch (NoResultException|NonUniqueResultException) {
+            return false;
+        }
     }
 }

@@ -20,7 +20,10 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'user.id') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.email'|trans, 'user.email') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.roles'|trans, 'user.roles') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.password'|trans, 'user.password') }}</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th>{{ knp_pagination_sortable(pagination, 'label.password'|trans, 'user.password') }}</th>
+                    <th>{{ 'label.actions'|trans }}</th>
+                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -29,7 +32,20 @@
                     <td>{{ user.id }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.roles|join(', ') }}</td>
-                    <td>{{ user.password }}</td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td>{{ user.password }}</td>
+                        <td>
+                            <a class="btn btn-outline-success btn-sm" href="{{ url('user_view', {id: user.id}) }}" title="{{ 'action.view'|trans }}">
+                                {{ 'action.view'|trans }}
+                            </a>
+                            <a class="btn btn-outline-primary btn-sm" href="{{ path('user_edit', {id: user.id}) }}" title="{{ 'action.edit'|trans }}">
+                                {{ 'action.edit'|trans }}
+                            </a>
+                            <a class="btn btn-outline-danger btn-sm" href="{{ path('user_delete', {id: user.id}) }}" title="{{ 'action.delete'|trans }}">
+                                {{ 'action.delete'|trans }}
+                            </a>
+                        </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>
@@ -39,12 +55,6 @@
             <div class="navigation text-center">
                 {{ knp_pagination_render(pagination) }}
             </div>
-
-            <p>
-                <a href="{{ url('recipe_create') }}" class="btn btn-primary">
-                    {{ 'action.recipe_create'|trans }}
-                </a>
-            </p>
         </div>
 
     {% else %}

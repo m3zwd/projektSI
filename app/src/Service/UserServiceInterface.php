@@ -36,4 +36,13 @@ interface UserServiceInterface
      * @param User $user User entity
      */
     public function delete(User $user): void;
+
+    /**
+     * Can User be deleted?
+     *
+     * @param User $user User entity
+     *
+     * @return bool Result
+     */
+    public function canBeDeleted(User $user): bool;
 }

@@ -184,11 +184,31 @@
       <!-- User -->
       <trans-unit id="title.user_list">
         <source>title.user_list</source>
-        <target>User list</target>
+        <target>Users list</target>
       </trans-unit>
       <trans-unit id="label.roles">
         <source>label.roles</source>
         <target>Roles</target>
+      </trans-unit>
+      <trans-unit id="title.user_details">
+        <source>title.user_details</source>
+        <target>User details #%id%</target>
+      </trans-unit>
+      <trans-unit id="title.user_edit">
+        <source>title.user_edit</source>
+        <target>Edit user</target>
+      </trans-unit>
+      <trans-unit id="title.user_delete">
+        <source>title.user_delete</source>
+        <target>Delete user</target>
+      </trans-unit>
+      <trans-unit id="label.role_user">
+        <source>label.role_user</source>
+        <target>User</target>
+      </trans-unit>
+      <trans-unit id="label.role_admin">
+        <source>label.role_admin</source>
+        <target>Admin</target>
       </trans-unit>
 
       <!-- Messages -->
@@ -206,7 +226,7 @@
       </trans-unit>
       <trans-unit id="message.category_contains_recipes">
         <source>message.category_contains_recipes</source>
-        <target>Category contains recipes.</target>
+        <target>Cannot delete category because it contains recipes.</target>
       </trans-unit>
       <trans-unit id="message.no_recipes_in_category">
           <source>message.no_recipes_in_category</source>
@@ -255,6 +275,10 @@
       <trans-unit id="message.registration_successful">
         <source>message.registration_successful</source>
         <target>Registration successful.</target>
+      </trans-unit>
+      <trans-unit id="message.user_has_recipes">
+        <source>message.user_has_recipes</source>
+        <target>Cannot delete user because they have associated recipes.</target>
       </trans-unit>
     </body>
   </file>

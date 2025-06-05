@@ -33,14 +33,14 @@
                     <td>{{ category.updatedAt|format_date('long') }}</td>
                     <td>{{ category.title }}</td>
                     <td>
-                        <a href="{{ url('category_view', {id: category.id}) }}" class="btn btn-outline-success btn-sm" title="{{ 'action.view'|trans }}">
+                        <a class="btn btn-outline-success btn-sm" href="{{ url('category_view', {id: category.id}) }}" title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}
                         </a>
                         {% if is_granted('ROLE_ADMIN') %}
-                            <a href="{{ url('category_edit', {id: category.id}) }}" class="btn btn-outline-info btn-sm" title="{{ 'action.edit'|trans }}">
+                            <a class="btn btn-outline-primary btn-sm" href="{{ url('category_edit', {id: category.id}) }}" title="{{ 'action.edit'|trans }}">
                                 {{ 'action.edit'|trans }}
                             </a>
-                            <a href="{{ url('category_delete', {id: category.id}) }}" class="btn btn-outline-danger btn-sm" title="{{ 'action.delete'|trans }}">
+                            <a class="btn btn-outline-danger btn-sm" href="{{ url('category_delete', {id: category.id}) }}" title="{{ 'action.delete'|trans }}">
                                 {{ 'action.delete'|trans }}
                             </a>
                         {% endif %}

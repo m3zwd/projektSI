@@ -40,7 +40,7 @@
                             {{ 'action.view'|trans }}
                         </a>
                         {% if is_granted('RECIPE_EDIT', recipe) %}
-                            <a class="btn btn-outline-info btn-sm" href="{{ url('recipe_edit', {id: recipe.id}) }}" title="{{ 'action.edit'|trans }}">
+                            <a class="btn btn-outline-primary btn-sm" href="{{ url('recipe_edit', {id: recipe.id}) }}" title="{{ 'action.edit'|trans }}">
                                 {{ 'action.edit'|trans }}
                             </a>
                         {% endif %}

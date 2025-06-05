@@ -8,6 +8,7 @@ namespace App\Repository;
 
 use App\Entity\Recipe;
 use App\entity\Category;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\NonUniqueResultException;
@@ -68,6 +69,27 @@ class RecipeRepository extends ServiceEntityRepository
         return $qb->select($qb->expr()->countDistinct('recipe.id'))
             ->where('recipe.category = :category')
             ->setParameter(':category', $category)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Count recipes by user.
+     *
+     * @param User $author User
+     *
+     * @return int Number of recipes user owns
+     *
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countByUser(User $author): int
+    {
+        $qb = $this->createQueryBuilder('recipe');
+
+        return (int) $qb->select($qb->expr()->countDistinct('recipe.id'))
+            ->where('recipe.author = :author')
+            ->setParameter(':author', $author)
             ->getQuery()
             ->getSingleScalarResult();
     }
