@@ -103,9 +103,21 @@ final class CommentVoter extends Voter
      */
     private function canDelete(Comment $comment, UserInterface $user): bool
     {
+        // autor komentarza zawsze moze usunac
         if ($comment->getAuthor() === $user) {
             return true;
         }
-        return in_array('ROLE_ADMIN', $user->getRoles(), true);
+
+        // jesli uzytkownik jest adminem
+        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+            // jesli autor komentarza rowniez jest adminem, to zabron usuwania
+            if (in_array('ROLE_ADMIN', $comment->getAuthor()->getRoles(), true)) {
+                return false;
+            }
+            // adnim moze usuwac kom zwyklych uzytkownikow
+            return true;
+        }
+
+        return false;
     }
 }

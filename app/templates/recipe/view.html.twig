@@ -42,14 +42,31 @@
                     <li class="list-group-item">
                         <strong>{{ comment.author.email }}</strong>
                         <small>({{ comment.createdAt|date('Y-m-d H:i') }})</small>
-                        <p>{{ comment.content }}</p>
 
-                        <!-- przycisk do usuwania -->
-                        {% if is_granted('COMMENT_DELETE', comment) %}
-                            <form method="post" action="{{ path('recipe_view', {'id': recipe.id}) }}" onsubmit="return confirm('{{ 'message.confirm_delete'|trans }}')">
-                                <input type="hidden" name="delete_comment_id" value="{{ comment.id }}">
-                                <button type="submit" class="btn btn-danger">{{ 'action.delete'|trans }}</button>
-                            </form>
+                        {% if edit_comment is defined and edit_comment and edit_comment.id == comment.id %}
+                            {# Formularz edycji #}
+                            {{ form_start(edit_comment_form) }}
+                                <input type="hidden" name="edit_comment_id" value="{{ edit_comment.id }}">
+                                {{ form_row(edit_comment_form.content) }}
+                                <button type="submit" class="btn btn-primary btn-sm">{{ 'action.save'|trans }}</button>
+                            {{ form_end(edit_comment_form) }}
+                        {% else %}
+                            <p>{{ comment.content }}</p>
+
+                            {# widoczne orzyciski do edycji i usuwania, jeśli użytkownik ma uprawnienia #}
+                            {% if is_granted('COMMENT_EDIT', comment) %}
+                                <form method="post" action="{{ path('recipe_view', {'id': recipe.id}) }}" style="display: inline-block;">
+                                    <input type="hidden" name="edit_comment_id" value="{{ comment.id }}">
+                                    <button type="submit" class="btn btn-outline-primary btn-sm">{{ 'action.edit'|trans }}</button>
+                                </form>
+                            {% endif %}
+
+                            {% if is_granted('COMMENT_DELETE', comment) %}
+                                <form method="post" action="{{ path('recipe_view', {'id': recipe.id}) }}" onsubmit="return confirm('{{ 'message.confirm_delete'|trans }}')" style="display: inline-block;">
+                                    <input type="hidden" name="delete_comment_id" value="{{ comment.id }}">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">{{ 'action.delete'|trans }}</button>
+                                </form>
+                            {% endif %}
                         {% endif %}
                     </li>
                 {% endfor %}

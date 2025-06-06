@@ -93,16 +93,40 @@ class RecipeController extends AbstractController
                 if ($this->isGranted('COMMENT_DELETE', $commentToDelete)) {
                     $commentRepository->delete($commentToDelete);
                     $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
-                } else {
+                }
+                /* czy to jest potrzebne wgl, skoro nie ma jak sie dostac do usuwania koma bez uprawnien??
+                 else {
                     $this->addFlash('error', $this->translator->trans('message.access_denied'));
                 }
+                */
             }
 
             return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
         }
 
-        // pobieranie komentarzy
-        $comments = $commentRepository->findBy(['recipe' => $recipe], ['createdAt' => 'DESC']);
+        // edycja komentarza
+        $editCommentId = $request->request->get('edit_comment_id');
+        $editComment = null;
+        $editForm = null;
+        if ($editCommentId) {
+            $editComment = $commentRepository->find($editCommentId);
+            if (!$editComment || $editComment->getRecipe() !== $recipe || !$this->isGranted('COMMENT_EDIT', $editComment)) {
+                $this->addFlash('error', $this->translator->trans('message.access_denied'));
+                return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
+            }
+
+            // formularz edycji z istniejącym komentarzem
+            $editForm = $this->createForm(CommentType::class, $editComment);
+            $editForm->handleRequest($request);
+
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $commentRepository->save($editComment);
+
+                $this->addFlash('success', $this->translator->trans('message.edited_successfully'));
+
+                return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
+            }
+        }
 
         // dodawanie komentarza
         $comment = new Comment();
@@ -110,6 +134,7 @@ class RecipeController extends AbstractController
         $comment->setAuthor($this->getUser());
         $comment->setCreatedAt(new \DateTimeImmutable());
         $form = $this->createForm(CommentType::class, $comment);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -123,12 +148,17 @@ class RecipeController extends AbstractController
             return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
         }
 
+        // pobieranie komentarzy
+        $comments = $commentRepository->findBy(['recipe' => $recipe], ['createdAt' => 'DESC']);
+
         return $this->render(
             'recipe/view.html.twig',
             [
                 'recipe' => $recipe,
                 'comments' => $comments,
                 'comment_form' => $form->createView(),
+                'edit_comment_form' => $editForm?->createView(),
+                'edit_comment' => $editComment,
             ]
         );
     }
