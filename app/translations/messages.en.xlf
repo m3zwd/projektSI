@@ -175,13 +175,11 @@
         <target>Password</target>
       </trans-unit>
 
-      <!-- Author -->
+      <!-- User -->
       <trans-unit id="label.author">
         <source>label.author</source>
         <target>Author</target>
       </trans-unit>
-
-      <!-- User -->
       <trans-unit id="title.user_list">
         <source>title.user_list</source>
         <target>Users list</target>
@@ -209,6 +207,20 @@
       <trans-unit id="label.role_admin">
         <source>label.role_admin</source>
         <target>Admin</target>
+      </trans-unit>
+      <trans-unit id="title.user_recipes">
+        <source>title.user_recipes</source>
+        <target>User's recipes</target>
+      </trans-unit>
+
+      <!-- Roles -->
+      <trans-unit id="role.admin">
+        <source>role.admin</source>
+        <target>admin</target>
+      </trans-unit>
+      <trans-unit id="role.user">
+        <source>role.user</source>
+        <target>user</target>
       </trans-unit>
 
       <!-- Messages -->
@@ -279,6 +291,10 @@
       <trans-unit id="message.user_has_recipes">
         <source>message.user_has_recipes</source>
         <target>Cannot delete user because they have associated recipes.</target>
+      </trans-unit>
+      <trans-unit id="message.no_recipes_for_user">
+        <source>message.no_recipes_for_user</source>
+        <target>User has not created any recipes.</target>
       </trans-unit>
     </body>
   </file>

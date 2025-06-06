@@ -9,7 +9,6 @@ namespace App\Entity;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -55,14 +54,6 @@ class Recipe
     #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'update')]
     private ?\DateTimeImmutable $updatedAt = null;
-
-    /**
-     * Comment.
-     */
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Assert\Type('string')]
-    #[Assert\Length(min: 3, max: 65535)]
-    private ?string $comment = null;
 
     /**
      * Category.
@@ -177,26 +168,6 @@ class Recipe
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * Getter for comment.
-     *
-     * @return string|null Comment
-     */
-    public function getComment(): ?string
-    {
-        return $this->comment;
-    }
-
-    /**
-     * Setter for comment.
-     *
-     * @param string|null $comment Comment
-     */
-    public function setComment(?string $comment): void
-    {
-        $this->comment = $comment;
     }
 
     /**

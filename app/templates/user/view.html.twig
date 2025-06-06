@@ -21,6 +21,22 @@
             <dd>{{ user.password }}</dd>
         </dl>
 
+        <h2>{{ 'title.user_recipes'|trans }}</h2>
+        {% if recipes is defined and recipes|length %}
+            <ul>
+                {% for recipe in recipes %}
+                    <li>
+                        <a href="{{ url('recipe_view', {id: recipe.id}) }}">
+                            {{ recipe.title }}
+                        </a>
+                        – {{ recipe.createdAt|date('Y/m/d') }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>{{ 'message.no_recipes_for_user'|trans }}</p>
+        {% endif %}
+
         <p>
             <a href="{{ url('user_index') }}" title="{{ 'action.back_to_list'|trans }}">
                 {{ 'action.back_to_list'|trans }}

@@ -47,7 +47,6 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
-            $recipe->setComment($this->faker->realText(1024));
             $category = $this->getRandomReference('category', Category::class);
             $recipe->setCategory($category);
 

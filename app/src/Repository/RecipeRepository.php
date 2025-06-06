@@ -6,8 +6,9 @@
 
 namespace App\Repository;
 
+use App\Dto\RecipeListInputFiltersDto;
 use App\Entity\Recipe;
-use App\entity\Category;
+use App\Entity\Category;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -114,5 +115,44 @@ class RecipeRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->remove($recipe);
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * Query recipes by filters.
+     *
+     * @param User|null $user User
+     *
+     * @param RecipeListInputFiltersDto $filters
+     *
+     * @return QueryBuilder
+     */
+    public function queryByFilters(?User $user, RecipeListInputFiltersDto $filters): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('recipe')
+            ->select(
+                'partial recipe.{id, createdAt, updatedAt, title}',
+                'partial category.{id, title}',
+                'partial tags.{id, title}'
+            )
+            ->join('recipe.category', 'category')
+            ->leftJoin('recipe.tags', 'tags');
+
+        // tylko jeśli filtr onlyMine jest ustawiony i użytkownik jest zalogowany
+        if ($filters->onlyMine && $user !== null) {
+            $qb->andWhere('recipe.author = :author')
+                ->setParameter('author', $user);
+        }
+
+        if ($filters->categoryId !== null) {
+            $qb->andWhere('category.id = :categoryId')
+                ->setParameter('categoryId', $filters->categoryId);
+        }
+
+        if ($filters->tagId !== null) {
+            $qb->andWhere(':tagId MEMBER OF recipe.tags')
+                ->setParameter('tagId', $filters->tagId);
+        }
+
+        return $qb;
     }
 }

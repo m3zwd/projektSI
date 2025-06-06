@@ -20,10 +20,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'user.id') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.email'|trans, 'user.email') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.roles'|trans, 'user.roles') }}</th>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <th>{{ knp_pagination_sortable(pagination, 'label.password'|trans, 'user.password') }}</th>
-                    <th>{{ 'label.actions'|trans }}</th>
-                {% endif %}
+                <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -31,21 +28,26 @@
                 <tr>
                     <td>{{ user.id }}</td>
                     <td>{{ user.email }}</td>
-                    <td>{{ user.roles|join(', ') }}</td>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <td>{{ user.password }}</td>
-                        <td>
-                            <a class="btn btn-outline-success btn-sm" href="{{ url('user_view', {id: user.id}) }}" title="{{ 'action.view'|trans }}">
-                                {{ 'action.view'|trans }}
-                            </a>
-                            <a class="btn btn-outline-primary btn-sm" href="{{ path('user_edit', {id: user.id}) }}" title="{{ 'action.edit'|trans }}">
-                                {{ 'action.edit'|trans }}
-                            </a>
-                            <a class="btn btn-outline-danger btn-sm" href="{{ path('user_delete', {id: user.id}) }}" title="{{ 'action.delete'|trans }}">
-                                {{ 'action.delete'|trans }}
-                            </a>
-                        </td>
-                    {% endif %}
+                    <td>
+                        {% for role in user.roles %}
+                            {% if role == 'ROLE_ADMIN' %}
+                                <div class="btn btn-secondary btn-sm">{{ 'role.admin'|trans }}</div>
+                            {% elseif role == 'ROLE_USER' %}
+                                <div class="btn btn-outline-secondary btn-sm">{{ 'role.user'|trans }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-success btn-sm" href="{{ url('user_view', {id: user.id}) }}" title="{{ 'action.view'|trans }}">
+                            {{ 'action.view'|trans }}
+                        </a>
+                        <a class="btn btn-outline-primary btn-sm" href="{{ path('user_edit', {id: user.id}) }}" title="{{ 'action.edit'|trans }}">
+                            {{ 'action.edit'|trans }}
+                        </a>
+                        <a class="btn btn-outline-danger btn-sm" href="{{ path('user_delete', {id: user.id}) }}" title="{{ 'action.delete'|trans }}">
+                            {{ 'action.delete'|trans }}
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

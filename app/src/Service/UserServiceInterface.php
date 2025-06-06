@@ -6,6 +6,7 @@
 
 namespace App\Service;
 
+use App\Entity\Recipe;
 use App\Entity\User;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
@@ -22,6 +23,15 @@ interface UserServiceInterface
      * @return PaginationInterface<string, mixed> Paginated list
      */
     public function getPaginatedList(int $page): PaginationInterface;
+
+    /**
+     * Find recipes by user.
+     *
+     * @param User $user User entity
+     *
+     * @return array<Recipe> List of recipes
+     */
+    public function getRecipesByUser(User $user): array;
 
     /**
      * Save entity.

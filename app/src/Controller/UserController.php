@@ -21,6 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class UserController.
  */
+#[IsGranted('ROLE_ADMIN')]
 class UserController extends AbstractController
 {
     /**
@@ -65,12 +66,16 @@ class UserController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET'
     )]
-    #[IsGranted('ROLE_ADMIN')]
     public function view(User $user): Response
     {
+        $recipes = $this->userService->getRecipesByUser($user);
+
         return $this->render(
             'user/view.html.twig',
-            ['user' => $user]
+            [
+                'user' => $user,
+                'recipes' => $recipes,
+            ]
         );
     }
 
@@ -88,7 +93,6 @@ class UserController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET|PUT'
     )]
-    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, User $user): Response
     {
         $form = $this->createForm(
@@ -135,7 +139,6 @@ class UserController extends AbstractController
         requirements: ['id' => '\d+'],
         methods: 'GET|DELETE'
     )]
-    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, User $user): Response
     {
         if (!$this->userService->canBeDeleted($user)) {

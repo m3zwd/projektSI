@@ -6,6 +6,7 @@
 
 namespace App\Service;
 
+use App\Entity\Recipe;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Repository\RecipeRepository;
@@ -60,6 +61,18 @@ class UserService implements UserServiceInterface
                 'defaultSortDirection' => 'desc',
             ]
         );
+    }
+
+    /**
+     * Find recipes by user.
+     *
+     * @param User $user User entity
+     *
+     * @return array|Recipe[]
+     */
+    public function getRecipesByUser(User $user): array
+    {
+        return $this->recipeRepository->findBy(['author' => $user]);
     }
 
     /**

@@ -68,7 +68,10 @@ class SecurityController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(path: '/change-password', name: 'user_change_password')]
+    #[Route(
+        path: '/change-password',
+        name: 'user_change_password'
+    )]
     public function changePassword(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
@@ -106,7 +109,10 @@ class SecurityController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/register', name: 'app_register')]
+    #[Route(
+        '/register',
+        name: 'app_register'
+    )]
     public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator): Response
     {
         $user = new User();
