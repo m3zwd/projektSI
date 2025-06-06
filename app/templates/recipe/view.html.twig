@@ -41,8 +41,16 @@
                 {% for comment in recipe.comments %}
                     <li class="list-group-item">
                         <strong>{{ comment.author.email }}</strong>
-                        <small class="text-muted">({{ comment.createdAt|date('Y-m-d H:i') }})</small>
-                        <p class="mb-0">{{ comment.content }}</p>
+                        <small>({{ comment.createdAt|date('Y-m-d H:i') }})</small>
+                        <p>{{ comment.content }}</p>
+
+                        <!-- przycisk do usuwania -->
+                        {% if is_granted('COMMENT_DELETE', comment) %}
+                            <form method="post" action="{{ path('recipe_view', {'id': recipe.id}) }}" onsubmit="return confirm('{{ 'message.confirm_delete'|trans }}')">
+                                <input type="hidden" name="delete_comment_id" value="{{ comment.id }}">
+                                <button type="submit" class="btn btn-danger">{{ 'action.delete'|trans }}</button>
+                            </form>
+                        {% endif %}
                     </li>
                 {% endfor %}
             </ul>
@@ -60,7 +68,7 @@
             <div id="comment-form" style="display: none;">
                 {{ form_start(comment_form) }}
                 {{ form_row(comment_form.content) }}
-                <button type="submit" class="btn btn-success">{{ 'action.save'|trans }}</button>
+                <button type="submit" class="btn btn-primary">{{ 'action.save'|trans }}</button>
                 {{ form_end(comment_form) }}
             </div>
 

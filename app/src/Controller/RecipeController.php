@@ -84,8 +84,27 @@ class RecipeController extends AbstractController
     )]
     public function view(Request $request, Recipe $recipe, CommentRepository $commentRepository): Response
     {
+        // usuwanie komentarza
+        $deleteCommentId = $request->request->get('delete_comment_id');
+        if ($deleteCommentId) {
+            $commentToDelete = $commentRepository->find($deleteCommentId);
+
+            if ($commentToDelete && $commentToDelete->getRecipe() === $recipe) {
+                if ($this->isGranted('COMMENT_DELETE', $commentToDelete)) {
+                    $commentRepository->delete($commentToDelete);
+                    $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
+                } else {
+                    $this->addFlash('error', $this->translator->trans('message.access_denied'));
+                }
+            }
+
+            return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
+        }
+
+        // pobieranie komentarzy
         $comments = $commentRepository->findBy(['recipe' => $recipe], ['createdAt' => 'DESC']);
 
+        // dodawanie komentarza
         $comment = new Comment();
         $comment->setRecipe($recipe);
         $comment->setAuthor($this->getUser());
@@ -98,7 +117,7 @@ class RecipeController extends AbstractController
 
             $this->addFlash(
                 'success',
-                $this->translator->trans('message.created_successfully.')
+                $this->translator->trans('message.created_successfully')
             );
 
             return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
