@@ -223,6 +223,16 @@
         <target>user</target>
       </trans-unit>
 
+      <!-- Comments -->
+      <trans-unit id="label.comments">
+        <source>label.comments</source>
+        <target>Comments</target>
+      </trans-unit>
+      <trans-unit id="message.no_comments">
+        <source>message.no_comments</source>
+        <target>No comments.</target>
+      </trans-unit>
+
       <!-- Messages -->
       <trans-unit id="message.empty_list">
         <source>message.empty_list</source>

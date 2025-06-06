@@ -35,6 +35,21 @@
             </dd>
         </dl>
 
+        <h2>{{ 'label.comments'|trans }}</h2>
+        {% if recipe.comments|length > 0 %}
+            <ul class="list-group mb-4">
+                {% for comment in recipe.comments %}
+                    <li class="list-group-item">
+                        <strong>{{ comment.author.email }}</strong>
+                        <small class="text-muted">({{ comment.createdAt|date('Y-m-d H:i') }})</small>
+                        <p class="mb-0">{{ comment.content }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">{{ 'message.no_comments'|trans }}</p>
+        {% endif %}
+
         <p>
             <a href="{{ url('recipe_index') }}" title="{{ 'action.back_to_list'|trans }}">
                 {{ 'action.back_to_list'|trans }}

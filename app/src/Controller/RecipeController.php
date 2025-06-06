@@ -7,9 +7,12 @@
 namespace App\Controller;
 
 use App\Dto\RecipeListInputFiltersDto;
+use App\Entity\Comment;
 use App\Entity\Recipe;
 use App\Entity\User;
+use App\Form\Type\CommentType;
 use App\Form\Type\RecipeType;
+use App\Repository\CommentRepository;
 use App\Resolver\RecipeListInputFiltersDtoResolver;
 use App\Security\Voter\RecipeVoter;
 use App\Service\RecipeServiceInterface;
@@ -67,7 +70,9 @@ class RecipeController extends AbstractController
     /**
      * View action.
      *
-     * @param Recipe $recipe Recipe entity
+     * @param Request           $request           HTTP request
+     * @param Recipe            $recipe            Recipe entity
+     * @param CommentRepository $commentRepository View comments
      *
      * @return Response HTTP response
      */
@@ -75,13 +80,34 @@ class RecipeController extends AbstractController
         '/recipe/{id}',
         name: 'recipe_view',
         requirements: ['id' => '[1-9]\d*'],
-        methods: 'GET'
+        methods: 'GET|POST'
     )]
-    public function view(Recipe $recipe): Response
+    public function view(Request $request, Recipe $recipe, CommentRepository $commentRepository): Response
     {
+        $comment = new Comment();
+        $comment->setRecipe($recipe);
+        $comment->setAuthor($this->getUser());
+        $comment->setCreatedAt(new \DateTimeImmutable());
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commentRepository->save($comment);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.created_successfully.')
+            );
+
+            return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
+        }
+
         return $this->render(
             'recipe/view.html.twig',
-            ['recipe' => $recipe]
+            [
+                'recipe' => $recipe,
+                'comment_form' => $form->createView(),
+            ]
         );
     }
 
