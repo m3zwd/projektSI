@@ -41,8 +41,8 @@ class RecipeController extends AbstractController
     /**
      * Index action.
      *
-     * @param int                       $page    Page number
      * @param RecipeListInputFiltersDto $filters Input filters
+     * @param int                       $page    Page number
      *
      * @return Response HTTP response
      */

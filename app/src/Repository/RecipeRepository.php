@@ -48,9 +48,6 @@ class RecipeRepository extends ServiceEntityRepository
             )
             ->join('recipe.category', 'category')
             ->leftJoin('recipe.tags', 'tags');
-        // ->andWhere('recipe.author = :author')
-        // ->setParameter('author', $author);
-        // jak autor nie jest nullem to trzeba dolaczyc te linijki, jak jest null to bez nich
     }
 
     /**
@@ -120,13 +117,9 @@ class RecipeRepository extends ServiceEntityRepository
     /**
      * Query recipes by filters.
      *
-     * @param User|null $user User
-     *
-     * @param RecipeListInputFiltersDto $filters
-     *
-     * @return QueryBuilder
+     * @param User|null $author User
      */
-    public function queryByFilters(?User $user, RecipeListInputFiltersDto $filters): QueryBuilder
+    public function queryByFilters(?User $author, RecipeListInputFiltersDto $filters): QueryBuilder
     {
         $qb = $this->createQueryBuilder('recipe')
             ->select(
@@ -138,17 +131,17 @@ class RecipeRepository extends ServiceEntityRepository
             ->leftJoin('recipe.tags', 'tags');
 
         // tylko jeśli filtr onlyMine jest ustawiony i użytkownik jest zalogowany
-        if ($filters->onlyMine && $user !== null) {
+        if ($filters->onlyMine && $author instanceof \App\Entity\User) {
             $qb->andWhere('recipe.author = :author')
-                ->setParameter('author', $user);
+                ->setParameter('author', $author);
         }
 
-        if ($filters->categoryId !== null) {
+        if (null !== $filters->categoryId) {
             $qb->andWhere('category.id = :categoryId')
                 ->setParameter('categoryId', $filters->categoryId);
         }
 
-        if ($filters->tagId !== null) {
+        if (null !== $filters->tagId) {
             $qb->andWhere(':tagId MEMBER OF recipe.tags')
                 ->setParameter('tagId', $filters->tagId);
         }

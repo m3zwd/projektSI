@@ -19,11 +19,13 @@ interface RecipeServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int                       $page    Page number
+     * @param User                      $author  Currently logged user
+     * @param RecipeListInputFiltersDto $filters Filters
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page, User $user, RecipeListInputFiltersDto $filters): PaginationInterface;
+    public function getPaginatedList(int $page, User $author, RecipeListInputFiltersDto $filters): PaginationInterface;
 
     /**
      * Save entity.

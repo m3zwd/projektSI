@@ -94,14 +94,8 @@ final class RecipeVoter extends Voter
         if ($recipe->getAuthor() === $user) {
             return true;
         }
-
-        // sprawdza, czy uzytkownik ma przypisaną role admina
-        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
-            return true;
-        }
-
         // jesli uzytkownik nie jest autorem ani adminem, to nie pozwala na edycje
-        return false;
+        return in_array('ROLE_ADMIN', $user->getRoles(), true);
     }
 
     /**
@@ -117,11 +111,6 @@ final class RecipeVoter extends Voter
         if ($recipe->getAuthor() === $user) {
             return true;
         }
-
-        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
-            return true;
-        }
-
-        return false;
+        return in_array('ROLE_ADMIN', $user->getRoles(), true);
     }
 }

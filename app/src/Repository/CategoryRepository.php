@@ -39,6 +39,18 @@ class CategoryRepository extends ServiceEntityRepository
     }
 
     /**
+     * Find by id.
+     */
+    public function findOneById(int $id): ?Category
+    {
+        return $this->createQueryBuilder('category')
+            ->where('category.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
      * Save entity.
      *
      * @param Category $category Category entity

@@ -30,6 +30,18 @@ class TagRepository extends ServiceEntityRepository
     }
 
     /**
+     * Find by id.
+     */
+    public function findOneById(int $id): ?Tag
+    {
+        return $this->createQueryBuilder('tag')
+            ->where('tag.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
      * Save entity.
      *
      * @param Tag $tag Tag entity

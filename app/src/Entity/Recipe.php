@@ -93,11 +93,20 @@ class Recipe
     private ?User $author = null;
 
     /**
+     * Comments.
+     *
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'recipe', orphanRemoval: true)]
+    private Collection $comments;
+
+    /**
      * Constructor.
      */
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -248,6 +257,8 @@ class Recipe
 
     /**
      * Getter for author.
+     *
+     * @return User|null $author
      */
     public function getAuthor(): ?User
     {
@@ -260,5 +271,39 @@ class Recipe
     public function setAuthor(?User $author): void
     {
         $this->author = $author;
+    }
+
+    /**
+     * Getter for comments.
+     *
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Add comment.
+     *
+     * @param Comment $comment Comment entity
+     */
+    public function addComment(Comment $comment): void
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setRecipe($this);
+        }
+    }
+
+    /**
+     * Remove comment.
+     */
+    public function removeComment(Comment $comment): void
+    {
+        // set the owning side to null (unless already changed)
+        if ($this->comments->removeElement($comment) && $comment->getRecipe() === $this) {
+            $comment->setRecipe(null);
+        }
     }
 }

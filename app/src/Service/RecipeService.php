@@ -40,20 +40,19 @@ class RecipeService implements RecipeServiceInterface
     }
 
     /**
-     * Get paginated list with filters.
+     * Get paginated list.
      *
-     * @param int                         $page    Page number
-     * @param User|null                   $user    Currently logged-in user
-     * @param RecipeListInputFiltersDto   $filters Filters from query
+     * @param int                       $page    Page number
+     * @param User|null                 $author  Recipes author
+     * @param RecipeListInputFiltersDto $filters Filters from query
      *
      * @return PaginationInterface Paginated list
      */
-    public function getPaginatedList(int $page, ?User $user, RecipeListInputFiltersDto $filters): PaginationInterface
+    public function getPaginatedList(int $page, ?User $author, RecipeListInputFiltersDto $filters): PaginationInterface
     {
-        $query = $this->recipeRepository->queryByFilters($user, $filters);
+        $query = $this->recipeRepository->queryByFilters($author, $filters);
 
         return $this->paginator->paginate(
-            #$this->recipeRepository->queryAll(),
             $query,
             $page,
             self::PAGINATOR_ITEMS_PER_PAGE,
