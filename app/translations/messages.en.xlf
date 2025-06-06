@@ -236,6 +236,10 @@
         <source>label.comment</source>
         <target>Type comment</target>
       </trans-unit>
+      <trans-unit id="action.cancel">
+        <source>action.cancel</source>
+        <target>Cancel</target>
+      </trans-unit>
 
       <!-- Messages -->
       <trans-unit id="message.empty_list">
@@ -313,6 +317,14 @@
       <trans-unit id="message.no_comments">
         <source>message.no_comments</source>
         <target>No comments.</target>
+      </trans-unit>
+      <trans-unit id="message.login_to_comment">
+        <source>message.login_to_comment</source>
+        <target>Log in to comment.</target>
+      </trans-unit>
+      <trans-unit id="message.confirm_delete">
+        <source>message.confirm_delete</source>
+        <target>Confirm delete.</target>
       </trans-unit>
     </body>
   </file>
