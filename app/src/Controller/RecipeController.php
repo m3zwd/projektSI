@@ -84,6 +84,8 @@ class RecipeController extends AbstractController
     )]
     public function view(Request $request, Recipe $recipe, CommentRepository $commentRepository): Response
     {
+        $comments = $commentRepository->findBy(['recipe' => $recipe], ['createdAt' => 'DESC']);
+
         $comment = new Comment();
         $comment->setRecipe($recipe);
         $comment->setAuthor($this->getUser());
@@ -106,6 +108,7 @@ class RecipeController extends AbstractController
             'recipe/view.html.twig',
             [
                 'recipe' => $recipe,
+                'comments' => $comments,
                 'comment_form' => $form->createView(),
             ]
         );

@@ -7,6 +7,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\Recipe;
 use App\Entity\Tag;
 use App\Entity\User;
@@ -47,6 +48,7 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
+
             $category = $this->getRandomReference('category', Category::class);
             $recipe->setCategory($category);
 
@@ -59,6 +61,15 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
             /** @var User $author */
             $author = $this->getRandomReference('user', User::class);
             $recipe->setAuthor($author);
+
+            /** var Comment $comments
+            $comments = $this->getRandomReferenceList('comment', Comment::class, $this->faker->numberBetween(0, 5));
+            foreach ($comments as $comment) {
+                $comment->setRecipe($recipe);     // przypisujemy komentarz do przepisu
+                $recipe->addComment($comment);    // (jeśli masz relację odwrotną)
+                $this->manager->persist($comment);
+            }
+            */
 
             return $recipe;
         });

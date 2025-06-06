@@ -7,7 +7,6 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
-use App\Entity\Recipe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -36,6 +35,17 @@ class CommentRepository extends ServiceEntityRepository
     public function save(Comment $comment): void
     {
         $this->getEntityManager()->persist($comment);
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param Comment $comment
+     */
+    public function delete(Comment $comment): void
+    {
+        $this->getEntityManager()->remove($comment);
         $this->getEntityManager()->flush();
     }
 }

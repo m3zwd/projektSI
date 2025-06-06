@@ -50,6 +50,26 @@
             <p class="text-muted">{{ 'message.no_comments'|trans }}</p>
         {% endif %}
 
+        <!-- przycisk do pokazania formularza -->
+        <button class="btn btn-primary mb-3" onclick="toggleCommentForm()">
+            {{ 'action.add_comment'|trans }}
+        </button>
+
+        <!-- formularz do dodawania komentarza (ukryty domyślnie) -->
+        <div id="comment-form" style="display: none;">
+            {{ form_start(comment_form) }}
+            {{ form_row(comment_form.content) }}
+            <button type="submit" class="btn btn-success">{{ 'action.save'|trans }}</button>
+            {{ form_end(comment_form) }}
+        </div>
+
+        <script>
+            function toggleCommentForm() {
+                const formDiv = document.getElementById('comment-form');
+                formDiv.style.display = formDiv.style.display === 'none' ? 'block' : 'none';
+            }
+        </script>
+
         <p>
             <a href="{{ url('recipe_index') }}" title="{{ 'action.back_to_list'|trans }}">
                 {{ 'action.back_to_list'|trans }}

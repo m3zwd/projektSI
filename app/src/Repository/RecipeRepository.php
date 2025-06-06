@@ -131,7 +131,7 @@ class RecipeRepository extends ServiceEntityRepository
             ->leftJoin('recipe.tags', 'tags');
 
         // tylko jeśli filtr onlyMine jest ustawiony i użytkownik jest zalogowany
-        if ($filters->onlyMine && $author instanceof \App\Entity\User) {
+        if ($filters->onlyMine && $author instanceof User) {
             $qb->andWhere('recipe.author = :author')
                 ->setParameter('author', $author);
         }

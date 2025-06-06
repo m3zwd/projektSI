@@ -228,9 +228,13 @@
         <source>label.comments</source>
         <target>Comments</target>
       </trans-unit>
-      <trans-unit id="message.no_comments">
-        <source>message.no_comments</source>
-        <target>No comments.</target>
+      <trans-unit id="action.add_comment">
+        <source>action.add_comment</source>
+        <target>Add comment</target>
+      </trans-unit>
+      <trans-unit id="label.comment">
+        <source>label.comment</source>
+        <target>Type comment</target>
       </trans-unit>
 
       <!-- Messages -->
@@ -305,6 +309,10 @@
       <trans-unit id="message.no_recipes_for_user">
         <source>message.no_recipes_for_user</source>
         <target>User has not created any recipes.</target>
+      </trans-unit>
+      <trans-unit id="message.no_comments">
+        <source>message.no_comments</source>
+        <target>No comments.</target>
       </trans-unit>
     </body>
   </file>
