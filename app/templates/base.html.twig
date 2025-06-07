@@ -22,17 +22,17 @@
             <li>
                 <a href="{{ path('recipe_index') }}"
                    class="{% if app.request.attributes.get('_route') == 'recipe_index' %} active
-                    {% endif %}">Recipes</a>
+                    {% endif %}">{{ 'title.recipe_list'|trans }}</a>
             </li>
             <li>
                 <a href="{{ path('category_index') }}"
                    class="{% if app.request.attributes.get('_route') == 'category_index' %} active
-                    {% endif %}">Categories</a>
+                    {% endif %}">{{ 'title.category_list'|trans }}</a>
             </li>
             <li>
                 <a href="{{ path('user_index') }}"
                    class="{% if app.request.attributes.get('_route') == 'user_index' %} active
-                    {% endif %}">Users</a>
+                    {% endif %}">{{ 'title.user_list'|trans }}</a>
             </li>
         </ul>
     </nav>
