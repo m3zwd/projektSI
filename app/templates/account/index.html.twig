@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.account'|trans }}
+{% endblock %}
+
+{% block title_header %}
+    <h1>{{ 'title.account'|trans }}</h1>
+{% endblock %}
+
+{% block body %}
+    {% if user is defined and user|length %}
+        <dl class="dl-horizontal">
+            <dt>{{ 'label.id'|trans }}</dt>
+            <dd>{{ user.id }}</dd>
+            <dt>{{ 'label.email'|trans }}</dt>
+            <dd>{{ user.email }}</dd>
+            <dt>{{ 'label.roles'|trans }}</dt>
+            <dd>{{ user.roles|join(', ') }}</dd>
+            <dt>{{ 'label.password'|trans }}</dt>
+            <dd>{{ user.password }}</dd>
+        </dl>
+
+        <h2>{{ 'title.my_recipes'|trans }}</h2>
+        {% if recipes is defined and recipes|length %}
+            <ul>
+                {% for recipe in recipes %}
+                    <li>
+                        <a href="{{ url('recipe_view', {id: recipe.id}) }}">
+                            {{ recipe.title }}
+                        </a>
+                        – {{ recipe.createdAt|date('Y/m/d') }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>{{ 'label.none'|trans }}</p>
+        {% endif %}
+
+        <p>
+            <a href="{{ url('user_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
+            </a>
+        </p>
+    {% else %}
+        <p>
+            {{ 'message.record_not_found'|trans }}
+        </p>
+    {% endif %}
+{% endblock %}

@@ -31,7 +31,10 @@ class SecurityController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(path: '/login', name: 'app_login')]
+    #[Route(
+        '/login',
+        name: 'app_login'
+    )]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser() instanceof UserInterface) {
@@ -53,7 +56,10 @@ class SecurityController extends AbstractController
     /**
      * Logout action.
      */
-    #[Route(path: '/logout', name: 'app_logout')]
+    #[Route(
+        '/logout',
+        name: 'app_logout'
+    )]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
@@ -69,7 +75,7 @@ class SecurityController extends AbstractController
      * @return Response HTTP response
      */
     #[Route(
-        path: '/change-password',
+        '/change-password',
         name: 'user_change_password'
     )]
     public function changePassword(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response

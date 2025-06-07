@@ -40,14 +40,14 @@
     left: 0;
     width: 100%;
     height: 3px;
-    background-color: #f29c9c; /* kolor podkreślenia */
+    background-color: #ec8787; /* kolor podkreślenia */
     transform: scaleX(0); /* pasek jest domyslnie niewidoczny (scisniety) */
     transform-origin: right; /* rozwija sie od prawej do lewej */
     transition: transform 0.3s ease;
 }
 
 .menu a:hover {
-    color: #f29c9c;
+    color: #ec8787;
 }
 
 /* rozwija pasek od lewej do prawej przy najechaniu */
@@ -58,7 +58,7 @@
 
 /* kolor tekstu i pasek zawsze są widoczne dla aktywnego linku */
 .menu a.active {
-    color: #f29c9c;
+    color: #ec8787;
 }
 
 /* pasek stale rozwiniety, kiedy podstrona jest aktywna */
@@ -69,7 +69,7 @@
     left: 0;
     width: 100%;
     height: 3px;
-    background-color: #f29c9c;
+    background-color: #ec8787;
     transform: scaleX(1);
     transform-origin: left;
 }
