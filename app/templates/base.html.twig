@@ -17,6 +17,26 @@
 </head>
 
 <body>
+    <nav role="navigation" class="menu">
+        <ul>
+            <li>
+                <a href="{{ path('recipe_index') }}"
+                   class="{% if app.request.attributes.get('_route') == 'recipe_index' %} active
+                    {% endif %}">Recipes</a>
+            </li>
+            <li>
+                <a href="{{ path('category_index') }}"
+                   class="{% if app.request.attributes.get('_route') == 'category_index' %} active
+                    {% endif %}">Categories</a>
+            </li>
+            <li>
+                <a href="{{ path('user_index') }}"
+                   class="{% if app.request.attributes.get('_route') == 'user_index' %} active
+                    {% endif %}">Users</a>
+            </li>
+        </ul>
+    </nav>
+
     <header class="header">
         <div class="title_header">
             {% block title_header %}{% endblock %}
@@ -55,6 +75,7 @@
             {% block body %}{% endblock %}
         </div>
     </main>
+
     {% block javascripts %}
         {# {% block importmap %}{{ importmap('app') }}{% endblock %} #}
         <script

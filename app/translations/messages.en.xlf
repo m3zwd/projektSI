@@ -5,7 +5,7 @@
       <!-- Recipes list -->
       <trans-unit id="title.recipe_list">
         <source>title.recipe_list</source>
-        <target>Recipes list</target>
+        <target>Recipes</target>
       </trans-unit>
       <trans-unit id="label.id">
         <source>label.id</source>
@@ -53,7 +53,7 @@
       <!-- Category list -->
       <trans-unit id="title.category_list">
         <source>title.category_list</source>
-        <target>Category list</target>
+        <target>Categories</target>
       </trans-unit>
       <!-- View action for categories -->
       <trans-unit id="title.category_details">
@@ -119,7 +119,7 @@
         <target>Delete recipe</target>
       </trans-unit>
 
-      <!-- Tags (in Create recipe) -->
+      <!-- Tags -->
       <trans-unit id="label.tags">
         <source>label.tags</source>
         <target>Tags</target>
@@ -182,7 +182,7 @@
       </trans-unit>
       <trans-unit id="title.user_list">
         <source>title.user_list</source>
-        <target>Users list</target>
+        <target>Users</target>
       </trans-unit>
       <trans-unit id="label.roles">
         <source>label.roles</source>

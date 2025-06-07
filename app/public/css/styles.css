@@ -1,21 +1,86 @@
-/* Header - tytul strony, nazwa uzytkownika i opcje logowania */
+/* Menu */
+.menu ul {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* zeby menu renderowalo sie nad paginacja */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000000;
+}
+
+.menu li {
+    margin: 0 10px;
+}
+
+.menu a {
+    position: relative;
+    display: block;
+    padding: 14px 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.menu a::after {
+    content: "";
+    position: absolute;
+    bottom: 0; /* odległość od dołu linka */
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #3498db; /* kolor podkreślenia */
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.menu a:hover {
+    color: #95a5a6;
+}
+
+.menu a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.menu a.active {
+    background-color: #333;  /* ciemniejsze tło */
+    color: #f0c040;          /* inny kolor tekstu */
+}
+
+/* Header (naglowek stron) */
 .header {
+    margin-top: 55px; /* zeby menu go nie zaslanialo */
     padding: 12px 24px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
+/* Tytuł strony */
 .title_header h1 {
     margin: 0;
 }
 
+/* Sekcja użytkownika */
 .login_header {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
+/* Nazwa użytkownika (email) */
 .user_show {
     display: flex;
     flex-direction: row;
@@ -26,6 +91,7 @@
     margin: 15px;
 }
 
+/* Opcje logowania */
 .log_options {
     display: flex;
     flex-direction: column;
@@ -40,7 +106,7 @@
     margin: 2px;
 }
 
-/* Paginator i przycisk create */
+/* Sekcja na aginator i przycisk create */
 .bottom {
     display: flex;
     flex-direction: row;
@@ -59,13 +125,14 @@ form label.required::after {
 
 /* Nadpisania Bootstrapa */
 .table.table-striped td {
-    font-size: 13px;
+    font-size: 15px;
     vertical-align: middle;
 }
 
 table.table-striped th {
-    color: #660033;
+    font-size: 17px;
     font-weight: bold;
+    color: #660033;
 }
 
 /* Przyciski */
