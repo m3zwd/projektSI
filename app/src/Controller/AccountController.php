@@ -79,7 +79,7 @@ class AccountController extends AbstractController
             $userService->save($user);
             $this->addFlash('success', 'message.edited_successfully');
 
-            return $this->redirectToRoute('account_show');
+            return $this->redirectToRoute('account_index');
         }
 
         return $this->render('account/edit.html.twig', [

@@ -11,14 +11,21 @@
 {% block body %}
     {% if user is defined and user|length %}
         <dl class="dl-horizontal">
-            <dt>{{ 'label.id'|trans }}</dt>
-            <dd>{{ user.id }}</dd>
             <dt>{{ 'label.email'|trans }}</dt>
             <dd>{{ user.email }}</dd>
+
+            {% if 'ROLE_ADMIN' in user.roles %}
             <dt>{{ 'label.roles'|trans }}</dt>
-            <dd>{{ user.roles|join(', ') }}</dd>
-            <dt>{{ 'label.password'|trans }}</dt>
-            <dd>{{ user.password }}</dd>
+            <dd>
+                {% for role in user.roles %}
+                    {% if role == 'ROLE_ADMIN' %}
+                        <div class="btn btn-secondary btn-sm">{{ 'role.admin'|trans }}</div>
+                    {% elseif role == 'ROLE_USER' %}
+                        <div class="btn btn-outline-secondary btn-sm">{{ 'role.user'|trans }}</div>
+                    {% endif %}
+                {% endfor %}
+            </dd>
+            {% endif %}
         </dl>
 
         <p>
