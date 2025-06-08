@@ -6,6 +6,7 @@
 
 namespace App\Service;
 
+use App\Dto\RecipeListFiltersDto;
 use App\Dto\RecipeListInputFiltersDto;
 use App\Entity\Recipe;
 use App\Entity\User;
@@ -40,4 +41,13 @@ interface RecipeServiceInterface
      * @param Recipe $recipe Recipe entity
      */
     public function delete(Recipe $recipe): void;
+
+    /**
+     * Prepare filters for the recipes list.
+     *
+     * @param RecipeListInputFiltersDto $filters Raw filters from request
+     *
+     * @return RecipeListFiltersDto Result filters
+     */
+    public function prepareFilters(RecipeListInputFiltersDto $filters): RecipeListFiltersDto;
 }

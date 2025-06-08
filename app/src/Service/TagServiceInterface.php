@@ -7,6 +7,7 @@
 namespace App\Service;
 
 use App\Entity\Tag;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * Interface TagServiceInterface.
@@ -35,4 +36,15 @@ interface TagServiceInterface
      * @param Tag $tag Tag entity
      */
     public function delete(Tag $tag): void;
+
+    /**
+     * Find by id.
+     *
+     * @param int $id Tag id
+     *
+     * @return Tag|null Tag entity
+     *
+     * @throws NonUniqueResultException
+     */
+    public function findOneById(int $id): ?Tag;
 }
