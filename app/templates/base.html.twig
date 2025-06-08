@@ -36,6 +36,13 @@
                     {% endif %}">{{ 'title.user_list'|trans }}</a>
             </li>
             {% endif %}
+            {% if is_granted('ROLE_USER') %}
+                <li>
+                    <a href="{{ path('account_index') }}"
+                       class="{% if app.request.attributes.get('_route') == 'account_index' %} active
+                    {% endif %}">{{ 'title.account'|trans }}</a>
+                </li>
+            {% endif %}
         </ul>
     </nav>
 
@@ -51,11 +58,6 @@
                 <div class="log_options">
                     <a href="{{ path('app_logout') }}" class="btn btn-outline-secondary btn-sm">
                     {{ 'action.logout'|trans }} </a>
-                    <!-- zeby przycisk Change password nie wyswietlal sie na formularzu zmiany hasla -->
-                    {% if app.request.attributes.get('_route') != 'user_change_password' %}
-                        <a href="{{ path('user_change_password') }}" class="btn btn-outline-secondary btn-sm">
-                        {{ 'action.change_password'|trans }} </a>
-                    {% endif %}
                 </div>
             <!-- zeby przyciski login i register nie wyswietlaly sie na formularzach logowania i rejestracji -->
             {% elseif (app.request.attributes.get('_route') != 'app_login') and (app.request.attributes.get('_route') != 'app_register') %}

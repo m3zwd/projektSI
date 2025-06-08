@@ -7,7 +7,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\Type\ChangePasswordType;
 use App\Form\Type\RegisterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -63,46 +62,6 @@ class SecurityController extends AbstractController
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-    }
-
-    /**
-     * Change password action.
-     *
-     * @param Request                     $request        Request
-     * @param UserPasswordHasherInterface $passwordHasher Password hasher
-     * @param EntityManagerInterface      $entityManager  Entity manager
-     *
-     * @return Response HTTP response
-     */
-    #[Route(
-        '/change-password',
-        name: 'user_change_password'
-    )]
-    public function changePassword(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
-    {
-        $user = $this->getUser();
-        if (!$user instanceof UserInterface) {
-            throw $this->createAccessDeniedException();
-        }
-
-        $form = $this->createForm(ChangePasswordType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $newPassword = $form->get('plainPassword')->getData();
-            $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
-            $user->setPassword($hashedPassword);
-
-            $entityManager->flush();
-
-            $this->addFlash('success', 'message.passwordChanged');
-
-            return $this->redirectToRoute('recipe_index');
-        }
-
-        return $this->render('security/change_password.html.twig', [
-            'form' => $form->createView(),
-        ]);
     }
 
     /**

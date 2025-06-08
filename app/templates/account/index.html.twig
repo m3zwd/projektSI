@@ -21,6 +21,12 @@
             <dd>{{ user.password }}</dd>
         </dl>
 
+        <p>
+            <a href="{{ url('account_edit') }}" class="btn btn-primary">
+                {{ 'action.account_edit'|trans }}
+            </a>
+        </p>
+
         <h2>{{ 'title.my_recipes'|trans }}</h2>
         {% if recipes is defined and recipes|length %}
             <ul>
@@ -37,11 +43,6 @@
             <p>{{ 'label.none'|trans }}</p>
         {% endif %}
 
-        <p>
-            <a href="{{ url('user_index') }}" title="{{ 'action.back_to_list'|trans }}">
-                {{ 'action.back_to_list'|trans }}
-            </a>
-        </p>
     {% else %}
         <p>
             {{ 'message.record_not_found'|trans }}

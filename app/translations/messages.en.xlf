@@ -47,7 +47,7 @@
       </trans-unit>
       <trans-unit id="action.back_to_list">
         <source>action.back_to_list</source>
-        <target>Back to list</target>
+        <target>Back</target>
       </trans-unit>
 
       <!-- Category list -->
@@ -252,6 +252,10 @@
       </trans-unit>
       <trans-unit id="title.account_edit">
         <source>title.account_edit</source>
+        <target>Edit account</target>
+      </trans-unit>
+      <trans-unit id="action.account_edit">
+        <source>action.account_edit</source>
         <target>Edit account</target>
       </trans-unit>
 
