@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ 'title.recipe_details'|trans({'%id%': recipe.id|default('')}) }}
+    {{ recipe.title }}
 {% endblock %}
 
 {% block title_header %}
-    <h1>{{ 'title.recipe_details'|trans({'%id%': recipe.id|default('')}) }}</h1>
+    <h1>{{ recipe.title }}</h1>
 {% endblock %}
 
 {% block body %}
@@ -15,8 +15,6 @@
                 <dt>{{ 'label.id'|trans }}</dt>
                 <dd>{{ recipe.id }}</dd>
             {% endif %}
-            <dt>{{ 'label.title'|trans }}</dt>
-            <dd>{{  recipe.title }}</dd>
             <dt>{{ 'label.created_at'|trans }}</dt>
             <dd>{{ recipe.createdAt|date('Y/m/d') }}</dd>
             <dt>{{ 'label.updated_at'|trans }}</dt>
