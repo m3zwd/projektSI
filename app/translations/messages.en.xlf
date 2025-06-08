@@ -288,30 +288,6 @@
         <source>message.password_changed</source>
         <target>Password changed.</target>
       </trans-unit>
-      <trans-unit id="message.password_too_short">
-        <source>message.password_too_short</source>
-        <target>Password is too short.</target>
-      </trans-unit>
-      <trans-unit id="message.invalid_current_password">
-        <source>message.invalid_current_password</source>
-        <target>Current password is invalid.</target>
-      </trans-unit>
-      <trans-unit id="message.password_mismatch">
-        <source>message.password_mismatch</source>
-        <target>Passwords mismatch.</target>
-      </trans-unit>
-      <trans-unit id="message.password_blank">
-        <source>message.password_blank</source>
-        <target>Password cannot be blank.</target>
-      </trans-unit>
-      <trans-unit id="message.email_blank">
-        <source>message.email_blank</source>
-        <target>Email cannot be blank.</target>
-      </trans-unit>
-      <trans-unit id="message.invalid_email">
-        <source>message.invalid_email</source>
-        <target>Email is invalid.</target>
-      </trans-unit>
       <trans-unit id="message.registration_successful">
         <source>message.registration_successful</source>
         <target>Registration successful.</target>
