@@ -40,6 +40,10 @@ class CategoryRepository extends ServiceEntityRepository
 
     /**
      * Find by id.
+     *
+     * @param int $id Category ID
+     *
+     * @return Category|null The found category or null if not found
      */
     public function findOneById(int $id): ?Category
     {

@@ -100,6 +100,8 @@ class Comment
 
     /**
      * Setter for author.
+     *
+     * @param User|null $author Author
      */
     public function setAuthor(?User $author): void
     {

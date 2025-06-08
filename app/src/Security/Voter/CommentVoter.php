@@ -83,7 +83,7 @@ final class CommentVoter extends Voter
      * Checks if user can edit comment.
      *
      * @param Comment       $comment Comment entity
-     * @param UserInterface $user   User
+     * @param UserInterface $user    User
      *
      * @return bool Result
      */
@@ -97,7 +97,7 @@ final class CommentVoter extends Voter
      * Checks if user can delete comment.
      *
      * @param Comment       $comment Comment entity
-     * @param UserInterface $user   User
+     * @param UserInterface $user    User
      *
      * @return bool Result
      */

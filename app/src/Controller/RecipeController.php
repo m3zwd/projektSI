@@ -112,6 +112,7 @@ class RecipeController extends AbstractController
             $editComment = $commentRepository->find($editCommentId);
             if (!$editComment || $editComment->getRecipe() !== $recipe || !$this->isGranted('COMMENT_EDIT', $editComment)) {
                 $this->addFlash('error', $this->translator->trans('message.access_denied'));
+
                 return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
             }
 

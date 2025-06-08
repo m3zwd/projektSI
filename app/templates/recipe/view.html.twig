@@ -11,14 +11,16 @@
 {% block body %}
     {% if recipe is defined and recipe|length %}
         <dl class="dl-horizontal">
-            <dt>{{ 'label.id'|trans }}</dt>
-            <dd>{{ recipe.id }}</dd>
+            {% if is_granted('ROLE_ADMIN') %}
+                <dt>{{ 'label.id'|trans }}</dt>
+                <dd>{{ recipe.id }}</dd>
+            {% endif %}
+            <dt>{{ 'label.title'|trans }}</dt>
+            <dd>{{  recipe.title }}</dd>
             <dt>{{ 'label.created_at'|trans }}</dt>
             <dd>{{ recipe.createdAt|date('Y/m/d') }}</dd>
             <dt>{{ 'label.updated_at'|trans }}</dt>
             <dd>{{ recipe.updatedAt|date('Y/m/d') }}</dd>
-            <dt>{{ 'label.title'|trans }}</dt>
-            <dd>{{  recipe.title }}</dd>
             <dt>{{ 'label.category'|trans }}</dt>
             <dd>{{  recipe.category.title }}</dd>
             <dt>{{ 'label.author'|trans }}</dt>

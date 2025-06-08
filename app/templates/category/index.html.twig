@@ -18,20 +18,24 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'category.id') }}</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'category.id') }}</th>
+                {% endif %}
+                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'category.title') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'category.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'category.updatedAt') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'category.title') }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
             <tbody>
             {% for category in pagination.items %}
                 <tr>
-                    <td>{{ category.id }}</td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td>{{ category.id }}</td>
+                    {% endif %}
+                    <td>{{ category.title }}</td>
                     <td>{{ category.createdAt|format_date('long') }}</td>
                     <td>{{ category.updatedAt|format_date('long') }}</td>
-                    <td>{{ category.title }}</td>
                     <td>
                         <a class="btn btn-outline-success btn-sm" href="{{ url('category_view', {id: category.id}) }}" title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}

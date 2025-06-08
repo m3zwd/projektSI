@@ -39,8 +39,8 @@ class CommentType extends AbstractType
             [
                 'label' => 'label.comment',
                 'attr' => ['rows' => 5],
-            ])
-        ;
+            ]
+        );
     }
 
     /**

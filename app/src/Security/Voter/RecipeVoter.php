@@ -111,6 +111,7 @@ final class RecipeVoter extends Voter
         if ($recipe->getAuthor() === $user) {
             return true;
         }
+
         return in_array('ROLE_ADMIN', $user->getRoles(), true);
     }
 }

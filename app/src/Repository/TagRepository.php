@@ -6,6 +6,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -31,6 +32,10 @@ class TagRepository extends ServiceEntityRepository
 
     /**
      * Find by id.
+     *
+     * @param int $id Tag ID
+     *
+     * @return Tag|null The found tag or null if not found
      */
     public function findOneById(int $id): ?Tag
     {

@@ -30,10 +30,12 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'recipe.id') }}</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'recipe.id') }}</th>
+                {% endif %}
+                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'recipe.title') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'recipe.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'recipe.updatedAt') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'recipe.title') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.title') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.author'|trans, 'recipe.author.email') }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
@@ -42,10 +44,12 @@
             <tbody>
             {% for recipe in pagination.items %}
                 <tr>
-                    <td>{{ recipe.id }}</td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td>{{ recipe.id }}</td>
+                    {% endif %}
+                    <td>{{ recipe.title }}</td>
                     <td>{{ recipe.createdAt|format_date('long') }}</td>
                     <td>{{ recipe.updatedAt|format_date('long') }}</td>
-                    <td>{{ recipe.title }}</td>
                     <td>{{ recipe.category.title }}</td>
                     <td>{{ recipe.author.email }}</td>
                     <td>

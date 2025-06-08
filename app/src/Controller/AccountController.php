@@ -28,7 +28,7 @@ class AccountController extends AbstractController
      * Constructor.
      *
      * @param UserServiceInterface $userService User service
-     * @param TranslatorInterface $translator Translator
+     * @param TranslatorInterface  $translator  Translator
      */
     public function __construct(private readonly UserServiceInterface $userService, private readonly TranslatorInterface $translator)
     {
@@ -49,6 +49,7 @@ class AccountController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         $recipes = $this->userService->getRecipesByUser($user);
+
         return $this->render('account/index.html.twig', [
             'user' => $user,
             'recipes' => $recipes,

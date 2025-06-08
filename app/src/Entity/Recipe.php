@@ -267,6 +267,8 @@ class Recipe
 
     /**
      * Setter for author.
+     *
+     * @param User|null $author Author
      */
     public function setAuthor(?User $author): void
     {
@@ -298,6 +300,8 @@ class Recipe
 
     /**
      * Remove comment.
+     *
+     * @param Comment $comment Comment
      */
     public function removeComment(Comment $comment): void
     {

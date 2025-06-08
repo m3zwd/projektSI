@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Comment fixtures.
+ */
+
 namespace App\DataFixtures;
 
 use App\Entity\Comment;
@@ -14,6 +18,13 @@ use Faker\Generator;
  */
 class CommentFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
+    /**
+     * Load data.
+     *
+     * @psalm-suppress PossiblyNullPropertyFetch
+     * @psalm-suppress PossiblyNullReference
+     * @psalm-suppress UnusedClosureParam
+     */
     public function loadData(): void
     {
         if (!$this->manager instanceof ObjectManager || !$this->faker instanceof Generator) {
@@ -41,6 +52,12 @@ class CommentFixtures extends AbstractBaseFixtures implements DependentFixtureIn
         $this->manager->flush();
     }
 
+    /**
+     * This method must return an array of fixtures classes
+     * on which the implementing class depends on.
+     *
+     * @return string[] of dependencies
+     */
     public function getDependencies(): array
     {
         return [UserFixtures::class, RecipeFixtures::class];
