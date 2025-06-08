@@ -35,6 +35,8 @@ class AccountController extends AbstractController
 
     /**
      * Index action.
+     *
+     * @return Response HTTP response
      */
     #[Route(
         '/account',
@@ -58,6 +60,8 @@ class AccountController extends AbstractController
      *
      * @param Request                     $request        HTTP request
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
+     *
+     * @return Response HTTP response
      */
     #[Route(
         '/account/edit',

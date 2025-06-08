@@ -90,6 +90,7 @@ class UserController extends AbstractController
      * Edit action.
      *
      * @param Request                     $request        HTTP request
+     * @param User                        $user           User
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
      *
      * @return Response HTTP response

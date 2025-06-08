@@ -10,14 +10,39 @@
 
 {% block body %}
     <form method="get" action="{{ path('recipe_index') }}" class="mb-4">
-        <div class="form-check">
+        <div class="mb-3">
+            <label for="categoryId" class="form-label">Kategoria:</label>
+            <select name="categoryId" id="categoryId" class="form-select">
+                <option value="">-- Wszystkie --</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {{ category.id == app.request.get('categoryId') ? 'selected' : '' }}>
+                        {{ category.title }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="tagId" class="form-label">Tag:</label>
+            <select name="tagId" id="tagId" class="form-select">
+                <option value="">-- Wszystkie --</option>
+                {% for tag in tags %}
+                    <option value="{{ tag.id }}" {{ tag.id == app.request.get('tagId') ? 'selected' : '' }}>
+                        {{ tag.title }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" name="onlyMine" value="1" id="onlyMine"
                    {% if app.request.get('onlyMine') %}checked{% endif %}>
             <label class="form-check-label" for="onlyMine">
                 Tylko moje przepisy
             </label>
         </div>
-        <button type="submit" class="btn btn-outline-primary mt-2">
+
+        <button type="submit" class="btn btn-outline-primary">
             Filtruj
         </button>
     </form>

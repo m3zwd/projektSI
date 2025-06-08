@@ -110,12 +110,8 @@ final class CommentVoter extends Voter
 
         // jesli uzytkownik jest adminem
         if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
-            // jesli autor komentarza rowniez jest adminem, to zabron usuwania
-            if (in_array('ROLE_ADMIN', $comment->getAuthor()->getRoles(), true)) {
-                return false;
-            }
-            // adnim moze usuwac kom zwyklych uzytkownikow
-            return true;
+            // jesli autor kom jest jednoczesnie adminem, to zabron usuwania, ale admimn moze usuwac kom zwyklych uzytkownikow
+            return !in_array('ROLE_ADMIN', $comment->getAuthor()->getRoles(), true);
         }
 
         return false;

@@ -10,7 +10,7 @@ use App\Entity\Tag;
 use App\Repository\TagRepository;
 
 /**
- * Class RecipeService.
+ * Class TagService.
  */
 class TagService implements TagServiceInterface
 {

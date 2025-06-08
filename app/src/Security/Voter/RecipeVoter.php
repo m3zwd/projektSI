@@ -94,6 +94,7 @@ final class RecipeVoter extends Voter
         if ($recipe->getAuthor() === $user) {
             return true;
         }
+
         // jesli uzytkownik nie jest autorem ani adminem, to nie pozwala na edycje
         return in_array('ROLE_ADMIN', $user->getRoles(), true);
     }

@@ -12,7 +12,9 @@ use App\Entity\Recipe;
 use App\Entity\User;
 use App\Form\Type\CommentType;
 use App\Form\Type\RecipeType;
+use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
+use App\Repository\TagRepository;
 use App\Resolver\RecipeListInputFiltersDtoResolver;
 use App\Security\Voter\RecipeVoter;
 use App\Service\RecipeServiceInterface;
@@ -34,10 +36,12 @@ class RecipeController extends AbstractController
     /**
      * Constructor.
      *
-     * @param RecipeServiceInterface $recipeService Recipe service
-     * @param TranslatorInterface    $translator    Translator
+     * @param RecipeServiceInterface $recipeService      Recipe service
+     * @param TranslatorInterface    $translator         Translator
+     * @param CategoryRepository     $categoryRepository Category repository
+     * @param TagRepository          $tagRepository      Tag repository
      */
-    public function __construct(private readonly RecipeServiceInterface $recipeService, private readonly TranslatorInterface $translator)
+    public function __construct(private readonly RecipeServiceInterface $recipeService, private readonly TranslatorInterface $translator, private readonly CategoryRepository $categoryRepository, private readonly TagRepository $tagRepository)
     {
     }
 
@@ -64,7 +68,19 @@ class RecipeController extends AbstractController
             $filters
         );
 
-        return $this->render('recipe/index.html.twig', ['pagination' => $pagination]);
+        // pobranie wszystkich kategorii i tagów z repozytoriów
+        $categories = $this->categoryRepository->findAll();
+        $tags = $this->tagRepository->findAll();
+
+        return $this->render(
+            'recipe/index.html.twig',
+            [
+                'pagination' => $pagination,
+                'categories' => $categories,
+                'tags' => $tags,
+                'filters' => $filters,
+            ]
+        );
     }
 
     /**

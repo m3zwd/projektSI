@@ -119,8 +119,6 @@ class RecipeRepository extends ServiceEntityRepository
      *
      * @param User|null                 $author  Currently logged-in user
      * @param RecipeListInputFiltersDto $filters Filters
-     *
-     * @return QueryBuilder
      */
     public function queryByFilters(?User $author, RecipeListInputFiltersDto $filters): QueryBuilder
     {

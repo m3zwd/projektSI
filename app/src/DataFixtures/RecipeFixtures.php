@@ -62,14 +62,14 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
             $author = $this->getRandomReference('user', User::class);
             $recipe->setAuthor($author);
 
-            /** var Comment $comments
-            $comments = $this->getRandomReferenceList('comment', Comment::class, $this->faker->numberBetween(0, 5));
-            foreach ($comments as $comment) {
-                $comment->setRecipe($recipe);     // przypisujemy komentarz do przepisu
-                $recipe->addComment($comment);    // (jeśli masz relację odwrotną)
-                $this->manager->persist($comment);
-            }
-            */
+            /* var Comment $comments
+             * $comments = $this->getRandomReferenceList('comment', Comment::class, $this->faker->numberBetween(0, 5));
+             * foreach ($comments as $comment) {
+             * $comment->setRecipe($recipe);     // przypisujemy komentarz do przepisu
+             * $recipe->addComment($comment);    // (jeśli masz relację odwrotną)
+             * $this->manager->persist($comment);
+             * }
+             */
 
             return $recipe;
         });

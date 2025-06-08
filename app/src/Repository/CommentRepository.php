@@ -40,8 +40,6 @@ class CommentRepository extends ServiceEntityRepository
 
     /**
      * Delete entity.
-     *
-     * @param Comment $comment
      */
     public function delete(Comment $comment): void
     {
