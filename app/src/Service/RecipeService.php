@@ -6,7 +6,6 @@
 
 namespace App\Service;
 
-use App\Dto\RecipeListFiltersDto;
 use App\Dto\RecipeListInputFiltersDto;
 use App\Entity\Recipe;
 use App\Entity\User;
@@ -34,12 +33,10 @@ class RecipeService implements RecipeServiceInterface
     /**
      * Constructor.
      *
-     * @param CategoryServiceInterface $categoryService  Category service
      * @param PaginatorInterface       $paginator        Paginator
      * @param RecipeRepository         $recipeRepository Recipe repository
-     * @param TagServiceInterface      $tagService       Tag service
      */
-    public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly PaginatorInterface $paginator, private readonly RecipeRepository $recipeRepository, private readonly TagServiceInterface $tagService)
+    public function __construct(private readonly RecipeRepository $recipeRepository, private readonly PaginatorInterface $paginator)
     {
     }
 
@@ -54,10 +51,10 @@ class RecipeService implements RecipeServiceInterface
      */
     public function getPaginatedList(int $page, ?User $author, RecipeListInputFiltersDto $filters): PaginationInterface
     {
-        $filters = $this->prepareFilters($filters);
+        $query = $this->recipeRepository->queryByFilters($author, $filters);
 
         return $this->paginator->paginate(
-            $this->recipeRepository->queryAll($author, $filters),
+            $query,
             $page,
             self::PAGINATOR_ITEMS_PER_PAGE,
             [
@@ -86,21 +83,5 @@ class RecipeService implements RecipeServiceInterface
     public function delete(Recipe $recipe): void
     {
         $this->recipeRepository->delete($recipe);
-    }
-
-    /**
-     * Prepare filters for the recipes list.
-     *
-     * @param RecipeListInputFiltersDto $filters Raw filters from request
-     *
-     * @return RecipeListFiltersDto Result filters
-     */
-    public function prepareFilters(RecipeListInputFiltersDto $filters): RecipeListFiltersDto
-    {
-        return new RecipeListFiltersDto(
-            null !== $filters->categoryId ? $this->categoryService->findOneById($filters->categoryId) : null,
-            null !== $filters->tagId ? $this->tagService->findOneById($filters->tagId) : null,
-            $filters->onlyMine  // przekazanie boolean
-        );
     }
 }

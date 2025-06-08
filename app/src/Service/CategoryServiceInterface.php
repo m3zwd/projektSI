@@ -8,7 +8,6 @@ namespace App\Service;
 
 use App\Entity\Category;
 use App\Entity\Recipe;
-use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
@@ -56,15 +55,4 @@ interface CategoryServiceInterface
      * @return bool Result
      */
     public function canBeDeleted(Category $category): bool;
-
-    /**
-     * Find by id.
-     *
-     * @param int $id Category id
-     *
-     * @return Category|null Category entity
-     *
-     * @throws NonUniqueResultException
-     */
-    public function findOneById(int $id): ?Category;
 }
