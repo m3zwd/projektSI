@@ -8,7 +8,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\Type\RegisterType;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\UserServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +23,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class SecurityController extends AbstractController
 {
+    /**
+     * Constructor.
+     *
+     * @param UserServiceInterface $userService User service
+     * @param TranslatorInterface  $translator  Translator
+     */
+    public function __construct(private readonly UserServiceInterface $userService, private readonly TranslatorInterface $translator)
+    {
+    }
+
     /**
      * Login action.
      *
@@ -68,9 +78,7 @@ class SecurityController extends AbstractController
      * Register action.
      *
      * @param Request                     $request        Request
-     * @param EntityManagerInterface      $entityManager  Entity manager
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
-     * @param TranslatorInterface         $translator     Translator interface
      *
      * @return Response HTTP response
      */
@@ -78,7 +86,7 @@ class SecurityController extends AbstractController
         '/register',
         name: 'app_register'
     )]
-    public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator): Response
+    public function register(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(RegisterType::class, $user);
@@ -91,10 +99,12 @@ class SecurityController extends AbstractController
 
             $user->setRoles(['ROLE_USER']);
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->userService->save($user);
 
-            $this->addFlash('success', $translator->trans('message.registration_successful'));
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.registration_successful')
+            );
 
             return $this->redirectToRoute('app_login');
         }

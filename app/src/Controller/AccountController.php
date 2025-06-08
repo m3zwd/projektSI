@@ -7,8 +7,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\Type\AccountType;
-use App\Form\Type\ChangePasswordType;
+use App\Form\Type\AccountEditType;
 use App\Service\UserServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,8 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class AccountController.
@@ -29,8 +28,9 @@ class AccountController extends AbstractController
      * Constructor.
      *
      * @param UserServiceInterface $userService User service
+     * @param TranslatorInterface $translator Translator
      */
-    public function __construct(private readonly UserServiceInterface $userService)
+    public function __construct(private readonly UserServiceInterface $userService, private readonly TranslatorInterface $translator)
     {
     }
 
@@ -58,8 +58,8 @@ class AccountController extends AbstractController
     /**
      * Edit action.
      *
-     * @param Request              $request     HTTP request
-     * @param UserServiceInterface $userService User service interface
+     * @param Request                     $request        HTTP request
+     * @param UserPasswordHasherInterface $passwordHasher Password hasher
      *
      * @return Response
      */
@@ -68,16 +68,33 @@ class AccountController extends AbstractController
         name: 'account_edit',
         methods: 'GET|POST'
     )]
-    public function edit(Request $request, UserServiceInterface $userService): Response
+    public function edit(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         /** @var User $user */
         $user = $this->getUser();
-        $form = $this->createForm(AccountType::class, $user, ['method' => 'POST']);
+
+        $form = $this->createForm(AccountEditType::class, $user, ['method' => 'POST']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userService->save($user);
-            $this->addFlash('success', 'message.edited_successfully');
+            $plainPassword = $form->get('plainPassword')->getData();
+
+            if ($plainPassword) {
+                $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
+                $user->setPassword($hashedPassword);
+
+                $this->addFlash(
+                    'success',
+                    $this->translator->trans('message.password_changed')
+                );
+            }
+
+            $this->userService->save($user);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.edited_successfully')
+            );
 
             return $this->redirectToRoute('account_index');
         }
@@ -96,19 +113,20 @@ class AccountController extends AbstractController
      *
      * @return Response HTTP response
      */
+    /*
     #[Route(
         'account/change-password',
         name: 'account_change_password'
     )]
     public function changePassword(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
     {
-        /** @var User $user */
+        /** @var User $user */ /*
         $user = $this->getUser();
         if (!$user instanceof UserInterface) {
             throw $this->createAccessDeniedException();
         }
 
-        $form = $this->createForm(ChangePasswordType::class);
+        $form = $this->createForm(AccountEditType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -127,4 +145,5 @@ class AccountController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    */
 }

@@ -38,22 +38,24 @@ class RegisterType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'label' => 'label.email',
+                'required' => true,
                 'constraints' => [
-                    new NotBlank(['message' => 'message.emailBlank']),
-                    new Email(['message' => 'message.invalidEmail']),
+                    new NotBlank(['message' => 'message.email_blank']),
+                    new Email(['message' => 'message.invalid_email']),
                 ],
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'mapped' => false,
+                'required' => true,
                 'first_options' => ['label' => 'label.password'],
-                'second_options' => ['label' => 'label.repeatPassword'],
-                'invalid_message' => 'message.passwordMismatch',
+                'second_options' => ['label' => 'label.repeat_password'],
+                'invalid_message' => 'message.password_mismatch',
                 'constraints' => [
-                    new NotBlank(['message' => 'message.passwordBlank']),
+                    new NotBlank(['message' => 'message.password_blank']),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'message.passwordTooShort',
+                        'minMessage' => 'message.password_too_short',
                     ]),
                 ],
             ]);
