@@ -25,9 +25,13 @@
                     {% endif %}
                 {% endfor %}
             </dd>
-            <dt>{{ 'label.password'|trans }}</dt>
-            <dd>{{ user.password }}</dd>
         </dl>
+
+        <p>
+            <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-primary">
+                {{ 'action.user_edit'|trans }}
+            </a>
+        </p>
 
         <h2>{{ 'title.user_recipes'|trans }}</h2>
         {% if recipes is defined and recipes|length %}

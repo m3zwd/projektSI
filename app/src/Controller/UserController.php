@@ -8,12 +8,14 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Service\UserServiceInterface;
-use App\Form\Type\UserType;
+use App\Form\Type\UserEditType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -68,6 +70,11 @@ class UserController extends AbstractController
     )]
     public function view(User $user): Response
     {
+        // blokada podglądu konta innego admina
+        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+            throw new AccessDeniedException('Access denied.');
+        }
+
         $recipes = $this->userService->getRecipesByUser($user);
 
         return $this->render(
@@ -82,8 +89,8 @@ class UserController extends AbstractController
     /**
      * Edit action.
      *
-     * @param Request $request HTTP request
-     * @param User    $user    User entity
+     * @param Request                     $request        HTTP request
+     * @param UserPasswordHasherInterface $passwordHasher Password hasher
      *
      * @return Response HTTP response
      */
@@ -93,10 +100,15 @@ class UserController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET|PUT'
     )]
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, User $user, UserPasswordHasherInterface $passwordHasher): Response
     {
+        // blokada edycji konta innego admina (wlacznie z tym zalogowanym, bo obsluga edycji konta jest w sekcji Account)
+        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+            throw new AccessDeniedException('Access denied.');
+        }
+
         $form = $this->createForm(
-            UserType::class,
+            UserEditType::class,
             $user,
             [
                 'method' => 'PUT',
@@ -106,6 +118,18 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $plainPassword = $form->get('plainPassword')->getData();
+
+            if ($plainPassword) {
+                $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
+                $user->setPassword($hashedPassword);
+
+                $this->addFlash(
+                    'success',
+                    $this->translator->trans('message.password_changed')
+                );
+            }
+
             $this->userService->save($user);
 
             $this->addFlash(

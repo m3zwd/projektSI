@@ -9,7 +9,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\Type\AccountEditType;
 use App\Service\UserServiceInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,8 +35,6 @@ class AccountController extends AbstractController
 
     /**
      * Index action.
-     *
-     * @return Response
      */
     #[Route(
         '/account',
@@ -61,8 +58,6 @@ class AccountController extends AbstractController
      *
      * @param Request                     $request        HTTP request
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
-     *
-     * @return Response
      */
     #[Route(
         '/account/edit',
@@ -105,7 +100,7 @@ class AccountController extends AbstractController
         ]);
     }
 
-    /**
+    /*
      * Change password action.
      *
      * @param Request                     $request        Request

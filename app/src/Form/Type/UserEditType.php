@@ -1,7 +1,7 @@
 <?php
 
 /**
- * User type.
+ * User edit type.
  */
 
 namespace App\Form\Type;
@@ -16,9 +16,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
- * Class UserType.
+ * Class UserEditType.
  */
-class UserType extends AbstractType
+class UserEditType extends AbstractType
 {
     /**
      * Constructor.
@@ -67,11 +67,12 @@ class UserType extends AbstractType
         );
 
         $builder->add(
-            'password',
+            'plainPassword',
             PasswordType::class,
             [
-                'label' => 'label.password',
-                'required' => true,
+                'label' => 'label.new_password',
+                'required' => false,
+                'mapped' => false,
             ]
         );
     }
