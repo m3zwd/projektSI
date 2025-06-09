@@ -259,6 +259,32 @@
         <target>Repeat password</target>
       </trans-unit>
 
+      <!-- Filters -->
+      <trans-unit id="label.filters">
+        <source>label.filters</source>
+        <target>Filters</target>
+      </trans-unit>
+      <trans-unit id="label.all">
+        <source>label.all</source>
+        <target>All</target>
+      </trans-unit>
+      <trans-unit id="label.only_mine">
+        <source>label.only_mine</source>
+        <target>View only my own recipes</target>
+      </trans-unit>
+      <trans-unit id="action.filter">
+        <source>action.filter</source>
+        <target>Filter</target>
+      </trans-unit>
+      <trans-unit id="action.hide_filters">
+        <source>action.hide_filters</source>
+        <target>Hide filters</target>
+      </trans-unit>
+      <trans-unit id="action.show_filters">
+        <source>action.show_filters</source>
+        <target>Show filters</target>
+      </trans-unit>
+
       <!-- Messages -->
       <trans-unit id="message.empty_list">
         <source>message.empty_list</source>

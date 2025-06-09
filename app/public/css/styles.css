@@ -74,11 +74,6 @@
     transform-origin: left;
 }
 
-
-
-
-
-
 /* HEADER (naglowek stron) */
 .header {
     margin-top: 55px; /* zeby menu go nie zaslanialo */
@@ -124,6 +119,23 @@
 
 .login_register a {
     margin: 2px;
+}
+
+/* FILTRY */
+#filter_form {
+    display: none; /* domyslnie ukryty */
+    padding: 5px;
+    border: 1px solid #aaaaaa;
+}
+
+.filters_bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
+.form-check-input:checked {
+    background-color: #660033;
 }
 
 /* DÓŁ STRONY (sekcja na paginator i przycisk create) */

@@ -9,11 +9,16 @@
 {% endblock %}
 
 {% block body %}
-    <form method="get" action="{{ path('recipe_index') }}" class="mb-4">
+    <!-- przycisk do pokazania formularza filtrów -->
+    <button class="btn btn-primary mb-3" onclick="toggleFilterForm()">
+        {{ 'label.filters'|trans }}
+    </button>
+
+    <form id="filter_form" method="get" action="{{ path('recipe_index') }}" class="mb-4">
         <div class="mb-3">
-            <label for="categoryId" class="form-label">Kategoria:</label>
+            <label for="categoryId" class="form label">{{ 'label.category'|trans }}</label>
             <select name="categoryId" id="categoryId" class="form-select">
-                <option value="">-- Wszystkie --</option>
+                <option value="">{{ 'label.all'|trans }}</option>
                 {% for category in categories %}
                     <option value="{{ category.id }}" {{ category.id == app.request.get('categoryId') ? 'selected' : '' }}>
                         {{ category.title }}
@@ -23,9 +28,9 @@
         </div>
 
         <div class="mb-3">
-            <label for="tagId" class="form-label">Tag:</label>
+            <label for="tagId" class="form label">{{ 'label.tags'|trans }}</label>
             <select name="tagId" id="tagId" class="form-select">
-                <option value="">-- Wszystkie --</option>
+                <option value="">{{ 'label.all'|trans }}</option>
                 {% for tag in tags %}
                     <option value="{{ tag.id }}" {{ tag.id == app.request.get('tagId') ? 'selected' : '' }}>
                         {{ tag.title }}
@@ -38,13 +43,15 @@
             <input class="form-check-input" type="checkbox" name="onlyMine" value="1" id="onlyMine"
                    {% if app.request.get('onlyMine') %}checked{% endif %}>
             <label class="form-check-label" for="onlyMine">
-                Tylko moje przepisy
+                {{ 'label.only_mine'|trans }}
             </label>
         </div>
 
-        <button type="submit" class="btn btn-outline-primary">
-            Filtruj
-        </button>
+        <div class="filters_bottom">
+            <button type="submit" class="btn btn-primary">
+                {{ 'action.filter'|trans }}
+            </button>
+        </div>
     </form>
 
     {% if pagination is defined and pagination.items|length %}
@@ -117,4 +124,22 @@
             message: 'message.empty_list'|trans
         } %}
     {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function toggleFilterForm() {
+            const form = document.getElementById('filter_form');
+            const btn = document.getElementById('filterToggleBtn');
+
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block';
+                if (btn) btn.innerHTML = '<i class="bi bi-funnel"></i> {{ "action.hide_filters"|trans }}';
+            } else {
+                form.style.display = 'none';
+                if (btn) btn.innerHTML = '<i class="bi bi-funnel"></i> {{ "action.show_filters"|trans }}';
+            }
+        }
+    </script>
 {% endblock %}
