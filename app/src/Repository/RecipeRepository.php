@@ -142,9 +142,10 @@ class RecipeRepository extends ServiceEntityRepository
                 ->setParameter('categoryId', $filters->categoryId);
         }
 
-        if (null !== $filters->tagId) {
-            $qb->andWhere(':tagId MEMBER OF recipe.tags')
-                ->setParameter('tagId', $filters->tagId);
+        // szukanie przepisu, który ma dowolny tag z pobranych
+        if (!empty($filters->tagIds)) {
+            $qb->andWhere('tags.id IN (:tagIds)')
+                ->setParameter('tagIds', $filters->tagIds);
         }
 
         return $qb;

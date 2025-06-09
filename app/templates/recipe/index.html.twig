@@ -9,12 +9,14 @@
 {% endblock %}
 
 {% block body %}
-    <!-- przycisk do pokazania formularza filtrów -->
+    {# przycisk do pokazania formularza filtrów #}
     <button class="btn btn-primary mb-3" onclick="toggleFilterForm()">
         {{ 'label.filters'|trans }}
     </button>
 
+    {# formularz filtrów #}
     <form id="filter_form" method="get" action="{{ path('recipe_index') }}" class="mb-4">
+        {# filtry kategorii #}
         <div class="mb-3">
             <label for="categoryId" class="form label">{{ 'label.category'|trans }}</label>
             <select name="categoryId" id="categoryId" class="form-select">
@@ -27,18 +29,54 @@
             </select>
         </div>
 
+        {# filtry tagów #}
+        {% set rawTagIds = app.request.get('tagIds') %}
+        {% set selectedTagIds = rawTagIds is iterable ? rawTagIds : (rawTagIds ? [rawTagIds] : []) %}
         <div class="mb-3">
-            <label for="tagId" class="form label">{{ 'label.tags'|trans }}</label>
-            <select name="tagId" id="tagId" class="form-select">
-                <option value="">{{ 'label.all'|trans }}</option>
-                {% for tag in tags %}
-                    <option value="{{ tag.id }}" {{ tag.id == app.request.get('tagId') ? 'selected' : '' }}>
-                        {{ tag.title }}
-                    </option>
-                {% endfor %}
-            </select>
+            <label class="form-label">{{ 'label.tags'|trans }}</label>
+            <div class="dropdown">
+                <button
+                        class="btn btn-outline-secondary dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        data-bs-auto-close="outside"
+                        aria-expanded="false">
+                    {{ 'label.select_tags'|trans }}
+                </button>
+                <div class="dropdown-menu p-3">
+                    <div class="form-check">
+                        <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="tags[]"
+                                value=""
+                                id="tagAll"
+                                {{ not app.request.get('tagIds') ? 'checked' : '' }}
+                        >
+                        <label class="form-check-label" for="tagAll">
+                            {{ 'label.all'|trans }}
+                        </label>
+                    </div>
+                    {% for tag in tags %}
+                        <div class="form-check">
+                            <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="tags[]"
+                                    value="{{ tag.id }}"
+                                    id="tag_{{ tag.id }}"
+                                    {{ tag.id in selectedTagIds ? 'checked' : '' }}
+                            >
+                            <label class="form-check-label" for="tag_{{ tag.id }}">
+                                {{ tag.title }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
 
+        {# filtry użytkownika #}
         <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" name="onlyMine" value="1" id="onlyMine"
                    {% if app.request.get('onlyMine') %}checked{% endif %}>
@@ -47,6 +85,7 @@
             </label>
         </div>
 
+        {# przycisk do filtrowania #}
         <div class="filters_bottom">
             <button type="submit" class="btn btn-primary">
                 {{ 'action.filter'|trans }}

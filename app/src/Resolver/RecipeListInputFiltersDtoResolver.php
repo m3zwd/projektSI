@@ -45,13 +45,17 @@ class RecipeListInputFiltersDtoResolver implements ValueResolverInterface
 
         // raw - wartość pobrana bezpośrednio z requestu, surowa jeszcze niezmieniona, moze byc int string null itd
         $categoryIdRaw = $request->query->get('categoryId');
-        $tagIdRaw = $request->query->get('tagId');
+        //$tagIdRaw = $request->query->get('tagId');
+        $tagIdsRaw = $request->query->all('tags'); // tablica tagów zamiast pojedynczego tagu
         $onlyMineRaw = $request->query->get('onlyMine', false);
 
         // konwersja na ?int
         // jesli $categoryIdRaw jest liczbą, to wartosc jest rzutowana na typ całkowity
         $categoryId = is_numeric($categoryIdRaw) ? (int) $categoryIdRaw : null;
-        $tagId = is_numeric($tagIdRaw) ? (int) $tagIdRaw : null;
+
+        // filtrowanie tylko numerycznych tagów
+        $tagIds = array_filter($tagIdsRaw, fn($id) => is_numeric($id));
+        $tagIds = array_map('intval', $tagIds);
 
         // konwersja na bool
         $onlyMine = filter_var($onlyMineRaw, FILTER_VALIDATE_BOOLEAN);
@@ -61,6 +65,6 @@ class RecipeListInputFiltersDtoResolver implements ValueResolverInterface
         yield zwraca pojedynczy, iterowalny element bez tworzenia całej tablicy.
         tutaj lepszy niz return, bo zwracamy tylko 1 obiekt
         */
-        yield new RecipeListInputFiltersDto($categoryId, $tagId, $onlyMine);
+        yield new RecipeListInputFiltersDto($categoryId, $tagIds, $onlyMine);
     }
 }

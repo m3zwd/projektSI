@@ -284,6 +284,14 @@
         <source>action.show_filters</source>
         <target>Show filters</target>
       </trans-unit>
+      <trans-unit id="label.select_categories">
+        <source>label.select_categories</source>
+        <target>Select categories</target>
+      </trans-unit>
+      <trans-unit id="label.select_tags">
+        <source>label.select_tags</source>
+        <target>Select tags</target>
+      </trans-unit>
 
       <!-- Messages -->
       <trans-unit id="message.empty_list">

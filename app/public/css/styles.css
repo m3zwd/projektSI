@@ -138,6 +138,11 @@
     background-color: #660033;
 }
 
+.dropdown-menu.p-3 {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
 /* DÓŁ STRONY (sekcja na paginator i przycisk create) */
 .bottom {
     display: flex;

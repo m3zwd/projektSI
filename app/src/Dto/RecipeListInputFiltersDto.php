@@ -15,10 +15,10 @@ class RecipeListInputFiltersDto
      * Constructor.
      *
      * @param int|null $categoryId Category identifier
-     * @param int|null $tagId      Tag identifier
+     * @param array    $tagIds     Tags identifier
      * @param bool     $onlyMine   User's recipes identifier
      */
-    public function __construct(public readonly ?int $categoryId = null, public readonly ?int $tagId = null, public readonly bool $onlyMine = false)
+    public function __construct(public readonly ?int $categoryId = null, public readonly array $tagIds = [], public readonly bool $onlyMine = false)
     {
     }
 }
