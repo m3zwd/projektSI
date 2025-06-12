@@ -7,7 +7,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\Type\AccountEditType;
+use App\Form\Type\AccountType;
+use App\Form\Type\ChangePasswordType;
 use App\Service\UserServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,7 +74,7 @@ class AccountController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        $form = $this->createForm(AccountEditType::class, $user, ['method' => 'POST']);
+        $form = $this->createForm(AccountType::class, $user, ['method' => 'POST']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -113,20 +114,17 @@ class AccountController extends AbstractController
      *
      * @return Response HTTP response
      */
-    /*
     #[Route(
         'account/change-password',
-        name: 'account_change_password'
+        name: 'account_change_password',
+        methods: 'GET|POST'
     )]
-    public function changePassword(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
+    public function changePassword(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
-        /** @var User $user */ /*
+        /** @var User $user */
         $user = $this->getUser();
-        if (!$user instanceof UserInterface) {
-            throw $this->createAccessDeniedException();
-        }
 
-        $form = $this->createForm(AccountEditType::class);
+        $form = $this->createForm(ChangePasswordType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -134,9 +132,9 @@ class AccountController extends AbstractController
             $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
             $user->setPassword($hashedPassword);
 
-            $entityManager->flush();
+            $this->userService->save($user);
 
-            $this->addFlash('success', 'message.passwordChanged');
+            $this->addFlash('success', $this->translator->trans('message.password_changed'));
 
             return $this->redirectToRoute('account_index');
         }
@@ -145,5 +143,4 @@ class AccountController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    */
 }

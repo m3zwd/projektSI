@@ -32,6 +32,11 @@
                 {{ 'action.account_edit'|trans }}
             </a>
         </p>
+        <p>
+            <a href="{{ url('account_change_password') }}" class="btn btn-primary">
+                {{ 'action.change_password'|trans }}
+            </a>
+        </p>
 
         <h2>{{ 'title.my_recipes'|trans }}</h2>
         {% if recipes is defined and recipes|length %}

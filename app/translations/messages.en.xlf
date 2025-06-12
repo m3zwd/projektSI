@@ -262,6 +262,14 @@
       </trans-unit>
 
       <!-- Change password -->
+      <trans-unit id="title.change_password">
+        <source>title.change_password</source>
+        <target>Change password</target>
+      </trans-unit>
+      <trans-unit id="action.change_password">
+        <source>action.change_password</source>
+        <target>Change password</target>
+      </trans-unit>
       <trans-unit id="label.current_password">
         <source>label.current_password</source>
         <target>Current password</target>

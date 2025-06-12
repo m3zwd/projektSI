@@ -8,20 +8,16 @@ namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\Length;
 use App\Entity\User;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class AccountEditType.
  */
-class AccountEditType extends AbstractType
+class AccountType extends AbstractType
 {
     /**
      * Builds the form.
@@ -43,29 +39,6 @@ class AccountEditType extends AbstractType
                 'constraints' => [
                     new NotBlank(['message' => 'message.email_blank']),
                     new Email(['message' => 'message.invalid_email']),
-                ],
-            ])
-            ->add('current_password', PasswordType::class, [
-                'label' => 'label.current_password',
-                'mapped' => false,
-                'attr' => ['autocomplete' => 'current-password'],
-                'constraints' => [
-                    new UserPassword(['message' => 'message.invalid_current_password']),
-                ],
-            ])
-            ->add('plainPassword', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'mapped' => false,
-                'required' => false,
-                'first_options' => ['label' => 'label.new_password'],
-                'second_options' => ['label' => 'label.repeat_password'],
-                'invalid_message' => 'message.password_mismatch',
-                'constraints' => [
-                    new NotBlank(['message' => 'message.password_blank']),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'message.password_too_short',
-                    ]),
                 ],
             ]);
     }
