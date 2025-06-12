@@ -198,6 +198,22 @@
         <source>title.user_recipes</source>
         <target>User's recipes</target>
       </trans-unit>
+      <trans-unit id="title.change_user_password">
+        <source>title.change_user_password</source>
+        <target>Change user's password</target>
+      </trans-unit>
+      <trans-unit id="action.change_user_password">
+        <source>action.change_user_password</source>
+        <target>Change user's password</target>
+      </trans-unit>
+      <trans-unit id="title.change_role">
+        <source>title.change_role</source>
+        <target>Change user's role</target>
+      </trans-unit>
+      <trans-unit id="action.change_role">
+        <source>action.change_role</source>
+        <target>Change user's role</target>
+      </trans-unit>
 
       <!-- Roles -->
       <trans-unit id="role.admin">
@@ -357,6 +373,10 @@
       <trans-unit id="message.confirm_delete">
         <source>message.confirm_delete</source>
         <target>Confirm delete.</target>
+      </trans-unit>
+      <trans-unit id="message.role_changed">
+        <source>message.role_changed</source>
+        <target>Role changed.</target>
       </trans-unit>
     </body>
   </file>

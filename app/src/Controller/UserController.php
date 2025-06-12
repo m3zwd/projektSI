@@ -8,9 +8,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Service\UserServiceInterface;
-use App\Form\Type\UserEditType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -95,6 +96,7 @@ class UserController extends AbstractController
      *
      * @return Response HTTP response
      */
+    /*
     #[Route(
         '/user/{id}/edit',
         name: 'user_edit',
@@ -148,6 +150,103 @@ class UserController extends AbstractController
                 'user' => $user,
             ]
         );
+    }
+    */
+
+    /**
+     * Change user's password.
+     *
+     * @param Request                     $request
+     * @param User                        $user
+     * @param UserPasswordHasherInterface $passwordHasher
+     *
+     * @return Response
+     */
+    #[Route(
+        '/user/{id}/change-password',
+        name: 'user_change_password',
+        methods: 'GET|POST'
+    )]
+    public function changePassword(Request $request, User $user, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+            throw new AccessDeniedException('Access denied.');
+        }
+
+        $form = $this->createFormBuilder()
+            ->add('plainPassword', PasswordType::class, [
+                'label' => 'label.new_password',
+                'required' => true,
+                'mapped' => false,
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $plainPassword = $form->get('plainPassword')->getData();
+            $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
+            $user->setPassword($hashedPassword);
+
+            $this->userService->save($user);
+
+            $this->addFlash('success', $this->translator->trans('message.password_changed'));
+
+            return $this->redirectToRoute('user_view', ['id' => $user->getId()]);
+        }
+
+        return $this->render('user/change_password.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * Change user's role.
+     *
+     * @param Request $request
+     * @param User    $user
+     *
+     * @return Response
+     */
+    #[Route(
+        '/user/{id}/change-role',
+        name: 'user_change_role',
+        methods: 'GET|POST'
+    )]
+    public function changeRole(Request $request, User $user): Response
+    {
+        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+            throw new AccessDeniedException('Access denied.');
+        }
+
+        $form = $this->createFormBuilder($user)
+            ->add('roles', ChoiceType::class, [
+                'label' => 'label.roles',
+                'choices' => [
+                    'label.role_user' => 'ROLE_USER',
+                    'label.role_admin' => 'ROLE_ADMIN',
+                ],
+                'expanded' => true,
+                'multiple' => true,
+                'required' => true,
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->userService->save($user);
+
+            $this->addFlash('success', $this->translator->trans('message.role_changed'));
+
+            return $this->redirectToRoute('user_index');
+        }
+
+        return $this->render('user/change_role.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user,
+        ]);
     }
 
     /**

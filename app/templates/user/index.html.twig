@@ -42,8 +42,11 @@
                         <a class="btn btn-outline-success btn-sm" href="{{ url('user_view', {id: user.id}) }}" title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}
                         </a>
-                        <a class="btn btn-outline-primary btn-sm" href="{{ path('user_edit', {id: user.id}) }}" title="{{ 'action.edit'|trans }}">
-                            {{ 'action.edit'|trans }}
+                        <a class="btn btn-outline-primary btn-sm" href="{{ path('user_change_password', {id: user.id}) }}" title="{{ 'action.change_user_password'|trans }}">
+                            {{ 'action.change_user_password'|trans }}
+                        </a>
+                        <a class="btn btn-outline-primary btn-sm" href="{{ path('user_change_role', {id: user.id}) }}" title="{{ 'action.change_role'|trans }}">
+                            {{ 'action.change_role'|trans }}
                         </a>
                         <a class="btn btn-outline-danger btn-sm" href="{{ path('user_delete', {id: user.id}) }}" title="{{ 'action.delete'|trans }}">
                             {{ 'action.delete'|trans }}
