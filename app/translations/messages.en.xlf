@@ -264,6 +264,10 @@
         <source>label.filters</source>
         <target>Filters</target>
       </trans-unit>
+      <trans-unit id="label.categories">
+        <source>label.categories</source>
+        <target>Categories</target>
+      </trans-unit>
       <trans-unit id="label.all">
         <source>label.all</source>
         <target>All</target>

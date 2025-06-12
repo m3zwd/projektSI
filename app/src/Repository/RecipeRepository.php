@@ -137,9 +137,10 @@ class RecipeRepository extends ServiceEntityRepository
                 ->setParameter('author', $author);
         }
 
-        if (null !== $filters->categoryId) {
-            $qb->andWhere('category.id = :categoryId')
-                ->setParameter('categoryId', $filters->categoryId);
+        // szukanie przepisów, które należą do którejś z pobranych kategorii
+        if (!empty($filters->categoryIds)) {
+            $qb->andWhere('category.id IN (:categoryIds)')
+                ->setParameter('categoryIds', $filters->categoryIds);
         }
 
         // szukanie przepisu, który ma dowolny tag z pobranych

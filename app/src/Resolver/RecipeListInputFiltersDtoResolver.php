@@ -36,25 +36,20 @@ class RecipeListInputFiltersDtoResolver implements ValueResolverInterface
         $categoryId = $request->query->get('categoryId');
         $tagId = $request->query->get('tagId');
         $onlyMine = filter_var($request->query->get('onlyMine', false), FILTER_VALIDATE_BOOLEAN);
-
         return [new RecipeListInputFiltersDto($categoryId, $tagId, $onlyMine)];
-
         błąd: Argument #1 ($categoryId) must be of type ?int, string given, in RecipeListInputFiltersDtoResolver.php on line 38
         i na odwrót z tagId
         */
 
         // raw - wartość pobrana bezpośrednio z requestu, surowa jeszcze niezmieniona, moze byc int string null itd
-        $categoryIdRaw = $request->query->get('categoryId');
-        //$tagIdRaw = $request->query->get('tagId');
-        $tagIdsRaw = $request->query->all('tags'); // tablica tagów zamiast pojedynczego tagu
+        $categoryIdsRaw = $request->query->all('categories');
+        $tagIdsRaw = $request->query->all('tags');
         $onlyMineRaw = $request->query->get('onlyMine', false);
 
-        // konwersja na ?int
-        // jesli $categoryIdRaw jest liczbą, to wartosc jest rzutowana na typ całkowity
-        $categoryId = is_numeric($categoryIdRaw) ? (int) $categoryIdRaw : null;
+        $categoryIds = array_filter($categoryIdsRaw, fn ($id) => is_numeric($id));
+        $categoryIds = array_map('intval', $categoryIds);
 
-        // filtrowanie tylko numerycznych tagów
-        $tagIds = array_filter($tagIdsRaw, fn($id) => is_numeric($id));
+        $tagIds = array_filter($tagIdsRaw, fn ($id) => is_numeric($id));
         $tagIds = array_map('intval', $tagIds);
 
         // konwersja na bool
@@ -65,6 +60,6 @@ class RecipeListInputFiltersDtoResolver implements ValueResolverInterface
         yield zwraca pojedynczy, iterowalny element bez tworzenia całej tablicy.
         tutaj lepszy niz return, bo zwracamy tylko 1 obiekt
         */
-        yield new RecipeListInputFiltersDto($categoryId, $tagIds, $onlyMine);
+        yield new RecipeListInputFiltersDto($categoryIds, $tagIds, $onlyMine);
     }
 }
