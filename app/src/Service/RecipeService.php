@@ -33,8 +33,8 @@ class RecipeService implements RecipeServiceInterface
     /**
      * Constructor.
      *
-     * @param PaginatorInterface       $paginator        Paginator
-     * @param RecipeRepository         $recipeRepository Recipe repository
+     * @param RecipeRepository   $recipeRepository Recipe repository
+     * @param PaginatorInterface $paginator        Paginator
      */
     public function __construct(private readonly RecipeRepository $recipeRepository, private readonly PaginatorInterface $paginator)
     {

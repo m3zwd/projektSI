@@ -88,79 +88,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * Edit action.
-     *
-     * @param Request                     $request        HTTP request
-     * @param User                        $user           User
-     * @param UserPasswordHasherInterface $passwordHasher Password hasher
-     *
-     * @return Response HTTP response
-     */
-    /*
-    #[Route(
-        '/user/{id}/edit',
-        name: 'user_edit',
-        requirements: ['id' => '[1-9]\d*'],
-        methods: 'GET|PUT'
-    )]
-    public function edit(Request $request, User $user, UserPasswordHasherInterface $passwordHasher): Response
-    {
-        // blokada edycji konta innego admina (wlacznie z tym zalogowanym, bo obsluga edycji konta jest w sekcji Account)
-        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
-            throw new AccessDeniedException('Access denied.');
-        }
-
-        $form = $this->createForm(
-            UserEditType::class,
-            $user,
-            [
-                'method' => 'PUT',
-                'action' => $this->generateUrl('user_edit', ['id' => $user->getId()]),
-            ]
-        );
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $plainPassword = $form->get('plainPassword')->getData();
-
-            if ($plainPassword) {
-                $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
-                $user->setPassword($hashedPassword);
-
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans('message.password_changed')
-                );
-            }
-
-            $this->userService->save($user);
-
-            $this->addFlash(
-                'success',
-                $this->translator->trans('message.edited_successfully')
-            );
-
-            return $this->redirectToRoute('user_index');
-        }
-
-        return $this->render(
-            'user/edit.html.twig',
-            [
-                'form' => $form->createView(),
-                'user' => $user,
-            ]
-        );
-    }
-    */
-
-    /**
      * Change user's password.
-     *
-     * @param Request                     $request
-     * @param User                        $user
-     * @param UserPasswordHasherInterface $passwordHasher
-     *
-     * @return Response
      */
     #[Route(
         '/user/{id}/change-password',
@@ -203,11 +131,6 @@ class UserController extends AbstractController
 
     /**
      * Change user's role.
-     *
-     * @param Request $request
-     * @param User    $user
-     *
-     * @return Response
      */
     #[Route(
         '/user/{id}/change-role',

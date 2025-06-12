@@ -117,8 +117,10 @@ class RecipeRepository extends ServiceEntityRepository
     /**
      * Query recipes by filters.
      *
-     * @param User|null $author Currently logged-in user
+     * @param User|null                 $author  Currently logged-in user
      * @param RecipeListInputFiltersDto $filters Filters
+     *
+     * @return QueryBuilder Doctrine QueryBuilder with applied filters
      */
     public function queryByFilters(?User $author, RecipeListInputFiltersDto $filters): QueryBuilder
     {
@@ -138,13 +140,13 @@ class RecipeRepository extends ServiceEntityRepository
         }
 
         // szukanie przepisów, które należą do którejś z pobranych kategorii
-        if (!empty($filters->categoryIds)) {
+        if ($filters->categoryIds !== []) {
             $qb->andWhere('category.id IN (:categoryIds)')
                 ->setParameter('categoryIds', $filters->categoryIds);
         }
 
         // szukanie przepisu, który ma dowolny tag z pobranych
-        if (!empty($filters->tagIds)) {
+        if ($filters->tagIds !== []) {
             $qb->andWhere('tags.id IN (:tagIds)')
                 ->setParameter('tagIds', $filters->tagIds);
         }
