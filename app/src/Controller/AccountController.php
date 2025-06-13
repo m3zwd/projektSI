@@ -59,8 +59,7 @@ class AccountController extends AbstractController
     /**
      * Edit action.
      *
-     * @param Request                     $request        HTTP request
-     * @param UserPasswordHasherInterface $passwordHasher Password hasher
+     * @param Request $request HTTP request
      *
      * @return Response HTTP response
      */
@@ -69,27 +68,15 @@ class AccountController extends AbstractController
         name: 'account_edit',
         methods: 'GET|POST'
     )]
-    public function edit(Request $request, UserPasswordHasherInterface $passwordHasher): Response
+    public function edit(Request $request): Response
     {
         /** @var User $user */
         $user = $this->getUser();
 
-        $form = $this->createForm(AccountType::class, $user, ['method' => 'POST']);
+        $form = $this->createForm(AccountType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $plainPassword = $form->get('plainPassword')->getData();
-
-            if ($plainPassword) {
-                $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
-                $user->setPassword($hashedPassword);
-
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans('message.password_changed')
-                );
-            }
-
             $this->userService->save($user);
 
             $this->addFlash(
@@ -105,14 +92,13 @@ class AccountController extends AbstractController
         ]);
     }
 
-    /*
+    /**
      * Change password action.
      *
-     * @param Request                     $request        Request
-     * @param UserPasswordHasherInterface $passwordHasher Password hasher
-     * @param EntityManagerInterface      $entityManager  Entity manager
+     * @param Request                     $request
+     * @param UserPasswordHasherInterface $passwordHasher
      *
-     * @return Response HTTP response
+     * @return Response
      */
     #[Route(
         'account/change-password',
