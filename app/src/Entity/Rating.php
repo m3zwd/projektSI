@@ -59,6 +59,13 @@ class Rating
     private ?\DateTimeImmutable $createdAt = null;
 
     /**
+     * Average rating.
+     */
+    #[ORM\Column(type: 'float')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?float $averageRating = null;
+
+    /**
      * Getter for id.
      *
      * @return int|null Id
@@ -146,5 +153,25 @@ class Rating
     public function setCreatedAt(\DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    /**
+     * Getter for averageRating.
+     *
+     * @return float|null
+     */
+    public function getAverageRating(): ?float
+    {
+        return $this->averageRating;
+    }
+
+    /**
+     * Setter for averageRating.
+     *
+     * @param float|null $averageRating
+     */
+    public function setAverageRating(?float $averageRating): void
+    {
+        $this->averageRating = $averageRating;
     }
 }
