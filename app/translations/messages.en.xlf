@@ -242,6 +242,14 @@
         <source>action.cancel</source>
         <target>Cancel</target>
       </trans-unit>
+      <trans-unit id="message.no_comments">
+        <source>message.no_comments</source>
+        <target>No comments.</target>
+      </trans-unit>
+      <trans-unit id="message.login_to_comment">
+        <source>message.login_to_comment</source>
+        <target>Log in to comment.</target>
+      </trans-unit>
 
       <!-- Account -->
       <trans-unit id="title.account">
@@ -321,6 +329,28 @@
         <target>Select tags</target>
       </trans-unit>
 
+      <!-- Ratings -->
+      <trans-unit id="label.ratings">
+        <source>label.ratings</source>
+        <target>Ratings</target>
+      </trans-unit>
+      <trans-unit id="label.rating">
+        <source>label.rating</source>
+        <target>Type rating</target>
+      </trans-unit>
+      <trans-unit id="action.add_rating">
+        <source>action.add_rating</source>
+        <target>Rate</target>
+      </trans-unit>
+      <trans-unit id="message.no_ratings">
+        <source>message.no_ratings</source>
+        <target>No ratings.</target>
+      </trans-unit>
+      <trans-unit id="message.login_to_rate">
+        <source>message.login_to_rate</source>
+        <target>Log in to rate.</target>
+      </trans-unit>
+
       <!-- Messages -->
       <trans-unit id="message.empty_list">
         <source>message.empty_list</source>
@@ -369,14 +399,6 @@
       <trans-unit id="message.no_recipes_for_user">
         <source>message.no_recipes_for_user</source>
         <target>User has not created any recipes.</target>
-      </trans-unit>
-      <trans-unit id="message.no_comments">
-        <source>message.no_comments</source>
-        <target>No comments.</target>
-      </trans-unit>
-      <trans-unit id="message.login_to_comment">
-        <source>message.login_to_comment</source>
-        <target>Log in to comment.</target>
       </trans-unit>
       <trans-unit id="message.confirm_delete">
         <source>message.confirm_delete</source>

@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block body %}
+    <!-- Widok przepisu -->
     {% if recipe is defined and recipe|length %}
         <dl class="dl-horizontal">
             {% if is_granted('ROLE_ADMIN') %}
@@ -35,6 +36,7 @@
             </dd>
         </dl>
 
+        <!-- Komentarze -->
         <h2>{{ 'label.comments'|trans }}</h2>
         {% if recipe.comments|length > 0 %}
             <ul class="list-group mb-4">
@@ -97,6 +99,49 @@
             </script>
         {% else %}
             <p class="text-muted">{{ 'message.login_to_comment'|trans }}</p>
+        {% endif %}
+
+        <!-- Oceny -->
+        <hr>
+
+        <h2>{{ 'label.ratings'|trans }}</h2>
+
+        {% if recipe.ratings is not empty %}
+            <ul class="list-group mb-4">
+                {% for rating in recipe.ratings %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>
+                    ⭐ {{ rating.value }} / 5 –
+                    <strong>{{ rating.author.email }}</strong>
+                    <small>({{ rating.createdAt|date('Y-m-d H:i') }})</small>
+                </span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">{{ 'message.no_ratings'|trans }}</p>
+        {% endif %}
+
+        {% if app.user %}
+            <button class="btn btn-warning mb-3" onclick="toggleRatingForm()">
+                {{ 'action.add_rating'|trans }}
+            </button>
+
+            <div id="rating-form" style="display: none;">
+                {{ form_start(rating_form) }}
+                {{ form_row(rating_form.value) }}
+                <button type="submit" class="btn btn-warning">{{ 'action.save'|trans }}</button>
+                {{ form_end(rating_form) }}
+            </div>
+
+            <script>
+                function toggleRatingForm() {
+                    const formDiv = document.getElementById('rating-form');
+                    formDiv.style.display = formDiv.style.display === 'none' ? 'block' : 'none';
+                }
+            </script>
+        {% else %}
+            <p class="text-muted">{{ 'message.login_to_rate'|trans }}</p>
         {% endif %}
 
         <p>
