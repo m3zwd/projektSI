@@ -36,10 +36,9 @@ class RatingFixtures extends AbstractBaseFixtures implements DependentFixtureInt
          * Ten sam użytkownik nie może ocenic jednego przepisu więcej niż raz.
          */
         $usedPairs = [];
+        $count = 0;
 
-        $this->createMany(50, 'rating', function (int $i) use (&$usedPairs) {
-            $rating = new Rating();
-
+        while ($count < 20) {
             $author = $this->getRandomReference('user', User::class);
             $recipe = $this->getRandomReference('recipe', Recipe::class);
 
@@ -47,28 +46,30 @@ class RatingFixtures extends AbstractBaseFixtures implements DependentFixtureInt
              * Sprawdzanie unikalności.
              * $pairKey to unikalny klucz, który zawiera email użytkownika i ID przepisu.
              * isset sprawdza, czy już istnieje taki klucz w $usedPairs.
-             * jesli tak, to pomija duplikat - return null
+             * jesli tak, to pomija duplikat (a)
              * jesli nie, to dodaje go do tablicy, żeby wiedzieć, że ta para już sie pojawiła
              */
             $pairKey = $author->getEmail() . '-' . $recipe->getId();
 
             if (isset($usedPairs[$pairKey])) {
-                return null;
+                continue;
             }
+
             $usedPairs[$pairKey] = true;
 
+            $rating = new Rating();
             $rating->setValue($this->faker->numberBetween(1, 5));
-            $rating->setCreatedAt(
-                \DateTimeImmutable::createFromMutable(
-                    $this->faker->dateTimeBetween('-90 days')
-                )
-            );
-
+            $rating->setCreatedAt(\DateTimeImmutable::createFromMutable(
+                $this->faker->dateTimeBetween('-90 days')
+            ));
             $rating->setAuthor($author);
             $rating->setRecipe($recipe);
 
-            return $rating;
-        });
+            $this->manager->persist($rating);
+            $this->addReference("rating_$count", $rating);
+
+            ++$count;
+        }
 
         $this->manager->flush();
     }

@@ -111,8 +111,7 @@ class Recipe
     /**
      * Average rating.
      */
-    #[ORM\Column(type: 'float')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $averageRating = null;
 
     /**
