@@ -8,12 +8,15 @@ namespace App\Controller;
 
 use App\Dto\RecipeListInputFiltersDto;
 use App\Entity\Comment;
+use App\Entity\Rating;
 use App\Entity\Recipe;
 use App\Entity\User;
 use App\Form\Type\CommentType;
+use App\Form\Type\RatingType;
 use App\Form\Type\RecipeType;
 use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
+use App\Repository\RatingRepository;
 use App\Repository\TagRepository;
 use App\Resolver\RecipeListInputFiltersDtoResolver;
 use App\Security\Voter\RecipeVoter;
@@ -98,9 +101,47 @@ class RecipeController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET|POST'
     )]
-    public function view(Request $request, Recipe $recipe, CommentRepository $commentRepository): Response
+    public function view(Request $request, Recipe $recipe, CommentRepository $commentRepository, RatingRepository $ratingRepository): Response
     {
-        // usuwanie komentarza
+        /**
+         * Add comment.
+         */
+        $comment = new Comment();
+        $comment->setRecipe($recipe);
+        $comment->setAuthor($this->getUser());
+        $comment->setCreatedAt(new \DateTimeImmutable());
+        $commentForm = $this->createForm(CommentType::class, $comment);
+
+        /**
+         * Edit comment.
+         */
+        $editCommentId = $request->request->get('edit_comment_id');
+        $editComment = null;
+        $editCommentForm = null;
+        if ($editCommentId) {
+            $editComment = $commentRepository->find($editCommentId);
+            if (!$editComment || $editComment->getRecipe() !== $recipe || !$this->isGranted('COMMENT_EDIT', $editComment)) {
+                $this->addFlash('error', $this->translator->trans('message.access_denied'));
+
+                return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
+            }
+
+            // formularz edycji z istniejącym komentarzem
+            $editCommentForm = $this->createForm(CommentType::class, $editComment);
+            $editCommentForm->handleRequest($request);
+
+            if ($editCommentForm->isSubmitted() && $editCommentForm->isValid()) {
+                $commentRepository->save($editComment);
+
+                $this->addFlash('success', $this->translator->trans('message.edited_successfully'));
+
+                return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
+            }
+        }
+
+        /**
+         * Delete comment.
+         */
         $deleteCommentId = $request->request->get('delete_comment_id');
         if ($deleteCommentId) {
             $commentToDelete = $commentRepository->find($deleteCommentId);
@@ -120,41 +161,9 @@ class RecipeController extends AbstractController
             return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
         }
 
-        // edycja komentarza
-        $editCommentId = $request->request->get('edit_comment_id');
-        $editComment = null;
-        $editForm = null;
-        if ($editCommentId) {
-            $editComment = $commentRepository->find($editCommentId);
-            if (!$editComment || $editComment->getRecipe() !== $recipe || !$this->isGranted('COMMENT_EDIT', $editComment)) {
-                $this->addFlash('error', $this->translator->trans('message.access_denied'));
+        $commentForm->handleRequest($request);
 
-                return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
-            }
-
-            // formularz edycji z istniejącym komentarzem
-            $editForm = $this->createForm(CommentType::class, $editComment);
-            $editForm->handleRequest($request);
-
-            if ($editForm->isSubmitted() && $editForm->isValid()) {
-                $commentRepository->save($editComment);
-
-                $this->addFlash('success', $this->translator->trans('message.edited_successfully'));
-
-                return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
-            }
-        }
-
-        // dodawanie komentarza
-        $comment = new Comment();
-        $comment->setRecipe($recipe);
-        $comment->setAuthor($this->getUser());
-        $comment->setCreatedAt(new \DateTimeImmutable());
-        $form = $this->createForm(CommentType::class, $comment);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
             $commentRepository->save($comment);
 
             $this->addFlash(
@@ -165,17 +174,41 @@ class RecipeController extends AbstractController
             return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
         }
 
-        // pobieranie komentarzy
+        /**
+         * Pobieranie komentarzy
+         */
         $comments = $commentRepository->findBy(['recipe' => $recipe], ['createdAt' => 'DESC']);
+
+        /**
+         * Dodawanie oceny
+         */
+        $rating = new Rating();
+        $rating->setRecipe($recipe);
+        $rating->setAuthor($this->getUser());
+        $rating->setCreatedAt(new \DateTimeImmutable());
+
+        $ratingForm = $this->createForm(RatingType::class, $rating);
+        $ratingForm->handleRequest($request);
+
+        if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
+            $ratingRepository->save($rating);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.created_successfully'));
+
+            return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
+        }
 
         return $this->render(
             'recipe/view.html.twig',
             [
                 'recipe' => $recipe,
                 'comments' => $comments,
-                'comment_form' => $form->createView(),
-                'edit_comment_form' => $editForm?->createView(),
+                'comment_form' => $commentForm->createView(),
+                'edit_comment_form' => $editCommentForm?->createView(),
                 'edit_comment' => $editComment,
+                'rating_form' => $ratingForm->createView(),
             ]
         );
     }
