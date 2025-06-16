@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Comment entity.
+ * Rating entity.
  */
 
 namespace App\Entity;
 
-use App\Repository\CommentRepository;
+use App\Repository\RatingRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Comment.
+ * Class Rating.
  */
-#[ORM\Entity(repositoryClass: CommentRepository::class)]
-#[ORM\Table(name: 'comments')]
-class Comment
+#[ORM\Entity(repositoryClass: RatingRepository::class)]
+#[ORM\Table(name: 'ratings')]
+class Rating
 {
     /**
      * Primary key.
@@ -27,12 +27,12 @@ class Comment
     private ?int $id = null;
 
     /**
-     * Content.
+     * Value.
+     *
+     * @var int|null
      */
-    #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank]
-    #[Assert\Type('string')]
-    private ?string $content = null;
+    #[ORM\Column(type: 'integer')]
+    private ?int $value = null;
 
     /**
      * Author.
@@ -45,7 +45,7 @@ class Comment
     /**
      * Recipe.
      */
-    #[ORM\ManyToOne(targetEntity: Recipe::class, fetch: 'EXTRA_LAZY', inversedBy: 'comments')]
+    #[ORM\ManyToOne(targetEntity: Recipe::class, fetch: 'EXTRA_LAZY', inversedBy: 'ratings')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull]
     private ?Recipe $recipe = null;
@@ -69,23 +69,23 @@ class Comment
     }
 
     /**
-     * Getter for content.
+     * Getter for value.
      *
-     * @return string|null Content
+     * @return int|null Value
      */
-    public function getContent(): ?string
+    public function getValue(): ?int
     {
-        return $this->content;
+        return $this->value;
     }
 
     /**
-     * Setter for content.
+     * Setter for value.
      *
-     * @param string|null $content Content
+     * @param int $value Value
      */
-    public function setContent(?string $content): void
+    public function setValue(int $value): void
     {
-        $this->content = $content;
+        $this->value = $value;
     }
 
     /**

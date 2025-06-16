@@ -101,12 +101,21 @@ class Recipe
     private Collection $comments;
 
     /**
+     * Ratings.
+     *
+     * @var Collection<int, Rating>
+     */
+    #[ORM\OneToMany(targetEntity: Rating::class, mappedBy: 'recipe', orphanRemoval: true)]
+    private Collection $ratings;
+
+    /**
      * Constructor.
      */
     public function __construct()
     {
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->ratings = new ArrayCollection();
     }
 
     /**
@@ -301,13 +310,49 @@ class Recipe
     /**
      * Remove comment.
      *
-     * @param Comment $comment Comment
+     * @param Comment $comment Comment entity
      */
     public function removeComment(Comment $comment): void
     {
         // set the owning side to null (unless already changed)
         if ($this->comments->removeElement($comment) && $comment->getRecipe() === $this) {
             $comment->setRecipe(null);
+        }
+    }
+
+    /**
+     * Getter for ratings.
+     *
+     * @return Collection<int, Rating>
+     */
+    public function getRatings(): Collection
+    {
+        return $this->ratings;
+    }
+
+    /**
+     * Add rating.
+     *
+     * @param Rating $rating Rating entity
+     */
+    public function addRating(Rating $rating): void
+    {
+        if (!$this->ratings->contains($rating)) {
+            $this->ratings->add($rating);
+            $rating->setRecipe($this);
+        }
+    }
+
+    /**
+     * Remove rating.
+     *
+     * @param Rating $rating Rating entity
+     */
+    public function removeRating(Rating $rating): void
+    {
+        // set the owning side to null (unless already changed)
+        if ($this->ratings->removeElement($rating) && $rating->getRecipe() === $this) {
+            $rating->setRecipe(null);
         }
     }
 }

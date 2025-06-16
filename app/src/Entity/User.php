@@ -84,21 +84,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * A visual identifier that represents this user.
      *
-     * @see UserInterface
-     *
      * @return string User identifier
+     * @see UserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
      * Getter for roles.
      *
-     * @see UserInterface
-     *
      * @return list<string>
+     * @see UserInterface
      */
     public function getRoles(): array
     {
@@ -122,9 +120,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Getter for password.
      *
+     * @return string|null Password
      * @see PasswordAuthenticatedUserInterface
      *
-     * @return string|null Password
      */
     public function getPassword(): ?string
     {
