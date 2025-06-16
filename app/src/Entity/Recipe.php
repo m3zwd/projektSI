@@ -109,6 +109,13 @@ class Recipe
     private Collection $ratings;
 
     /**
+     * Average rating.
+     */
+    #[ORM\Column(type: 'float')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?float $averageRating = null;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -354,5 +361,25 @@ class Recipe
         if ($this->ratings->removeElement($rating) && $rating->getRecipe() === $this) {
             $rating->setRecipe(null);
         }
+    }
+
+    /**
+     * Getter for averageRating.
+     *
+     * @return float|null
+     */
+    public function getAverageRating(): ?float
+    {
+        return $this->averageRating;
+    }
+
+    /**
+     * Setter for averageRating.
+     *
+     * @param float|null $averageRating
+     */
+    public function setAverageRating(?float $averageRating): void
+    {
+        $this->averageRating = $averageRating;
     }
 }

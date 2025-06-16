@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ORM\Entity(repositoryClass: RatingRepository::class)]
 #[ORM\Table(name: 'ratings')]
+#[ORM\UniqueConstraint(name: 'UNIQ_AUTHOR_RECIPE', columns: ['author_id', 'recipe_id'])]
 class Rating
 {
     /**
@@ -57,13 +58,6 @@ class Rating
     #[Assert\NotNull]
     #[Assert\Type(\DateTimeImmutable::class)]
     private ?\DateTimeImmutable $createdAt = null;
-
-    /**
-     * Average rating.
-     */
-    #[ORM\Column(type: 'float')]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?float $averageRating = null;
 
     /**
      * Getter for id.
@@ -153,25 +147,5 @@ class Rating
     public function setCreatedAt(\DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
-    }
-
-    /**
-     * Getter for averageRating.
-     *
-     * @return float|null
-     */
-    public function getAverageRating(): ?float
-    {
-        return $this->averageRating;
-    }
-
-    /**
-     * Setter for averageRating.
-     *
-     * @param float|null $averageRating
-     */
-    public function setAverageRating(?float $averageRating): void
-    {
-        $this->averageRating = $averageRating;
     }
 }
