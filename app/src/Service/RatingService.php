@@ -7,7 +7,9 @@
 namespace App\Service;
 
 use App\Entity\Rating;
+use App\Entity\Recipe;
 use App\Repository\RatingRepository;
+use App\Repository\RecipeRepository;
 
 /**
  * Class RatingService.
@@ -18,8 +20,9 @@ class RatingService implements RatingServiceInterface
      * Constructor.
      *
      * @param RatingRepository $ratingRepository Rating repository
+     * @param RecipeRepository $recipeRepository Recipe repository
      */
-    public function __construct(private readonly RatingRepository $ratingRepository)
+    public function __construct(private readonly RatingRepository $ratingRepository, private readonly RecipeRepository $recipeRepository)
     {
     }
 
@@ -31,6 +34,7 @@ class RatingService implements RatingServiceInterface
     public function save(Rating $rating): void
     {
         $this->ratingRepository->save($rating);
+        $this->updateAverageRating($rating->getRecipe());
     }
 
     /**
@@ -40,6 +44,23 @@ class RatingService implements RatingServiceInterface
      */
     public function delete(Rating $rating): void
     {
+        $recipe = $rating->getRecipe();
         $this->ratingRepository->delete($rating);
+
+        $this->updateAverageRating($recipe);
+    }
+
+    /**
+     * Update average rating.
+     *
+     * @param Recipe $recipe Recipe entity
+     *
+     * @return void
+     */
+    private function updateAverageRating(Recipe $recipe): void
+    {
+        $average = $this->ratingRepository->getAverageRating($recipe);
+        $recipe->setAverageRating($average);
+        $this->recipeRepository->save($recipe);
     }
 }

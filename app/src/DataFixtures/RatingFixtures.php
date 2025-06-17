@@ -38,7 +38,7 @@ class RatingFixtures extends AbstractBaseFixtures implements DependentFixtureInt
         $usedPairs = [];
         $count = 0;
 
-        while ($count < 20) {
+        while ($count < 200) {
             $author = $this->getRandomReference('user', User::class);
             $recipe = $this->getRandomReference('recipe', Recipe::class);
 

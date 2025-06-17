@@ -7,6 +7,7 @@
 namespace App\Repository;
 
 use App\Entity\Rating;
+use App\Entity\Recipe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,5 +48,23 @@ class RatingRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->remove($rating);
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * Get average rating for recipe.
+     *
+     * @param Recipe $recipe Recipe entity
+     *
+     * @return float
+     */
+    public function getAverageRating(Recipe $recipe): float
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->select('AVG(r.value)')
+            ->where('r.recipe = :recipe')
+            ->setParameter('recipe', $recipe);
+
+        $result = $qb->getQuery()->getSingleScalarResult();
+        return $result !== null ? (float)$result : 0.0;
     }
 }

@@ -31,7 +31,7 @@ class CommentFixtures extends AbstractBaseFixtures implements DependentFixtureIn
             return;
         }
 
-        $this->createMany(100, 'comment', function (int $i) {
+        $this->createMany(200, 'comment', function (int $i) {
             $comment = new Comment();
             $comment->setContent($this->faker->sentence($this->faker->numberBetween(5, 15)));
             $comment->setCreatedAt(
