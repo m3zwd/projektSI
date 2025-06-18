@@ -104,19 +104,21 @@
         <!-- Oceny -->
         <hr>
         <h2>{{ 'label.ratings'|trans }}</h2>
-
+        {# średnia ocen #}
+        <p><strong>{{ 'label.average_rating'|trans }}:</strong> ⭐ {{ recipe.averageRating|number_format(1) }} / 5</p>
         {% if recipe.ratings is not empty %}
             <ul class="list-group mb-4">
                 {% for rating in recipe.ratings %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span>
-                    ⭐ {{ rating.value }} / 5 –
-                    <strong>{{ rating.author.email }}</strong>
-                    <small>({{ rating.createdAt|date('Y-m-d H:i') }})</small>
-                </span>
+                        <span>
+                            ⭐ {{ rating.value }} / 5 –
+                            <strong>{{ rating.author.email }}</strong>
+                            <small>({{ rating.createdAt|date('Y-m-d H:i') }})</small>
+                        </span>
                     </li>
                 {% endfor %}
             </ul>
+
         {% else %}
             <p class="text-muted">{{ 'message.no_ratings'|trans }}</p>
         {% endif %}

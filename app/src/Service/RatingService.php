@@ -57,7 +57,7 @@ class RatingService implements RatingServiceInterface
      *
      * @return void
      */
-    private function updateAverageRating(Recipe $recipe): void
+    public function updateAverageRating(Recipe $recipe): void
     {
         $average = $this->ratingRepository->getAverageRating($recipe);
         $recipe->setAverageRating($average);

@@ -20,6 +20,7 @@ use App\Repository\RatingRepository;
 use App\Repository\TagRepository;
 use App\Resolver\RecipeListInputFiltersDtoResolver;
 use App\Security\Voter\RecipeVoter;
+use App\Service\RatingService;
 use App\Service\RecipeServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -43,8 +44,9 @@ class RecipeController extends AbstractController
      * @param TranslatorInterface    $translator         Translator
      * @param CategoryRepository     $categoryRepository Category repository
      * @param TagRepository          $tagRepository      Tag repository
+     * @param RatingService          $ratingService      Rating service
      */
-    public function __construct(private readonly RecipeServiceInterface $recipeService, private readonly TranslatorInterface $translator, private readonly CategoryRepository $categoryRepository, private readonly TagRepository $tagRepository)
+    public function __construct(private readonly RecipeServiceInterface $recipeService, private readonly TranslatorInterface $translator, private readonly CategoryRepository $categoryRepository, private readonly TagRepository $tagRepository, private readonly RatingService $ratingService)
     {
     }
 
@@ -126,7 +128,9 @@ class RecipeController extends AbstractController
                 return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
             }
 
-            // formularz edycji z istniejącym komentarzem
+            /**
+             * Formularz edycji z istniejącym komentarzem
+             */
             $editCommentForm = $this->createForm(CommentType::class, $editComment);
             $editCommentForm->handleRequest($request);
 
@@ -151,11 +155,6 @@ class RecipeController extends AbstractController
                     $commentRepository->delete($commentToDelete);
                     $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
                 }
-                /* czy to jest potrzebne wgl, skoro nie ma jak sie dostac do usuwania koma bez uprawnien??
-                 else {
-                    $this->addFlash('error', $this->translator->trans('message.access_denied'));
-                }
-                */
             }
 
             return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
@@ -199,6 +198,11 @@ class RecipeController extends AbstractController
 
             return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
         }
+
+        /**
+         * Średnia ocen
+         */
+        $this->ratingService->updateAverageRating($recipe);
 
         return $this->render(
             'recipe/view.html.twig',

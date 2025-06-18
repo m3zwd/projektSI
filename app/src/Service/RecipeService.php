@@ -58,7 +58,7 @@ class RecipeService implements RecipeServiceInterface
             $page,
             self::PAGINATOR_ITEMS_PER_PAGE,
             [
-                'sortFieldAllowList' => ['recipe.id', 'recipe.createdAt', 'recipe.updatedAt', 'recipe.title', 'category.title'],
+                'sortFieldAllowList' => ['recipe.id', 'recipe.createdAt', 'recipe.updatedAt', 'recipe.title', 'category.title', 'recipe.averageRating'],
                 'defaultSortFieldName' => 'recipe.updatedAt',
                 'defaultSortDirection' => 'desc',
             ]

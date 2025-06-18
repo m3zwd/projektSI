@@ -342,6 +342,14 @@
         <source>action.add_rating</source>
         <target>Rate</target>
       </trans-unit>
+      <trans-unit id="label.average_rating">
+        <source>label.average_rating</source>
+        <target>Average rating</target>
+      </trans-unit>
+      <trans-unit id="label.no_ratings">
+        <source>label.no_ratings</source>
+        <target>No ratings</target>
+      </trans-unit>
       <trans-unit id="message.no_ratings">
         <source>message.no_ratings</source>
         <target>No ratings.</target>

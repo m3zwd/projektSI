@@ -145,6 +145,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'recipe.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.title') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.author'|trans, 'recipe.author.email') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.average_rating'|trans, 'recipe.averageRating') }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
@@ -159,6 +160,13 @@
                     <td>{{ recipe.updatedAt|format_date('long') }}</td>
                     <td>{{ recipe.category.title }}</td>
                     <td>{{ recipe.author.email }}</td>
+                    <td>
+                        {% if recipe.averageRating %}
+                            ⭐ {{ recipe.averageRating|number_format(1) }} / 5
+                        {% else %}
+                            {{ 'label.no_ratings'|trans }}
+                        {% endif %}
+                    </td>
                     <td>
                         <a class="btn btn-outline-success btn-sm" href="{{ url('recipe_view', {id: recipe.id}) }}" title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}

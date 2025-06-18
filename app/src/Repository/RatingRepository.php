@@ -59,12 +59,13 @@ class RatingRepository extends ServiceEntityRepository
      */
     public function getAverageRating(Recipe $recipe): float
     {
-        $qb = $this->createQueryBuilder('r')
-            ->select('AVG(r.value)')
-            ->where('r.recipe = :recipe')
-            ->setParameter('recipe', $recipe);
+        $result = $this->createQueryBuilder('rating')
+            ->select('AVG(rating.value) AS ranking')
+            ->where ('rating.recipe = :recipe')
+            ->setParameter('recipe', $recipe)
+            ->getQuery()
+            ->getSingleScalarResult();
 
-        $result = $qb->getQuery()->getSingleScalarResult();
-        return $result !== null ? (float)$result : 0.0;
+        return $result !== null ? (float) $result : 0.0;
     }
 }
