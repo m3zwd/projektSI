@@ -44,12 +44,16 @@
                         <a href="{{ url('recipe_view', {id: recipe.id}) }}">
                             {{ recipe.title }}
                         </a>
-                        – {{ recipe.createdAt|date('Y/m/d') }}
                     </li>
                 {% endfor %}
             </ul>
         {% else %}
             <p>{{ 'label.none'|trans }}</p>
+            <p>
+                <a href="{{ url('recipe_create') }}" class="btn btn-primary">
+                    {{ 'action.recipe_create'|trans }}
+                </a>
+            </p>
         {% endif %}
 
     {% else %}
