@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="validators.en">
+    <body>
+      <trans-unit id="message.invalid_email">
+        <source>message.invalid_email</source>
+        <target>Email jest niepoprawny.</target>
+      </trans-unit>
+      <trans-unit id="message.email_blank">
+        <source>message.email_blank</source>
+        <target>Email nie może być pusty.</target>
+      </trans-unit>
+      <trans-unit id="message.password_blank">
+        <source>message.password_blank</source>
+        <target>Hasło nie może być puste.</target>
+      </trans-unit>
+      <trans-unit id="message.password_mismatch">
+        <source>message.password_mismatch</source>
+        <target>Hasła muszą być takie same.</target>
+      </trans-unit>
+      <trans-unit id="message.invalid_current_password">
+        <source>message.invalid_current_password</source>
+        <target>Hasło jest niepoprawne.</target>
+      </trans-unit>
+      <trans-unit id="message.password_too_short">
+        <source>message.password_too_short</source>
+        <target>{0,1} Hasło musi mieć przynajmniej {{ limit }} znak.|[2,Inf] Hasło musi mieć przynajmniej {{ limit }} znaków.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
