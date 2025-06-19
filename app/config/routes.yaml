@@ -3,3 +3,18 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+    # dodanie prefiksu języka do tras kontrolerów
+    prefix: /{_locale}
+    defaults:
+        _locale: en
+    requirements:
+        _locale: en|pl
+
+# przekierowanie trasy /recipe na /en/recipe
+recipe_redirect:
+    path: /recipe
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+    defaults:
+        path: /en/recipe
+        permanent: false

@@ -17,7 +17,7 @@
 }
 
 .menu li {
-    margin: 0 1px;
+    margin: 0;
 }
 
 .menu a {
@@ -72,6 +72,31 @@
     background-color: #ec8787;
     transform: scaleX(1);
     transform-origin: left;
+}
+
+/* PRZEŁĄCZNIK JĘZYKA */
+.language-switcher {
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    z-index: 1100; /* renderuje się nad menu */
+    display: flex;
+    gap: 10px;
+}
+
+.language-switcher a {
+    background-color: #ec8787;
+    color: #000000;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.language-switcher a:hover {
+    background-color: #d75f5f;
+    color: #fff;
 }
 
 /* HEADER (naglowek stron) */
