@@ -94,11 +94,6 @@ class AccountController extends AbstractController
 
     /**
      * Change password action.
-     *
-     * @param Request                     $request
-     * @param UserPasswordHasherInterface $passwordHasher
-     *
-     * @return Response
      */
     #[Route(
         'account/change-password',

@@ -140,13 +140,13 @@ class RecipeRepository extends ServiceEntityRepository
         }
 
         // szukanie przepisów, które należą do którejś z pobranych kategorii
-        if ($filters->categoryIds !== []) {
+        if ([] !== $filters->categoryIds) {
             $qb->andWhere('category.id IN (:categoryIds)')
                 ->setParameter('categoryIds', $filters->categoryIds);
         }
 
         // szukanie przepisu, który ma dowolny tag z pobranych
-        if ($filters->tagIds !== []) {
+        if ([] !== $filters->tagIds) {
             $qb->andWhere('tags.id IN (:tagIds)')
                 ->setParameter('tagIds', $filters->tagIds);
         }

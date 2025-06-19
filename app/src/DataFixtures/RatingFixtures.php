@@ -47,9 +47,9 @@ class RatingFixtures extends AbstractBaseFixtures implements DependentFixtureInt
              * $pairKey to unikalny klucz, który zawiera email użytkownika i ID przepisu.
              * isset sprawdza, czy już istnieje taki klucz w $usedPairs.
              * jesli tak, to pomija duplikat (a)
-             * jesli nie, to dodaje go do tablicy, żeby wiedzieć, że ta para już sie pojawiła
+             * jesli nie, to dodaje go do tablicy, żeby wiedzieć, że ta para już sie pojawiła.
              */
-            $pairKey = $author->getEmail() . '-' . $recipe->getId();
+            $pairKey = $author->getEmail().'-'.$recipe->getId();
 
             if (isset($usedPairs[$pairKey])) {
                 continue;

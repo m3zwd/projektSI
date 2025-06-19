@@ -53,8 +53,9 @@ class RecipeController extends AbstractController
     /**
      * Index action.
      *
-     * @param RecipeListInputFiltersDto $filters Input filters
-     * @param int                       $page    Page number
+     * @param RatingServiceInterface    $ratingService Rating service
+     * @param RecipeListInputFiltersDto $filters       Input filters
+     * @param int                       $page          Page number
      *
      * @return Response HTTP response
      */
@@ -73,7 +74,7 @@ class RecipeController extends AbstractController
             $filters
         );
 
-        /**
+        /*
          * Calculate average rating for each recipe.
          *
          * (obliczanie średniej ocen dla każdego przepisu)
@@ -144,7 +145,7 @@ class RecipeController extends AbstractController
             }
 
             /**
-             * Formularz edycji z istniejącym komentarzem
+             * Formularz edycji z istniejącym komentarzem.
              */
             $editCommentForm = $this->createForm(CommentType::class, $editComment);
             $editCommentForm->handleRequest($request);
@@ -165,11 +166,9 @@ class RecipeController extends AbstractController
         if ($deleteCommentId) {
             $commentToDelete = $commentRepository->find($deleteCommentId);
 
-            if ($commentToDelete && $commentToDelete->getRecipe() === $recipe) {
-                if ($this->isGranted('COMMENT_DELETE', $commentToDelete)) {
-                    $commentRepository->delete($commentToDelete);
-                    $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
-                }
+            if ($commentToDelete && $commentToDelete->getRecipe() === $recipe && $this->isGranted('COMMENT_DELETE', $commentToDelete)) {
+                $commentRepository->delete($commentToDelete);
+                $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
             }
 
             return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
@@ -195,7 +194,7 @@ class RecipeController extends AbstractController
          */
         $comments = $commentRepository->findBy(['recipe' => $recipe], ['createdAt' => 'DESC']);
 
-        /**
+        /*
          * View average rating for recipe.
          */
         $this->ratingService->updateAverageRating($recipe);
@@ -216,7 +215,8 @@ class RecipeController extends AbstractController
 
             $this->addFlash(
                 'success',
-                $this->translator->trans('message.created_successfully'));
+                $this->translator->trans('message.created_successfully')
+            );
 
             return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
         }

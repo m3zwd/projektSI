@@ -29,8 +29,6 @@ class Rating
 
     /**
      * Value.
-     *
-     * @var int|null
      */
     #[ORM\Column(type: 'integer')]
     private ?int $value = null;

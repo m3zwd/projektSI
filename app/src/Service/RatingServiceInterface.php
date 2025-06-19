@@ -32,8 +32,6 @@ interface RatingServiceInterface
      * Calculate average rating for recipe.
      *
      * @param Recipe $recipe Recipe entity
-     *
-     * @return float
      */
     public function calculateAvg(Recipe $recipe): float;
 }

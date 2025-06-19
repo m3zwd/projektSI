@@ -89,6 +89,12 @@ class UserController extends AbstractController
 
     /**
      * Change user's password.
+     *
+     * @param Request                     $request        HTTP request
+     * @param User                        $user           User entity
+     * @param UserPasswordHasherInterface $passwordHasher Password hasher
+     *
+     * @return Response HTTP response
      */
     #[Route(
         '/user/{id}/change-password',
@@ -131,6 +137,11 @@ class UserController extends AbstractController
 
     /**
      * Change user's role.
+     *
+     * @param Request $request HTTP request
+     * @param User    $user    User entity
+     *
+     * @return Response HTTP response
      */
     #[Route(
         '/user/{id}/change-role',
