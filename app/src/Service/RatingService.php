@@ -51,6 +51,18 @@ class RatingService implements RatingServiceInterface
     }
 
     /**
+     * Calculate average rating for recipe.
+     *
+     * @param Recipe $recipe Recipe entity
+     *
+     * @return float
+     */
+    public function calculateAvg(Recipe $recipe): float
+    {
+        return $this->ratingRepository->calculateAvg($recipe);
+    }
+
+    /**
      * Update average rating.
      *
      * @param Recipe $recipe Recipe entity
@@ -59,7 +71,7 @@ class RatingService implements RatingServiceInterface
      */
     public function updateAverageRating(Recipe $recipe): void
     {
-        $average = $this->ratingRepository->getAverageRating($recipe);
+        $average = $this->ratingRepository->calculateAvg($recipe);
         $recipe->setAverageRating($average);
         $this->recipeRepository->save($recipe);
     }

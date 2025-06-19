@@ -16,11 +16,11 @@ use App\Form\Type\RatingType;
 use App\Form\Type\RecipeType;
 use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
-use App\Repository\RatingRepository;
 use App\Repository\TagRepository;
 use App\Resolver\RecipeListInputFiltersDtoResolver;
 use App\Security\Voter\RecipeVoter;
 use App\Service\RatingService;
+use App\Service\RatingServiceInterface;
 use App\Service\RecipeServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -63,7 +63,7 @@ class RecipeController extends AbstractController
         name: 'recipe_index',
         methods: 'GET'
     )]
-    public function index(#[MapQueryString(resolver: RecipeListInputFiltersDtoResolver::class)] RecipeListInputFiltersDto $filters, #[MapQueryParameter] int $page = 1): Response
+    public function index(RatingServiceInterface $ratingService, #[MapQueryString(resolver: RecipeListInputFiltersDtoResolver::class)] RecipeListInputFiltersDto $filters, #[MapQueryParameter] int $page = 1): Response
     {
         /** @var User|null $user */
         $user = $this->getUser();
@@ -73,7 +73,21 @@ class RecipeController extends AbstractController
             $filters
         );
 
-        // pobranie wszystkich kategorii i tagów z repozytoriów
+        /**
+         * Calculate average rating for each recipe.
+         *
+         * (obliczanie średniej ocen dla każdego przepisu)
+         */
+        foreach ($pagination as $recipe) {
+            $averageRating = $ratingService->calculateAvg($recipe);
+            $recipe->setAverageRating($averageRating);
+        }
+
+        /**
+         * Get categories and tags.
+         *
+         * (pobranie wszystkich kategorii i tagów z repozytoriów)
+         */
         $categories = $this->categoryRepository->findAll();
         $tags = $this->tagRepository->findAll();
 
@@ -91,9 +105,10 @@ class RecipeController extends AbstractController
     /**
      * View action.
      *
-     * @param Request           $request           HTTP request
-     * @param Recipe            $recipe            Recipe entity
-     * @param CommentRepository $commentRepository View comments
+     * @param Request                $request           HTTP request
+     * @param Recipe                 $recipe            Recipe entity
+     * @param CommentRepository      $commentRepository View comments
+     * @param RatingServiceInterface $ratingService     Rating service interface
      *
      * @return Response HTTP response
      */
@@ -103,7 +118,7 @@ class RecipeController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET|POST'
     )]
-    public function view(Request $request, Recipe $recipe, CommentRepository $commentRepository, RatingRepository $ratingRepository): Response
+    public function view(Request $request, Recipe $recipe, CommentRepository $commentRepository, RatingServiceInterface $ratingService): Response
     {
         /**
          * Add comment.
@@ -174,12 +189,19 @@ class RecipeController extends AbstractController
         }
 
         /**
-         * Pobieranie komentarzy
+         * Get comment.
+         *
+         * (pobieranie komentarzy z repozytorium)
          */
         $comments = $commentRepository->findBy(['recipe' => $recipe], ['createdAt' => 'DESC']);
 
         /**
-         * Dodawanie oceny
+         * View average rating for recipe.
+         */
+        $this->ratingService->updateAverageRating($recipe);
+
+        /**
+         * Add rating.
          */
         $rating = new Rating();
         $rating->setRecipe($recipe);
@@ -190,7 +212,7 @@ class RecipeController extends AbstractController
         $ratingForm->handleRequest($request);
 
         if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
-            $ratingRepository->save($rating);
+            $ratingService->save($rating);
 
             $this->addFlash(
                 'success',
@@ -198,11 +220,6 @@ class RecipeController extends AbstractController
 
             return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
         }
-
-        /**
-         * Średnia ocen
-         */
-        $this->ratingService->updateAverageRating($recipe);
 
         return $this->render(
             'recipe/view.html.twig',

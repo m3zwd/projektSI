@@ -51,13 +51,13 @@ class RatingRepository extends ServiceEntityRepository
     }
 
     /**
-     * Get average rating for recipe.
+     * Calculate average rating for recipe.
      *
      * @param Recipe $recipe Recipe entity
      *
      * @return float
      */
-    public function getAverageRating(Recipe $recipe): float
+    public function calculateAvg(Recipe $recipe): float
     {
         $result = $this->createQueryBuilder('rating')
             ->select('AVG(rating.value) AS ranking')
