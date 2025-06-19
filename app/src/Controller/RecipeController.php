@@ -194,7 +194,7 @@ class RecipeController extends AbstractController
          */
         $comments = $commentRepository->findBy(['recipe' => $recipe], ['createdAt' => 'DESC']);
 
-        /*
+        /**
          * View average rating for recipe.
          */
         $this->ratingService->updateAverageRating($recipe);

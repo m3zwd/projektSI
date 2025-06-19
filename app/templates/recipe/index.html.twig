@@ -9,15 +9,15 @@
 {% endblock %}
 
 {% block body %}
-    {# przycisk do pokazania formularza filtrów #}
+    {# Formularz filtrów
+    (pokazuje się po kliknięciu przycisku) #}
     <button class="btn btn-primary mb-3" onclick="toggleFilterForm()">
         {{ 'label.filters'|trans }}
     </button>
 
-    {# formularz filtrów #}
     <form id="filter_form" method="get" action="{{ path('recipe_index') }}" class="mb-4">
 
-        {# filtry kategorii #}
+        {# Filtry kategorii #}
         {% set rawCategoryIds = app.request.get('categories') %}
         {% set selectedCategoryIds = rawCategoryIds is iterable ? rawCategoryIds : (rawCategoryIds ? [rawCategoryIds] : []) %}
         <div class="mb-3">
@@ -64,8 +64,7 @@
             </div>
         </div>
 
-
-        {# filtry tagów #}
+        {# Filtry tagów #}
         {% set rawTagIds = app.request.get('tagIds') %}
         {% set selectedTagIds = rawTagIds is iterable ? rawTagIds : (rawTagIds ? [rawTagIds] : []) %}
         <div class="mb-3">
@@ -112,7 +111,7 @@
             </div>
         </div>
 
-        {# filtry użytkownika #}
+        {# Filtry użytkownika (wyświetlanie tylko swoich przepisów) #}
         <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" name="onlyMine" value="1" id="onlyMine"
                    {% if app.request.get('onlyMine') %}checked{% endif %}>
@@ -121,7 +120,7 @@
             </label>
         </div>
 
-        {# przycisk do filtrowania #}
+        {# Przycisk do filtrowania #}
         <div class="filters_bottom">
             <button type="submit" class="btn btn-primary">
                 {{ 'action.filter'|trans }}
@@ -129,6 +128,7 @@
         </div>
     </form>
 
+    {# Lista przepisów #}
     {% if pagination is defined and pagination.items|length %}
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}

@@ -9,18 +9,21 @@
 {% endblock %}
 
 {% block body %}
-    {% if category is defined %}
+    {% if category is defined and category|length %}
+
+        {# Dane kategorii #}
         <dl class="dl-horizontal">
             {% if is_granted('ROLE_ADMIN') %}
                 <dt>{{ 'label.id'|trans }}</dt>
                 <dd>{{ category.id }}</dd>
             {% endif %}
             <dt>{{ 'label.created_at'|trans }}</dt>
-            <dd>{{ category.createdAt|date('Y/m/d') }}</dd>
+            <dd>{{ category.createdAt|format_date('long') }}</dd>
             <dt>{{ 'label.updated_at'|trans }}</dt>
-            <dd>{{ category.updatedAt|date('Y/m/d') }}</dd>
+            <dd>{{ category.updatedAt|format_date('long') }}</dd>
         </dl>
 
+        {# Lista przepisów kategorii #}
         <h2>{{ 'title.category_recipes'|trans }}</h2>
         {% if recipes is defined and recipes|length %}
             <ul>
@@ -29,7 +32,6 @@
                         <a href="{{ url('recipe_view', {id: recipe.id}) }}">
                             {{ recipe.title }}
                         </a>
-                        – {{ recipe.createdAt|date('Y/m/d') }}
                     </li>
                 {% endfor %}
             </ul>
