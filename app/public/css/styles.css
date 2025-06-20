@@ -1,3 +1,7 @@
+body {
+    font-family: 'Lato', sans-serif;
+}
+
 /* MENU */
 .menu ul {
     position: fixed;
@@ -6,7 +10,7 @@
     z-index: 1000; /* zeby menu renderowalo sie nad paginacja */
 
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
 
     list-style-type: none;
@@ -20,14 +24,20 @@
     margin: 0;
 }
 
+#cookbook {
+    padding: 12px 24px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
 .menu a {
     position: relative; /* pozwala after ustawic sie wzgledem tego linku, a nie calej strony */
     display: block; /* caly obszar linku reaguje na hover, a nie tylko tekst */
-    padding: 14px 20px;
+    padding: 16px 20px;
     text-decoration: none;
-    text-transform: uppercase;
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
     color: white;
     transition: color 0.3s ease; /* plynna animacja koloru tekstu przy hover */
 }
@@ -209,9 +219,10 @@ table.table-striped th {
 }
 
 /* LINKI */
-/* Linki na stronach glownych */
+/* Linki na stronach głównych */
 a {
     color: #660033;
+    text-decoration: none;
 }
 
 a:hover {
@@ -221,6 +232,7 @@ a:hover {
 /* Linki w formularzach */
 .btn.btn-link {
     color: #660033;
+    text-decoration: none;
 }
 
 .btn.btn-link:hover {

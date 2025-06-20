@@ -2,6 +2,11 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en" datatype="plaintext" original="file.ext">
     <body>
+      <trans-unit id="title.cookbook">
+        <source>title.cookbook</source>
+        <target>CookBook</target>
+      </trans-unit>
+
       <!-- Universal messages -->
       <trans-unit id="message.empty_list">
         <source>message.empty_list</source>

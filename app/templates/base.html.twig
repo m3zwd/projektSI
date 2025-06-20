@@ -12,6 +12,7 @@
               crossorigin="anonymous">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
               rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     {% endblock %}
 </head>
@@ -19,6 +20,9 @@
 <body>
     <nav role="navigation" class="menu">
         <ul>
+            <li id="cookbook">
+                {{ 'title.cookbook'|trans }}
+            </li>
             <li>
                 <a href="{{ path('recipe_index') }}"
                    class="{% if app.request.attributes.get('_route') == 'recipe_index' %} active

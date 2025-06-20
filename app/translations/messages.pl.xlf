@@ -2,7 +2,12 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en" datatype="plaintext" original="file.ext">
     <body>
-      <!-- Universal messages -->
+      <trans-unit id="title.cookbook">
+        <source>title.cookbook</source>
+        <target>Książka kucharska</target>
+      </trans-unit>
+
+      <!-- Uniwersalne komunikaty -->
       <trans-unit id="message.empty_list">
         <source>message.empty_list</source>
         <target>Lista jest pusta.</target>
@@ -28,7 +33,7 @@
         <target>Błąd formularza.</target>
       </trans-unit>
 
-      <!-- Actions -->
+      <!-- Akcje -->
       <trans-unit id="action.view">
         <source>action.view</source>
         <target>Wyświetl</target>
@@ -50,7 +55,7 @@
         <target>Wróć</target>
       </trans-unit>
 
-      <!-- Table columns -->
+      <!-- Kolumny tabel -->
       <trans-unit id="label.id">
         <source>label.id</source>
         <target>Id</target>
@@ -81,10 +86,10 @@
       </trans-unit>
       <trans-unit id="label.actions">
         <source>label.actions</source>
-        <target>Działania</target>
+        <target>Akcje</target>
       </trans-unit>
 
-      <!-- Recipes -->
+      <!-- Przepisy -->
       <trans-unit id="title.recipe_list">
         <source>title.recipe_list</source>
         <target>Przepisy</target>
@@ -106,7 +111,7 @@
         <target>Usuń przepis</target>
       </trans-unit>
 
-      <!-- Categories -->
+      <!-- Kategorie -->
       <trans-unit id="title.category_list">
         <source>title.category_list</source>
         <target>Kategorie</target>
@@ -140,7 +145,7 @@
         <target>Nie można usunąć kategorii, ponieważ posiada przepisy.</target>
       </trans-unit>
 
-      <!-- Filters & tags -->
+      <!-- Filtry i tagi -->
       <trans-unit id="label.filters">
         <source>label.filters</source>
         <target>Filtry</target>
@@ -186,7 +191,7 @@
         <target>Brak</target>
       </trans-unit>
 
-      <!-- Comments -->
+      <!-- Komentarze -->
       <trans-unit id="label.comments">
         <source>label.comments</source>
         <target>Komentarze</target>
@@ -216,7 +221,7 @@
         <target>Potwierdź usunięcie.</target>
       </trans-unit>
 
-      <!-- Ratings -->
+      <!-- Oceny -->
       <trans-unit id="label.ratings">
         <source>label.ratings</source>
         <target>Oceny</target>
@@ -242,7 +247,7 @@
         <target>Zaloguj się, aby ocenić.</target>
       </trans-unit>
 
-      <!-- Account -->
+      <!-- Konto -->
       <trans-unit id="title.account">
         <source>title.account</source>
         <target>Konto</target>
@@ -260,14 +265,14 @@
         <target>Edytuj konto</target>
       </trans-unit>
 
-      <!-- Users -->
+      <!-- Użytkownicy -->
       <trans-unit id="title.user_list">
         <source>title.user_list</source>
         <target>Użytkownicy</target>
       </trans-unit>
       <trans-unit id="label.roles">
         <source>label.roles</source>
-        <target>Role</target>
+        <target>Rola</target>
       </trans-unit>
       <trans-unit id="action.user_edit">
         <source>action.user_edit</source>
@@ -318,7 +323,7 @@
         <target>Użytkownik nie ma żadnych przepisów.</target>
       </trans-unit>
 
-      <!-- Roles -->
+      <!-- Role -->
       <trans-unit id="role.admin">
         <source>role.admin</source>
         <target>administrator</target>
@@ -332,17 +337,17 @@
         <target>Rola została zmieniona.</target>
       </trans-unit>
 
-      <!-- Logging -->
+      <!-- Logowanie -->
       <trans-unit id="action.login">
         <source>action.login</source>
         <target>Zaloguj się</target>
       </trans-unit>
       <trans-unit id="action.logout">
         <source>action.logout</source>
-        <target>Wyloguj się</target>
+        <target>Wyloguj</target>
       </trans-unit>
 
-      <!-- Registration -->
+      <!-- Rejestracja -->
       <trans-unit id="action.register">
         <source>action.register</source>
         <target>Zarejestruj się</target>
