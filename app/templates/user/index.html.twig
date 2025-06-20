@@ -38,7 +38,6 @@
                         {% endfor %}
                     </td>
                     <td>
-                        {% if 'ROLE_ADMIN' not in user.roles %}
                         <a class="btn btn-outline-success btn-sm" href="{{ url('user_view', {id: user.id}) }}" title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}
                         </a>
@@ -51,7 +50,6 @@
                         <a class="btn btn-outline-danger btn-sm" href="{{ path('user_delete', {id: user.id}) }}" title="{{ 'action.delete'|trans }}">
                             {{ 'action.delete'|trans }}
                         </a>
-                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

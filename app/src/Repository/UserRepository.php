@@ -81,4 +81,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->remove($user);
         $this->getEntityManager()->flush();
     }
+
+    /**
+     * Count admins.
+     *
+     * @return int
+     */
+    public function countAdmins(): int
+    {
+        $qb = $this->createQueryBuilder('user');
+        return (int) $qb
+            ->select('COUNT(user.id)')
+            ->where('user.roles LIKE :role')
+            ->setParameter('role', '%ROLE_ADMIN%')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }
