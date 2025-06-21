@@ -53,8 +53,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * If user is blocked.
-     *
-     * @var bool
      */
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $isBlocked = false;

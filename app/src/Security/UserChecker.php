@@ -40,9 +40,7 @@ class UserChecker implements UserCheckerInterface
         }
 
         if ($user->isBlocked()) {
-            throw new CustomUserMessageAccountStatusException(
-                $this->translator->trans('error.account_blocked')
-            );
+            throw new CustomUserMessageAccountStatusException($this->translator->trans('error.account_blocked'));
         }
     }
 

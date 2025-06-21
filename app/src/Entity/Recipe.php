@@ -364,6 +364,8 @@ class Recipe
 
     /**
      * Getter for averageRating.
+     *
+     * @return float|null Average rating or null if not set
      */
     public function getAverageRating(): ?float
     {
@@ -372,6 +374,8 @@ class Recipe
 
     /**
      * Setter for averageRating.
+     *
+     * @param float|null $averageRating The average rating value
      */
     public function setAverageRating(?float $averageRating): void
     {

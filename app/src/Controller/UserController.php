@@ -74,7 +74,7 @@ class UserController extends AbstractController
     )]
     public function view(User $user): Response
     {
-        /**
+        /*
          * Blokada akcji na swoim własnym koncie.
          */
         if ($user === $this->getUser()) {
@@ -222,7 +222,7 @@ class UserController extends AbstractController
             $currentRoles = $user->getRoles();
             $hasAdminRole = in_array('ROLE_ADMIN', $currentRoles, true);
 
-            /**
+            /*
              * Odbieranie uprawnień.
              *
              * Jeśli użytkownik ma rolę admina i odznaczę admina:
@@ -276,7 +276,7 @@ class UserController extends AbstractController
         name: 'user_block',
         methods: 'GET|POST'
     )]
-    public function block(User $user, Request $request): Response
+    public function block(Request $request, User $user): Response
     {
         if ($user === $this->getUser()) {
             throw new AccessDeniedException('Access denied.');
@@ -297,7 +297,7 @@ class UserController extends AbstractController
             $currentRoles = $user->getRoles();
             $hasAdminRole = in_array('ROLE_ADMIN', $currentRoles, true);
 
-            /**
+            /*
              * Blokowanie konta.
              *
              * Jeśli użytkownik ma rolę admina i go zablokuję:

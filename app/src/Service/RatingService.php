@@ -54,6 +54,8 @@ class RatingService implements RatingServiceInterface
      * Calculate average rating for recipe.
      *
      * @param Recipe $recipe Recipe entity
+     *
+     * @return float Average rating value
      */
     public function calculateAvg(Recipe $recipe): float
     {
