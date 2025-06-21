@@ -246,6 +246,10 @@
         <source>message.login_to_rate</source>
         <target>Zaloguj się, aby ocenić.</target>
       </trans-unit>
+      <trans-unit id="label.rating_count">
+        <source>label.rating_count</source>
+        <target>{1} 1 ocena|[2,4] %count% oceny|[5,*] %count% ocen</target>
+      </trans-unit>
 
       <!-- Instrukcje -->
       <trans-unit id="label.instruction">

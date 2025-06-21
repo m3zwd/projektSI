@@ -246,6 +246,10 @@
         <source>message.login_to_rate</source>
         <target>Log in to rate.</target>
       </trans-unit>
+      <trans-unit id="label.rating_count">
+        <source>label.rating_count</source>
+        <target>1 rating|%count% ratings</target>
+      </trans-unit>
 
       <!-- Instructions -->
       <trans-unit id="label.instruction">

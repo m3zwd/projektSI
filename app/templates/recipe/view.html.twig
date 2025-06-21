@@ -110,15 +110,17 @@
             <p class="text-muted">{{ 'message.login_to_comment'|trans }}</p>
         {% endif %}
 
-        {# Lista ocen + wyświetlanie średniej, jeśli jakieś są #}
+        {# Lista ocen + wyświetlanie liczby i średniej #}
         <hr>
         <h2>{{ 'label.ratings'|trans }}</h2>
         {% if recipe.ratings is not empty %}
-            {# Lista ocen + wyświetlanie średniej, jeśli jakieś są #}
             <p>
                 <strong>{{ 'label.average_rating'|trans }}:</strong>
                 <i class="bi bi-star-fill text-warning"></i>
                 {{ recipe.averageRating|number_format(1) }} / 5
+                <small class="text-muted">
+                    ({{ 'label.rating_count'|trans({'%count%': ratingCount}, 'messages', null, ratingCount) }})
+                </small>
             </p>
 
             <ul class="list-group mb-4">

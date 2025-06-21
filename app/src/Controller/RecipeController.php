@@ -16,6 +16,7 @@ use App\Form\Type\RatingType;
 use App\Form\Type\RecipeType;
 use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
+use App\Repository\RatingRepository;
 use App\Repository\TagRepository;
 use App\Resolver\RecipeListInputFiltersDtoResolver;
 use App\Security\Voter\RecipeVoter;
@@ -119,7 +120,7 @@ class RecipeController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET|POST'
     )]
-    public function view(Request $request, Recipe $recipe, CommentRepository $commentRepository, RatingServiceInterface $ratingService): Response
+    public function view(Request $request, Recipe $recipe, CommentRepository $commentRepository, RatingServiceInterface $ratingService, RatingRepository $ratingRepository): Response
     {
         /**
          * Add comment.
@@ -221,6 +222,11 @@ class RecipeController extends AbstractController
             return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
         }
 
+        /**
+         * Count ratings.
+         */
+        $ratingCount = $ratingRepository->countRatings($recipe);
+
         return $this->render(
             'recipe/view.html.twig',
             [
@@ -230,6 +236,7 @@ class RecipeController extends AbstractController
                 'edit_comment_form' => $editCommentForm?->createView(),
                 'edit_comment' => $editComment,
                 'rating_form' => $ratingForm->createView(),
+                'ratingCount' => $ratingCount,
             ]
         );
     }

@@ -68,4 +68,21 @@ class RatingRepository extends ServiceEntityRepository
 
         return null !== $result ? (float) $result : 0.0;
     }
+
+    /**
+     * Count the number of ratings assigned to a given recipe.
+     *
+     * @param Recipe $recipe Recipe entity
+     *
+     * @return int Number of ratings
+     */
+    public function countRatings(Recipe $recipe): int
+    {
+        return $this->createQueryBuilder('rating')
+            ->select('COUNT(rating.id)')
+            ->where('rating.recipe = :recipe')
+            ->setParameter('recipe', $recipe)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }
