@@ -110,19 +110,22 @@
             <p class="text-muted">{{ 'message.login_to_comment'|trans }}</p>
         {% endif %}
 
-        {# Oceny #}
+        {# Lista ocen + wyświetlanie średniej, jeśli jakieś są #}
         <hr>
         <h2>{{ 'label.ratings'|trans }}</h2>
-        {# Średnia ocen #}
-        <p><strong>{{ 'label.average_rating'|trans }}:</strong> ⭐ {{ recipe.averageRating|number_format(1) }} / 5</p>
-
-        {# Lista ocen #}
         {% if recipe.ratings is not empty %}
+            {# Lista ocen + wyświetlanie średniej, jeśli jakieś są #}
+            <p>
+                <strong>{{ 'label.average_rating'|trans }}:</strong>
+                <i class="bi bi-star-fill text-warning"></i>
+                {{ recipe.averageRating|number_format(1) }} / 5
+            </p>
+
             <ul class="list-group mb-4">
                 {% for rating in recipe.ratings %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <span>
-                            ⭐ {{ rating.value }} / 5 –
+                            <i class="bi bi-star-fill text-warning"></i> {{ rating.value }} / 5 –
                             <strong>{{ rating.author.email }}</strong>
                             <small>({{ rating.createdAt|format_date('long') }}, {{ rating.createdAt|format_time('short') }})</small>
                         </span>

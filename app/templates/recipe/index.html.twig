@@ -162,7 +162,7 @@
                     <td>{{ recipe.author.email }}</td>
                     <td>
                         {% if recipe.averageRating %}
-                            ⭐ {{ recipe.averageRating|number_format(1) }} / 5
+                            <i class="bi bi-star-fill text-warning"></i> {{ recipe.averageRating|number_format(1) }} / 5
                         {% else %}
                             {{ 'label.no_ratings'|trans }}
                         {% endif %}
