@@ -8,11 +8,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\Type\ChangeRoleType;
+use App\Form\Type\ChangeUserPasswordType;
 use App\Repository\UserRepository;
 use App\Service\UserServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -111,18 +111,7 @@ class UserController extends AbstractController
             throw new AccessDeniedException('Access denied.');
         }
 
-        $form = $this->createFormBuilder()
-            ->add(
-                'plainPassword',
-                PasswordType::class,
-                [
-                'label' => 'label.new_password',
-                'required' => true,
-                'mapped' => false,
-                ]
-            )
-            ->getForm();
-
+        $form = $this->createForm(ChangeUserPasswordType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
