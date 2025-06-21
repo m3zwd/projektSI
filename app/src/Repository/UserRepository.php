@@ -90,6 +90,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function countAdmins(): int
     {
         $qb = $this->createQueryBuilder('user');
+
         return (int) $qb
             ->select('COUNT(user.id)')
             ->where('user.roles LIKE :role')

@@ -77,9 +77,7 @@ class UserController extends AbstractController
          * Blokada akcji na swoim własnym koncie.
          */
         if ($user === $this->getUser()) {
-            throw new AccessDeniedException(
-                $this->translator->trans('message.access_denied_self_action')
-            );
+            throw new AccessDeniedException('Access denied.');
         }
 
         $recipes = $this->userService->getRecipesByUser($user);
@@ -110,23 +108,19 @@ class UserController extends AbstractController
     public function changePassword(Request $request, User $user, UserPasswordHasherInterface $passwordHasher): Response
     {
         if ($user === $this->getUser()) {
-            throw new AccessDeniedException(
-                $this->translator->trans('message.access_denied_self_action')
-            );
-        }
-
-        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
             throw new AccessDeniedException('Access denied.');
         }
 
         $form = $this->createFormBuilder()
             ->add(
                 'plainPassword',
-                PasswordType::class, [
+                PasswordType::class,
+                [
                 'label' => 'label.new_password',
                 'required' => true,
                 'mapped' => false,
-            ])
+                ]
+            )
             ->getForm();
 
         $form->handleRequest($request);
@@ -165,9 +159,7 @@ class UserController extends AbstractController
     public function changeRole(Request $request, User $user): Response
     {
         if ($user === $this->getUser()) {
-            throw new AccessDeniedException(
-                $this->translator->trans('message.access_denied_self_action')
-            );
+            throw new AccessDeniedException('Access denied.');
         }
 
         $form = $this->createForm(ChangeRoleType::class, $user);
@@ -202,6 +194,7 @@ class UserController extends AbstractController
 
                 if ($adminCount <= 1) {
                     $this->addFlash('warning', $this->translator->trans('message.last_admin_error'));
+
                     return $this->redirectToRoute('user_index');
                 }
 
@@ -243,9 +236,7 @@ class UserController extends AbstractController
     public function delete(Request $request, User $user): Response
     {
         if ($user === $this->getUser()) {
-            throw new AccessDeniedException(
-                $this->translator->trans('message.access_denied_self_action')
-            );
+            throw new AccessDeniedException('Access denied.');
         }
 
         if (!$this->userService->canBeDeleted($user)) {
