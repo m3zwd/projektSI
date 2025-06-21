@@ -247,6 +247,12 @@
         <target>Zaloguj się, aby ocenić.</target>
       </trans-unit>
 
+      <!-- Instrukcje -->
+      <trans-unit id="label.instruction">
+        <source>label.instruction</source>
+        <target>Instrukcja</target>
+      </trans-unit>
+
       <!-- Konto -->
       <trans-unit id="title.account">
         <source>title.account</source>
