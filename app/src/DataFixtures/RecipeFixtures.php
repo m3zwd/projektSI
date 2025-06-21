@@ -48,9 +48,6 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
                 )
             );
 
-            $instructionParagraphCount = $this->faker->numberBetween(1, 10);
-            $recipe->setInstruction($this->faker->paragraphs($instructionParagraphCount, true));
-
             $category = $this->getRandomReference('category', Category::class);
             $recipe->setCategory($category);
 
@@ -64,6 +61,17 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
             /** @var User $author */
             $author = $this->getRandomReference('user', User::class);
             $recipe->setAuthor($author);
+
+            /**
+             * Generowanie losowych instrukcji w formacie Markdown
+             */
+            $stepsCount = $this->faker->numberBetween(2, 10);
+            $steps = '';
+            for ($i = 1; $i <= $stepsCount; $i++) {
+                $steps .= $i.'. '.$this->faker->sentence()."\n";
+            }
+            $markdown = "## Przygotowanie\n$steps\n\nSmacznego!";
+            $recipe->setInstruction(trim($markdown));
 
             return $recipe;
         });

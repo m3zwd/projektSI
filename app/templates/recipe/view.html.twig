@@ -37,6 +37,11 @@
             </dd>
         </dl>
 
+        {# Instrukcja #}
+        <div class="bg-light border rounded p-3">
+            {{ recipe.instruction|markdown_to_html }}
+        </div>
+
         {# Lista komentarzy #}
         <hr>
         <h2>{{ 'label.comments'|trans }}</h2>
