@@ -304,7 +304,7 @@
       </trans-unit>
       <trans-unit id="title.change_user_password">
         <source>title.change_user_password</source>
-        <target>Change user's password</target>
+        <target>Change password for %email%</target>
       </trans-unit>
       <trans-unit id="action.change_role">
         <source>action.change_role</source>
@@ -312,7 +312,7 @@
       </trans-unit>
       <trans-unit id="title.change_role">
         <source>title.change_role</source>
-        <target>Change user's role</target>
+        <target>Change role for %email%</target>
       </trans-unit>
       <trans-unit id="message.user_has_recipes">
         <source>message.user_has_recipes</source>

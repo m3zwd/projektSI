@@ -1,5 +1,5 @@
 {% include 'default/_form.html.twig' with {
-    page_title: 'title.change_role'|trans,
+    page_title: ('title.change_role'|trans({'%email%': user.email})),
     form: form,
     submit_label: 'action.save'|trans,
     back_to_list_path: 'user_index',

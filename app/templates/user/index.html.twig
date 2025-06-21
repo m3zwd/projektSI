@@ -41,16 +41,16 @@
                         {# Akcje na swoim koncie niewidoczne na liście #}
                         {% if user.id != app.user.id %}
                             <a class="btn btn-outline-success btn-sm" href="{{ url('user_view', {id: user.id}) }}" title="{{ 'action.view'|trans }}">
-                                {{ 'action.view'|trans }}
+                                <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> {{ 'action.view'|trans }}
                             </a>
                             <a class="btn btn-outline-primary btn-sm" href="{{ path('user_change_password', {id: user.id}) }}" title="{{ 'action.change_user_password'|trans }}">
-                                {{ 'action.change_user_password'|trans }}
+                                <i class="fas fa-pen me-1"></i> {{ 'action.change_user_password'|trans }}
                             </a>
                             <a class="btn btn-outline-primary btn-sm" href="{{ path('user_change_role', {id: user.id}) }}" title="{{ 'action.change_role'|trans }}">
-                                {{ 'action.change_role'|trans }}
+                                <i class="fas fa-pen me-1"></i> {{ 'action.change_role'|trans }}
                             </a>
                             <a class="btn btn-outline-danger btn-sm" href="{{ path('user_delete', {id: user.id}) }}" title="{{ 'action.delete'|trans }}">
-                                {{ 'action.delete'|trans }}
+                                <i class="fa-regular fa-trash-can me-1"></i> {{ 'action.delete'|trans }}
                             </a>
                         {% endif %}
                     </td>

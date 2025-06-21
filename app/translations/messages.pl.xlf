@@ -36,7 +36,7 @@
       <!-- Akcje -->
       <trans-unit id="action.view">
         <source>action.view</source>
-        <target>Wyświetl</target>
+        <target>Pokaż</target>
       </trans-unit>
       <trans-unit id="action.edit">
         <source>action.edit</source>
@@ -272,7 +272,7 @@
       </trans-unit>
       <trans-unit id="label.roles">
         <source>label.roles</source>
-        <target>Rola</target>
+        <target>Role</target>
       </trans-unit>
       <trans-unit id="action.user_edit">
         <source>action.user_edit</source>
@@ -304,7 +304,7 @@
       </trans-unit>
       <trans-unit id="title.change_user_password">
         <source>title.change_user_password</source>
-        <target>Zmień hasło użytkownika</target>
+        <target>Zmień hasło użytkownika %email%</target>
       </trans-unit>
       <trans-unit id="action.change_role">
         <source>action.change_role</source>
@@ -312,7 +312,7 @@
       </trans-unit>
       <trans-unit id="title.change_role">
         <source>title.change_role</source>
-        <target>Zmień rolę użytkownika</target>
+        <target>Zmień rolę użytkownika %email%</target>
       </trans-unit>
       <trans-unit id="message.user_has_recipes">
         <source>message.user_has_recipes</source>
@@ -320,7 +320,7 @@
       </trans-unit>
       <trans-unit id="message.no_recipes_for_user">
         <source>message.no_recipes_for_user</source>
-        <target>Użytkownik nie ma żadnych przepisów.</target>
+        <target>Użytkownik nie utworzył żadnych przepisów.</target>
       </trans-unit>
 
       <!-- Role -->
