@@ -341,7 +341,11 @@
         <target>The user is last admin.</target>
       </trans-unit>
 
-      <!-- Logging -->
+      <!-- Login -->
+      <trans-unit id="title.login">
+        <source>title.login</source>
+        <target>Log in</target>
+      </trans-unit>
       <trans-unit id="action.login">
         <source>action.login</source>
         <target>Log in</target>
@@ -350,8 +354,12 @@
         <source>action.logout</source>
         <target>Log out</target>
       </trans-unit>
+      <trans-unit id="label.remember">
+        <source>label.remember</source>
+        <target>Remember me</target>
+      </trans-unit>
 
-      <!-- Registration -->
+      <!-- Register -->
       <trans-unit id="action.register">
         <source>action.register</source>
         <target>Register</target>

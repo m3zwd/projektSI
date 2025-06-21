@@ -342,6 +342,10 @@
       </trans-unit>
 
       <!-- Logowanie -->
+      <trans-unit id="title.login">
+        <source>title.login</source>
+        <target>Zaloguj się</target>
+      </trans-unit>
       <trans-unit id="action.login">
         <source>action.login</source>
         <target>Zaloguj się</target>
@@ -349,6 +353,10 @@
       <trans-unit id="action.logout">
         <source>action.logout</source>
         <target>Wyloguj</target>
+      </trans-unit>
+      <trans-unit id="label.remember">
+        <source>label.remember</source>
+        <target>Zapamiętaj mnie</target>
       </trans-unit>
 
       <!-- Rejestracja -->
@@ -373,7 +381,7 @@
         <target>Zarejestrowano pomyślnie.</target>
       </trans-unit>
 
-      <!-- Change password -->
+      <!-- Zmiana hasła -->
       <trans-unit id="title.change_password">
         <source>title.change_password</source>
         <target>Zmień hasło</target>
