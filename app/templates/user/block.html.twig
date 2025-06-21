@@ -1,0 +1,8 @@
+{% include 'default/_form.html.twig' with {
+    page_title: (user.isBlocked
+    ? 'title.unblock_user'|trans({'%email%': user.email})
+    : 'title.block_user'|trans({'%email%': user.email})),
+    form: form,
+    submit_label: 'action.save'|trans,
+    back_to_list_path: 'user_index',
+} %}

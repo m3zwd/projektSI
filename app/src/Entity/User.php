@@ -52,6 +52,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     /**
+     * If user is blocked.
+     *
+     * @var bool
+     */
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    private bool $isBlocked = false;
+
+    /**
      * Getter for id.
      *
      * @return int|null Id
@@ -150,5 +158,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * Check if the user is blocked.
+     *
+     * @return bool True if blocked, false if not, null if undefined
+     */
+    public function isBlocked(): bool
+    {
+        return $this->isBlocked;
+    }
+
+    /**
+     * Set the blocked status for the user.
+     *
+     * @param bool $isBlocked True to block, false to unblock
+     */
+    public function setIsBlocked(bool $isBlocked): void
+    {
+        $this->isBlocked = $isBlocked;
     }
 }

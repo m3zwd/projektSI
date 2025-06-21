@@ -26,6 +26,14 @@
                     {% endif %}
                 {% endfor %}
             </dd>
+            <dt>{{ 'label.block_status'|trans }}</dt>
+            <dd>
+                {% if user.isBlocked() %}
+                    <span class="text-danger">{{ 'label.blocked'|trans }}</span>
+                {% else %}
+                    <span class="text-success">{{ 'label.unblocked'|trans }}</span>
+                {% endif %}
+            </dd>
         </dl>
 
         <p>
@@ -34,6 +42,9 @@
             </a>
             <a href="{{ path('user_change_password', {'id': user.id}) }}" class="btn btn-danger">
                 {{ 'action.change_user_password'|trans }}
+            </a>
+            <a href="{{ path('user_block', {'id': user.id}) }}" class="btn btn-dark">
+                {{ user.isBlocked() ? 'action.unblock'|trans : 'action.block'|trans }}
             </a>
         </p>
 

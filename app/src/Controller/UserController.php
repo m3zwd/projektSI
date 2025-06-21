@@ -7,6 +7,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\Type\BlockUserType;
 use App\Form\Type\ChangeRoleType;
 use App\Form\Type\ChangeUserPasswordType;
 use App\Repository\UserRepository;
@@ -92,6 +93,61 @@ class UserController extends AbstractController
     }
 
     /**
+     * Delete action.
+     *
+     * @param Request $request HTTP request
+     * @param User    $user    User entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route(
+        '/user/{id}/delete',
+        name: 'user_delete',
+        requirements: ['id' => '\d+'],
+        methods: 'GET|DELETE'
+    )]
+    public function delete(Request $request, User $user): Response
+    {
+        if ($user === $this->getUser()) {
+            throw new AccessDeniedException('Access denied.');
+        }
+
+        if (!$this->userService->canBeDeleted($user)) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.user_has_recipes')
+            );
+
+            return $this->redirectToRoute('user_index');
+        }
+
+        $form = $this->createForm(FormType::class, $user, [
+            'method' => 'DELETE',
+            'action' => $this->generateUrl('user_delete', ['id' => $user->getId()]),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->userService->delete($user);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.deleted_successfully')
+            );
+
+            return $this->redirectToRoute('user_index');
+        }
+
+        return $this->render(
+            'user/delete.html.twig',
+            [
+                'form' => $form->createView(),
+                'user' => $user,
+            ]
+        );
+    }
+
+    /**
      * Change user's password.
      *
      * @param Request                     $request        HTTP request
@@ -155,7 +211,6 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             /**
              * Pobranie danych wejściowych.
              *
@@ -209,7 +264,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * Delete action.
+     * Block user.
      *
      * @param Request $request HTTP request
      * @param User    $user    User entity
@@ -217,49 +272,64 @@ class UserController extends AbstractController
      * @return Response HTTP response
      */
     #[Route(
-        '/user/{id}/delete',
-        name: 'user_delete',
-        requirements: ['id' => '\d+'],
-        methods: 'GET|DELETE'
+        '/user/{id}/block',
+        name: 'user_block',
+        methods: 'GET|POST'
     )]
-    public function delete(Request $request, User $user): Response
+    public function block(User $user, Request $request): Response
     {
         if ($user === $this->getUser()) {
             throw new AccessDeniedException('Access denied.');
         }
 
-        if (!$this->userService->canBeDeleted($user)) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans('message.user_has_recipes')
-            );
-
-            return $this->redirectToRoute('user_index');
-        }
-
-        $form = $this->createForm(FormType::class, $user, [
-            'method' => 'DELETE',
-            'action' => $this->generateUrl('user_delete', ['id' => $user->getId()]),
-        ]);
+        $form = $this->createForm(BlockUserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->userService->delete($user);
+            /**
+             * Pobranie danych wejściowych.
+             *
+             * $isBlocked - wartość z checkboxa (true jeśli zaznaczony, false jeśli nie)
+             * $currentRoles - tablica ról użytkownika z bazy (['ROLE_USER'] lub ['ROLE_USER', 'ROLE_ADMIN'])
+             * $hasAdminRole - sprawdzenie, czy użytkownik ma rolę admina.
+             */
+            $isBlocked = $form->get('isBlocked')->getData();
+            $currentRoles = $user->getRoles();
+            $hasAdminRole = in_array('ROLE_ADMIN', $currentRoles, true);
+
+            /**
+             * Blokowanie konta.
+             *
+             * Jeśli użytkownik ma rolę admina i go zablokuję:
+             * to sprawdzam, ilu adminów jest w systemie.
+             * Jeśli użytkownik jest ostatnim adminem, blokuje operację i wyswietla komunikat.
+             * Jeśli nie jest lub jest zwyklym uzytkownikiem, to blokuje jego konto.
+             */
+            if ($hasAdminRole && $isBlocked) {
+                $adminCount = $this->userRepository->countAdmins();
+
+                if ($adminCount <= 1) {
+                    $this->addFlash('warning', $this->translator->trans('message.last_admin_error'));
+
+                    return $this->redirectToRoute('user_index');
+                }
+            }
+
+            $user->setIsBlocked($isBlocked);
+
+            $this->userService->save($user);
 
             $this->addFlash(
                 'success',
-                $this->translator->trans('message.deleted_successfully')
+                $this->translator->trans($isBlocked ? 'message.user_blocked' : 'message.user_unblocked')
             );
 
             return $this->redirectToRoute('user_index');
         }
 
-        return $this->render(
-            'user/delete.html.twig',
-            [
-                'form' => $form->createView(),
-                'user' => $user,
-            ]
-        );
+        return $this->render('user/block.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user,
+        ]);
     }
 }

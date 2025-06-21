@@ -336,6 +336,10 @@
         <source>message.role_changed</source>
         <target>Role changed.</target>
       </trans-unit>
+      <trans-unit id="message.last_admin_error">
+        <source>message.last_admin_error</source>
+        <target>The user is last admin.</target>
+      </trans-unit>
 
       <!-- Logging -->
       <trans-unit id="action.login">
@@ -393,6 +397,52 @@
       <trans-unit id="message.password_changed">
         <source>message.password_changed</source>
         <target>Password changed.</target>
+      </trans-unit>
+
+      <!-- Blocking users -->
+      <trans-unit id="label.is_blocked">
+        <source>label.is_blocked</source>
+        <target>Is blocked</target>
+      </trans-unit>
+      <trans-unit id="message.user_blocked">
+        <source>message.user_blocked</source>
+        <target>User blocked.</target>
+      </trans-unit>
+      <trans-unit id="message.user_unblocked">
+        <source>message.user_unblocked</source>
+        <target>User unblocked.</target>
+      </trans-unit>
+      <trans-unit id="action.block">
+        <source>action.block</source>
+        <target>Block</target>
+      </trans-unit>
+      <trans-unit id="title.block_user">
+        <source>title.block_user</source>
+        <target>Block %email%</target>
+      </trans-unit>
+      <trans-unit id="action.unblock">
+        <source>action.unblock</source>
+        <target>Unblock</target>
+      </trans-unit>
+      <trans-unit id="title.unblock_user">
+        <source>title.unblock_user</source>
+        <target>Unblock %email%</target>
+      </trans-unit>
+      <trans-unit id="error.account_blocked">
+        <source>error.account_blocked</source>
+        <target>Your account has been blocked.</target>
+      </trans-unit>
+      <trans-unit id="label.block_status">
+        <source>label.block_status</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="label.blocked">
+        <source>label.blocked</source>
+        <target>Blocked</target>
+      </trans-unit>
+      <trans-unit id="label.unblocked">
+        <source>label.unblocked</source>
+        <target>Active</target>
       </trans-unit>
     </body>
   </file>

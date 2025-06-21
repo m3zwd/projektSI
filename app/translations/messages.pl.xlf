@@ -336,6 +336,10 @@
         <source>message.role_changed</source>
         <target>Rola została zmieniona.</target>
       </trans-unit>
+      <trans-unit id="message.last_admin_error">
+        <source>message.last_admin_error</source>
+        <target>Użytkownik jest ostatnim administratorem.</target>
+      </trans-unit>
 
       <!-- Logowanie -->
       <trans-unit id="action.login">
@@ -393,6 +397,52 @@
       <trans-unit id="message.password_changed">
         <source>message.password_changed</source>
         <target>Hasło zostało zmienione.</target>
+      </trans-unit>
+
+      <!-- Blokowanie użytkowników -->
+      <trans-unit id="label.is_blocked">
+        <source>label.is_blocked</source>
+        <target>Zablokowany</target>
+      </trans-unit>
+      <trans-unit id="message.user_blocked">
+        <source>message.user_blocked</source>
+        <target>Użytkownik został zablokowany.</target>
+      </trans-unit>
+      <trans-unit id="message.user_unblocked">
+        <source>message.user_unblocked</source>
+        <target>Użytkownik został odblokowany.</target>
+      </trans-unit>
+      <trans-unit id="action.block">
+        <source>action.block</source>
+        <target>Zablokuj </target>
+      </trans-unit>
+      <trans-unit id="title.block_user">
+        <source>title.block_user</source>
+        <target>Zablokuj %email%</target>
+      </trans-unit>
+      <trans-unit id="action.unblock">
+        <source>action.unblock</source>
+        <target>Odblokuj</target>
+      </trans-unit>
+      <trans-unit id="title.unblock_user">
+        <source>title.unblock_user</source>
+        <target>Odblokuj %email%</target>
+      </trans-unit>
+      <trans-unit id="error.account_blocked">
+        <source>error.account_blocked</source>
+        <target>Twoje konto zostało zablokowane.</target>
+      </trans-unit>
+      <trans-unit id="label.block_status">
+        <source>label.block_status</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="label.blocked">
+        <source>label.blocked</source>
+        <target>Zablokowany</target>
+      </trans-unit>
+      <trans-unit id="label.unblocked">
+        <source>label.unblocked</source>
+        <target>Aktywny</target>
       </trans-unit>
     </body>
   </file>
