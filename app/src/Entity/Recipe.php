@@ -9,6 +9,7 @@ namespace App\Entity;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -113,6 +114,14 @@ class Recipe
      */
     #[ORM\Column(type: 'float', nullable: true)]
     private ?float $averageRating = null;
+
+    /**
+     * Instruction how to prepare recipe.
+     */
+    #[ORM\Column(type: 'text', nullable: false)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 10, max: 10000)]
+    private string $instruction;
 
     /**
      * Constructor.
@@ -228,14 +237,10 @@ class Recipe
      * Setter for slug.
      *
      * @param string|null $slug Slug
-     *
-     * @return static Returns self
      */
-    public function setSlug(?string $slug): static
+    public function setSlug(?string $slug): void
     {
         $this->slug = $slug;
-
-        return $this;
     }
 
     /**
@@ -380,5 +385,25 @@ class Recipe
     public function setAverageRating(?float $averageRating): void
     {
         $this->averageRating = $averageRating;
+    }
+
+    /**
+     * Get recipe preparation instructions.
+     *
+     * @return string Instructions text
+     */
+    public function getInstruction(): string
+    {
+        return $this->instruction;
+    }
+
+    /**
+     * Set recipe preparation instructions.
+     *
+     * @param string $instruction The preparation instructions
+     */
+    public function setInstruction(string $instruction): void
+    {
+        $this->instruction = $instruction;
     }
 }
