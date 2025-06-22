@@ -10,6 +10,8 @@
 
 {% block body %}
     {% if user is defined and user|length %}
+
+        {# Moje dane #}
         <dl class="dl-horizontal">
             <dt>{{ 'label.email'|trans }}</dt>
             <dd>{{ user.email }}</dd>
@@ -27,15 +29,17 @@
             {% endif %}
         </dl>
 
+        {# Akcje #}
         <p>
-            <a href="{{ url('account_edit') }}" class="btn btn-success">
-                {{ 'action.account_edit'|trans }}
+            <a class="btn btn-outline-primary btn-sm" href="{{ path('account_edit', {id: user.id}) }}" title="{{ 'action.account_edit'|trans }}">
+                <i class="fas fa-pen me-1"></i> {{ 'action.account_edit'|trans }}
             </a>
-            <a href="{{ url('account_change_password') }}" class="btn btn-danger">
-                {{ 'action.change_password'|trans }}
+            <a class="btn btn-outline-primary btn-sm" href="{{ path('account_change_password', {id: user.id}) }}" title="{{ 'action.change_password'|trans }}">
+                <i class="fas fa-pen me-1"></i> {{ 'action.change_password'|trans }}
             </a>
         </p>
 
+        {# Moje przepisy #}
         <h2>{{ 'title.my_recipes'|trans }}</h2>
         {% if recipes is defined and recipes|length %}
             <ul>

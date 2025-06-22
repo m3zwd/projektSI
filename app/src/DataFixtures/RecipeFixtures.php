@@ -63,11 +63,11 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
             $recipe->setAuthor($author);
 
             /**
-             * Generowanie losowych instrukcji w formacie Markdown
+             * Generowanie losowych instrukcji w formacie Markdown.
              */
             $stepsCount = $this->faker->numberBetween(2, 10);
             $steps = '';
-            for ($i = 1; $i <= $stepsCount; $i++) {
+            for ($i = 1; $i <= $stepsCount; ++$i) {
                 $steps .= $i.'. '.$this->faker->sentence()."\n";
             }
             $markdown = "## Przygotowanie\n$steps\n\nSmacznego!";

@@ -37,14 +37,23 @@
         </dl>
 
         <p>
-            <a href="{{ path('user_change_role', {'id': user.id}) }}" class="btn btn-success">
-                {{ 'action.change_role'|trans }}
+            <a class="btn btn-outline-primary btn-sm" href="{{ path('user_change_password', {id: user.id}) }}" title="{{ 'action.change_user_password'|trans }}">
+                <i class="fas fa-pen me-1"></i> {{ 'action.change_user_password'|trans }}
             </a>
-            <a href="{{ path('user_change_password', {'id': user.id}) }}" class="btn btn-danger">
-                {{ 'action.change_user_password'|trans }}
+            <a class="btn btn-outline-primary btn-sm" href="{{ path('user_change_role', {id: user.id}) }}" title="{{ 'action.change_role'|trans }}">
+                <i class="fas fa-pen me-1"></i> {{ 'action.change_role'|trans }}
             </a>
-            <a href="{{ path('user_block', {'id': user.id}) }}" class="btn btn-dark">
-                {{ user.isBlocked() ? 'action.unblock'|trans : 'action.block'|trans }}
+            {% if user.isBlocked %}
+                {% set blockLabel = 'action.unblock'|trans %}
+            {% else %}
+                {% set blockLabel = 'action.block'|trans %}
+            {% endif %}
+            <a class="btn btn-outline-dark btn-sm" href="{{ path('user_block', {id: user.id}) }}" title="{{ blockLabel }}">
+                <i class="fa-solid fa-lock me-1"></i>{{ blockLabel }}
+            </a>
+
+            <a class="btn btn-outline-danger btn-sm" href="{{ path('user_delete', {id: user.id}) }}" title="{{ 'action.delete'|trans }}">
+                <i class="fa-regular fa-trash-can me-1"></i> {{ 'action.delete'|trans }}
             </a>
         </p>
 

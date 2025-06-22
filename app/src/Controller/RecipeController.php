@@ -111,6 +111,7 @@ class RecipeController extends AbstractController
      * @param Recipe                 $recipe            Recipe entity
      * @param CommentRepository      $commentRepository View comments
      * @param RatingServiceInterface $ratingService     Rating service interface
+     * @param RatingRepository       $ratingRepository  Rating repository
      *
      * @return Response HTTP response
      */
