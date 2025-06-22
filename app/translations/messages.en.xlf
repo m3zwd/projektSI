@@ -32,6 +32,10 @@
         <source>message.form_error</source>
         <target>Form error.</target>
       </trans-unit>
+      <trans-unit id="message.access_denied">
+        <source>message.access_denied</source>
+        <target>Access denied.</target>
+      </trans-unit>
 
       <!-- Actions -->
       <trans-unit id="action.view">

@@ -32,6 +32,10 @@
         <source>message.form_error</source>
         <target>Błąd formularza.</target>
       </trans-unit>
+      <trans-unit id="message.access_denied">
+        <source>message.access_denied</source>
+        <target>Brak dostępu.</target>
+      </trans-unit>
 
       <!-- Akcje -->
       <trans-unit id="action.view">
