@@ -9,6 +9,7 @@ namespace App\Service;
 use App\Dto\RecipeListInputFiltersDto;
 use App\Entity\Recipe;
 use App\Entity\User;
+use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
@@ -20,12 +21,26 @@ interface RecipeServiceInterface
      * Get paginated list.
      *
      * @param int                       $page    Page number
-     * @param User                      $author  Currently logged user
+     * @param User|null                 $author  Currently logged-in user, recipes author
      * @param RecipeListInputFiltersDto $filters Filters
      *
-     * @return PaginationInterface<string, mixed> Paginated list
+     * @return PaginationInterface<SlidingPagination> Paginated list
      */
-    public function getPaginatedList(int $page, User $author, RecipeListInputFiltersDto $filters): PaginationInterface;
+    public function getPaginatedList(int $page, ?User $author, RecipeListInputFiltersDto $filters): PaginationInterface;
+
+    /**
+     * Get average rating for each recipe on the list.
+     *
+     * @param PaginationInterface $pagination Pagination
+     */
+    public function getAvgRatingsList(PaginationInterface $pagination): void;
+
+    /**
+     * Get all categories and tags.
+     *
+     * @return array
+     */
+    public function getCategoriesAndTags(): array;
 
     /**
      * Save entity.

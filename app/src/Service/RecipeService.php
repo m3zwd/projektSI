@@ -9,7 +9,9 @@ namespace App\Service;
 use App\Dto\RecipeListInputFiltersDto;
 use App\Entity\Recipe;
 use App\Entity\User;
+use App\Repository\CategoryRepository;
 use App\Repository\RecipeRepository;
+use App\Repository\TagRepository;
 use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -36,7 +38,7 @@ class RecipeService implements RecipeServiceInterface
      * @param RecipeRepository   $recipeRepository Recipe repository
      * @param PaginatorInterface $paginator        Paginator
      */
-    public function __construct(private readonly RecipeRepository $recipeRepository, private readonly PaginatorInterface $paginator)
+    public function __construct(private readonly RecipeRepository $recipeRepository, private readonly PaginatorInterface $paginator, private readonly CategoryRepository $categoryRepository, private readonly TagRepository $tagRepository, private readonly RatingServiceInterface $ratingService)
     {
     }
 
@@ -44,7 +46,7 @@ class RecipeService implements RecipeServiceInterface
      * Get paginated list.
      *
      * @param int                       $page    Page number
-     * @param User|null                 $author  Recipes author
+     * @param User|null                 $author  Currently logged-in user
      * @param RecipeListInputFiltersDto $filters Filters
      *
      * @return PaginationInterface<SlidingPagination> Paginated list
@@ -63,6 +65,32 @@ class RecipeService implements RecipeServiceInterface
                 'defaultSortDirection' => 'desc',
             ]
         );
+    }
+
+    /**
+     * Get average rating for each recipe on the list.
+     *
+     * @param PaginationInterface $pagination Pagination
+     */
+    public function getAvgRatingsList(PaginationInterface $pagination): void
+    {
+        foreach ($pagination as $recipe) {
+            $averageRating = $this->ratingService->calculateAvg($recipe);
+            $recipe->setAverageRating($averageRating);
+        }
+    }
+
+    /**
+     * Get all categories and tags.
+     *
+     * @return array
+     */
+    public function getCategoriesAndTags(): array
+    {
+        return [
+            'categories' => $this->categoryRepository->findAll(),
+            'tags' => $this->tagRepository->findAll(),
+        ];
     }
 
     /**

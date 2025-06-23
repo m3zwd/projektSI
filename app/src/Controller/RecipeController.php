@@ -14,10 +14,8 @@ use App\Entity\User;
 use App\Form\Type\CommentType;
 use App\Form\Type\RatingType;
 use App\Form\Type\RecipeType;
-use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
 use App\Repository\RatingRepository;
-use App\Repository\TagRepository;
 use App\Resolver\RecipeListInputFiltersDtoResolver;
 use App\Security\Voter\RecipeVoter;
 use App\Service\RatingService;
@@ -42,19 +40,16 @@ class RecipeController extends AbstractController
      * Constructor.
      *
      * @param RecipeServiceInterface $recipeService      Recipe service
-     * @param TranslatorInterface    $translator         Translator
-     * @param CategoryRepository     $categoryRepository Category repository
-     * @param TagRepository          $tagRepository      Tag repository
      * @param RatingService          $ratingService      Rating service
+     * @param TranslatorInterface    $translator         Translator
      */
-    public function __construct(private readonly RecipeServiceInterface $recipeService, private readonly TranslatorInterface $translator, private readonly CategoryRepository $categoryRepository, private readonly TagRepository $tagRepository, private readonly RatingService $ratingService)
+    public function __construct(private readonly RecipeServiceInterface $recipeService, private readonly RatingService $ratingService, private readonly TranslatorInterface $translator)
     {
     }
 
     /**
      * Index action.
      *
-     * @param RatingServiceInterface    $ratingService Rating service
      * @param RecipeListInputFiltersDto $filters       Input filters
      * @param int                       $page          Page number
      *
@@ -65,7 +60,7 @@ class RecipeController extends AbstractController
         name: 'recipe_index',
         methods: 'GET'
     )]
-    public function index(RatingServiceInterface $ratingService, #[MapQueryString(resolver: RecipeListInputFiltersDtoResolver::class)] RecipeListInputFiltersDto $filters, #[MapQueryParameter] int $page = 1): Response
+    public function index(#[MapQueryString(resolver: RecipeListInputFiltersDtoResolver::class)] RecipeListInputFiltersDto $filters, #[MapQueryParameter] int $page = 1): Response
     {
         /** @var User|null $user */
         $user = $this->getUser();
@@ -75,30 +70,16 @@ class RecipeController extends AbstractController
             $filters
         );
 
-        /*
-         * Calculate average rating for each recipe.
-         *
-         * (obliczanie średniej ocen dla każdego przepisu)
-         */
-        foreach ($pagination as $recipe) {
-            $averageRating = $ratingService->calculateAvg($recipe);
-            $recipe->setAverageRating($averageRating);
-        }
+        $this->recipeService->getAvgRatingsList($pagination);
 
-        /**
-         * Get categories and tags.
-         *
-         * (pobranie wszystkich kategorii i tagów z repozytoriów)
-         */
-        $categories = $this->categoryRepository->findAll();
-        $tags = $this->tagRepository->findAll();
+        $categoriesAndTags = $this->recipeService->getCategoriesAndTags();
 
         return $this->render(
             'recipe/index.html.twig',
             [
                 'pagination' => $pagination,
-                'categories' => $categories,
-                'tags' => $tags,
+                'categories' => $categoriesAndTags['categories'],
+                'tags' => $categoriesAndTags['tags'],
                 'filters' => $filters,
             ]
         );
