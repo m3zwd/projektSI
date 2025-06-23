@@ -7,14 +7,14 @@ controllers:
     # dodanie prefiksu języka do tras kontrolerów
     prefix: /{_locale}
     defaults:
-        _locale: en
+        _locale: pl
     requirements:
-        _locale: en|pl
+        _locale: pl|en
 
-# przekierowanie trasy /recipe na /en/recipe
-recipe_redirect:
-    path: /recipe
+# przekierowanie /app/ na /app/pl/recipe/
+root_redirect:
+    path: /
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
     defaults:
-        path: /en/recipe
+        path: /pl/recipe
         permanent: false

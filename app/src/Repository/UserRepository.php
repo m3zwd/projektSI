@@ -85,7 +85,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Count admins.
      *
-     * @return int
+     * @return int Number of users with admin role
      */
     public function countAdmins(): int
     {
