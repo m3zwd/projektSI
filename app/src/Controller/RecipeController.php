@@ -7,7 +7,6 @@
 namespace App\Controller;
 
 use App\Dto\RecipeListInputFiltersDto;
-use App\Entity\Comment;
 use App\Entity\Rating;
 use App\Entity\Recipe;
 use App\Entity\User;
@@ -18,6 +17,7 @@ use App\Repository\CommentRepository;
 use App\Repository\RatingRepository;
 use App\Resolver\RecipeListInputFiltersDtoResolver;
 use App\Security\Voter\RecipeVoter;
+use App\Service\CommentService;
 use App\Service\RatingService;
 use App\Service\RatingServiceInterface;
 use App\Service\RecipeServiceInterface;
@@ -41,9 +41,10 @@ class RecipeController extends AbstractController
      *
      * @param RecipeServiceInterface $recipeService      Recipe service
      * @param RatingService          $ratingService      Rating service
+     * @param CommentService         $commentService     Comment service
      * @param TranslatorInterface    $translator         Translator
      */
-    public function __construct(private readonly RecipeServiceInterface $recipeService, private readonly RatingService $ratingService, private readonly TranslatorInterface $translator)
+    public function __construct(private readonly RecipeServiceInterface $recipeService, private readonly RatingService $ratingService, private readonly CommentService $commentService, private readonly TranslatorInterface $translator)
     {
     }
 
@@ -102,55 +103,42 @@ class RecipeController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET|POST'
     )]
-    public function view(Request $request, Recipe $recipe, CommentRepository $commentRepository, RatingServiceInterface $ratingService, RatingRepository $ratingRepository): Response
+    public function view(Request $request, Recipe $recipe, RatingServiceInterface $ratingService, RatingRepository $ratingRepository): Response
     {
-        /**
-         * Add comment.
-         */
-        $comment = new Comment();
-        $comment->setRecipe($recipe);
-        $comment->setAuthor($this->getUser());
-        $comment->setCreatedAt(new \DateTimeImmutable());
+        $comments = $this->commentService->getRecipeComments($recipe);
+
+        /** @var User $author */
+        $author = $this->getUser();
+        $comment = $this->commentService->createComment($author, $recipe);
         $commentForm = $this->createForm(CommentType::class, $comment);
 
-        /**
-         * Edit comment.
-         */
         $editCommentId = $request->request->get('edit_comment_id');
         $editComment = null;
         $editCommentForm = null;
         if ($editCommentId) {
-            $editComment = $commentRepository->find($editCommentId);
-            if (!$editComment || $editComment->getRecipe() !== $recipe || !$this->isGranted('COMMENT_EDIT', $editComment)) {
-                $this->addFlash('error', $this->translator->trans('message.access_denied'));
+            $editComment = $this->commentService->getCommentForRecipe($editCommentId, $recipe);
 
+            if (!$editComment || !$this->isGranted('COMMENT_EDIT', $editComment)) {
+                $this->addFlash('error', $this->translator->trans('message.access_denied'));
                 return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
             }
 
-            /**
-             * Formularz edycji z istniejącym komentarzem.
-             */
             $editCommentForm = $this->createForm(CommentType::class, $editComment);
             $editCommentForm->handleRequest($request);
 
             if ($editCommentForm->isSubmitted() && $editCommentForm->isValid()) {
-                $commentRepository->save($editComment);
-
+                $this->commentService->save($editComment);
                 $this->addFlash('success', $this->translator->trans('message.edited_successfully'));
-
                 return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
             }
         }
 
-        /**
-         * Delete comment.
-         */
         $deleteCommentId = $request->request->get('delete_comment_id');
         if ($deleteCommentId) {
-            $commentToDelete = $commentRepository->find($deleteCommentId);
+            $deleteCommentId = $this->commentService->getCommentForRecipe($deleteCommentId, $recipe);
 
-            if ($commentToDelete && $commentToDelete->getRecipe() === $recipe && $this->isGranted('COMMENT_DELETE', $commentToDelete)) {
-                $commentRepository->delete($commentToDelete);
+            if ($deleteCommentId && $deleteCommentId->getRecipe() === $recipe && $this->isGranted('COMMENT_DELETE', $deleteCommentId)) {
+                $this->commentService->delete($deleteCommentId);
                 $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
             }
 
@@ -160,7 +148,7 @@ class RecipeController extends AbstractController
         $commentForm->handleRequest($request);
 
         if ($commentForm->isSubmitted() && $commentForm->isValid()) {
-            $commentRepository->save($comment);
+            $this->commentService->save($comment);
 
             $this->addFlash(
                 'success',
@@ -171,13 +159,6 @@ class RecipeController extends AbstractController
         }
 
         /**
-         * Get comment.
-         *
-         * (pobieranie komentarzy z repozytorium)
-         */
-        $comments = $commentRepository->findBy(['recipe' => $recipe], ['createdAt' => 'DESC']);
-
-        /*
          * View average rating for recipe.
          */
         $this->ratingService->updateAverageRating($recipe);

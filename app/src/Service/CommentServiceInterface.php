@@ -7,12 +7,37 @@
 namespace App\Service;
 
 use App\Entity\Comment;
+use App\Entity\Recipe;
+use App\Entity\User;
 
 /**
  * Interface CommentServiceInterface.
  */
 interface CommentServiceInterface
 {
+    /**
+     * Get list of comments for the recipe.
+     *
+     * @param Recipe $recipe Recipe entity
+     */
+    public function getRecipeComments(Recipe $recipe): array;
+
+    /**
+     * Create comment.
+     *
+     * @param User   $author Comment author
+     * @param Recipe $recipe Recipe entity
+     */
+    public function createComment(User $author, Recipe $recipe): Comment;
+
+    /**
+     * Get comment for given recipe (method used for editing or deleting).
+     *
+     * @param int    $id     Comment ID
+     * @param Recipe $recipe Recipe entity the comment belongs to
+     */
+    public function getCommentForRecipe(int $id, Recipe $recipe): ?Comment;
+
     /**
      * Save entity.
      *
