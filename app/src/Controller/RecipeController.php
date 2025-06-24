@@ -105,34 +105,11 @@ class RecipeController extends AbstractController
          * Comments.
          */
         $comments = $this->commentService->getRecipeComments($recipe);
-        $comment = null;
-        $commentForm = null;
-        /*
-        $comment = $this->commentService->createComment($recipe, $author);
-        $commentForm = $this->createForm(CommentType::class, $comment);
-        */
-
-        if ($author instanceof User) {
-            $comment = $this->commentService->createComment($recipe, $author);
-            $commentForm = $this->createForm(CommentType::class, $comment);
-
-            $commentForm->handleRequest($request);
-
-            if ($commentForm->isSubmitted() && $commentForm->isValid()) {
-                $this->commentService->save($comment);
-
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans('message.created_successfully')
-                );
-
-                return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
-            }
-        }
 
         $editCommentId = $request->request->get('edit_comment_id');
         $editComment = null;
         $editCommentForm = null;
+
         if ($editCommentId) {
             $editComment = $this->commentService->getCommentForRecipe($editCommentId, $recipe);
 
@@ -142,7 +119,7 @@ class RecipeController extends AbstractController
                 return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
             }
 
-            $editCommentForm = $this->createForm(CommentType::class, $editComment);
+            $editCommentForm = $this->createForm(CommentType::class, $editComment, ['attr' => ['id' => 'edit_comment_form']]);
             $editCommentForm->handleRequest($request);
 
             if ($editCommentForm->isSubmitted() && $editCommentForm->isValid()) {
@@ -151,6 +128,22 @@ class RecipeController extends AbstractController
 
                 return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
             }
+        }
+
+        if ($author instanceof User) {
+            $comment = $this->commentService->createComment($recipe, $author);
+            $commentForm = $this->createForm(CommentType::class, $comment, ['attr' => ['id' => 'new_comment_form']]);
+            $commentForm->handleRequest($request);
+
+            if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+                $this->commentService->save($comment);
+
+                $this->addFlash('success', $this->translator->trans('message.created_successfully'));
+
+                return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
+            }
+        } else {
+            $commentForm = null;
         }
 
         $deleteCommentId = $request->request->get('delete_comment_id');
