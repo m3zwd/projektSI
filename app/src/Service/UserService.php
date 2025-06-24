@@ -76,6 +76,80 @@ class UserService implements UserServiceInterface
     }
 
     /**
+     * Change user's role based on checkbox.
+     *
+     * @param User $user    User entity
+     * @param bool $isAdmin Checkbox: checked if user should have admin role
+     *
+     * @return bool True if role was changed, false if operation was blocked (last admin)
+     */
+    public function changeUserRole(User $user, bool $isAdmin): bool
+    {
+        $currentRoles = $user->getRoles();
+        $hasAdminRole = in_array('ROLE_ADMIN', $currentRoles, true);
+
+        if (!$isAdmin && $hasAdminRole) {
+            $adminCount = $this->userRepository->countAdmins();
+
+            if ($adminCount <= 1) {
+                return false;
+            }
+
+            $user->setRoles(['ROLE_USER']);
+        } elseif ($isAdmin && !$hasAdminRole) {
+            $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
+        } else {
+            return true;
+        }
+
+        return true;
+    }
+
+    /**
+     * Change user's block status based on checkbox.
+     *
+     * @param User $user      User entity
+     * @param bool $isBlocked Checkbox: checked if user should be blocked
+     *
+     * @return bool True if status was changed, false if operation was blocked (last admin)
+     */
+    public function changeUserBlockStatus(User $user, bool $isBlocked): bool
+    {
+        $currentRoles = $user->getRoles();
+        $hasAdminRole = in_array('ROLE_ADMIN', $currentRoles, true);
+
+        if ($isBlocked && $hasAdminRole) {
+            $adminCount = $this->userRepository->countAdmins();
+
+            if ($adminCount <= 1) {
+                return false;
+            }
+        }
+
+        $user->setIsBlocked($isBlocked);
+
+        return true;
+    }
+
+    /**
+     * Can user be deleted?
+     *
+     * @param User $user User entity
+     *
+     * @return bool Result
+     */
+    public function canBeDeleted(User $user): bool
+    {
+        try {
+            $result = $this->recipeRepository->countByUser($user);
+
+            return $result <= 0;
+        } catch (NoResultException|NonUniqueResultException) {
+            return false;
+        }
+    }
+
+    /**
      * Save entity.
      *
      * @param User $user User entity
@@ -93,23 +167,5 @@ class UserService implements UserServiceInterface
     public function delete(User $user): void
     {
         $this->userRepository->delete($user);
-    }
-
-    /**
-     * Can User be deleted?
-     *
-     * @param User $user User entity
-     *
-     * @return bool Result
-     */
-    public function canBeDeleted(User $user): bool
-    {
-        try {
-            $result = $this->recipeRepository->countByUser($user);
-
-            return $result <= 0;
-        } catch (NoResultException|NonUniqueResultException) {
-            return false;
-        }
     }
 }

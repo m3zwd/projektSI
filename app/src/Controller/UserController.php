@@ -10,7 +10,6 @@ use App\Entity\User;
 use App\Form\Type\BlockUserType;
 use App\Form\Type\ChangeRoleType;
 use App\Form\Type\ChangeUserPasswordType;
-use App\Repository\UserRepository;
 use App\Service\UserServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -32,11 +31,10 @@ class UserController extends AbstractController
     /**
      * Constructor.
      *
-     * @param UserServiceInterface $userService    User service
-     * @param UserRepository       $userRepository User repository
-     * @param TranslatorInterface  $translator     Translator
+     * @param UserServiceInterface $userService User service
+     * @param TranslatorInterface  $translator  Translator
      */
-    public function __construct(private readonly UserServiceInterface $userService, private readonly UserRepository $userRepository, private readonly TranslatorInterface $translator)
+    public function __construct(private readonly UserServiceInterface $userService, private readonly TranslatorInterface $translator)
     {
     }
 
@@ -211,48 +209,18 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /**
-             * Pobranie danych wejściowych.
-             *
-             * $isAdmin - wartość z checkboxa (true jeśli zaznaczony, false jeśli nie)
-             * $currentRoles - tablica ról użytkownika z bazy (['ROLE_USER'] lub ['ROLE_USER', 'ROLE_ADMIN'])
-             * $hasAdminRole - sprawdzenie, czy użytkownik ma rolę admina
-             */
             $isAdmin = $form->get('isAdmin')->getData();
-            $currentRoles = $user->getRoles();
-            $hasAdminRole = in_array('ROLE_ADMIN', $currentRoles, true);
+            $changed = $this->userService->changeUserRole($user, $isAdmin);
 
-            /*
-             * Odbieranie uprawnień.
-             *
-             * Jeśli użytkownik ma rolę admina i odznaczę admina:
-             * to sprawdzam, ilu adminów jest w systemie.
-             * Jeśli użytkownik jest ostatnim adminem, blokuje operację i wyswietla komunikat.
-             * Jeśli nie jest, to ustawiam mu tylko ROLE_USER, czyli odbieram admina.
-             *
-             * Jeśli użytkownik nie ma roli admina i zaznaczę admina:
-             * nadaje mu rolę admina.
-             */
-            if (!$isAdmin && $hasAdminRole) {
-                $adminCount = $this->userRepository->countAdmins();
+            if (!$changed) {
+                $this->addFlash('warning', $this->translator->trans('message.last_admin_error'));
 
-                if ($adminCount <= 1) {
-                    $this->addFlash('warning', $this->translator->trans('message.last_admin_error'));
-
-                    return $this->redirectToRoute('user_index');
-                }
-
-                $user->setRoles(['ROLE_USER']);
-            } elseif ($isAdmin && !$hasAdminRole) {
-                $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
+                return $this->redirectToRoute('user_index');
             }
 
             $this->userService->save($user);
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('message.role_changed')
-            );
+            $this->addFlash('success', $this->translator->trans('message.role_changed'));
 
             return $this->redirectToRoute('user_index');
         }
@@ -286,36 +254,14 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /**
-             * Pobranie danych wejściowych.
-             *
-             * $isBlocked - wartość z checkboxa (true jeśli zaznaczony, false jeśli nie)
-             * $currentRoles - tablica ról użytkownika z bazy (['ROLE_USER'] lub ['ROLE_USER', 'ROLE_ADMIN'])
-             * $hasAdminRole - sprawdzenie, czy użytkownik ma rolę admina.
-             */
             $isBlocked = $form->get('isBlocked')->getData();
-            $currentRoles = $user->getRoles();
-            $hasAdminRole = in_array('ROLE_ADMIN', $currentRoles, true);
+            $changed = $this->userService->changeUserBlockStatus($user, $isBlocked);
 
-            /*
-             * Blokowanie konta.
-             *
-             * Jeśli użytkownik ma rolę admina i go zablokuję:
-             * to sprawdzam, ilu adminów jest w systemie.
-             * Jeśli użytkownik jest ostatnim adminem, blokuje operację i wyswietla komunikat.
-             * Jeśli nie jest lub jest zwyklym uzytkownikiem, to blokuje jego konto.
-             */
-            if ($hasAdminRole && $isBlocked) {
-                $adminCount = $this->userRepository->countAdmins();
+            if (!$changed) {
+                $this->addFlash('warning', $this->translator->trans('message.last_admin_error'));
 
-                if ($adminCount <= 1) {
-                    $this->addFlash('warning', $this->translator->trans('message.last_admin_error'));
-
-                    return $this->redirectToRoute('user_index');
-                }
+                return $this->redirectToRoute('user_index');
             }
-
-            $user->setIsBlocked($isBlocked);
 
             $this->userService->save($user);
 
