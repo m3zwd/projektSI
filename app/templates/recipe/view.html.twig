@@ -188,10 +188,14 @@
             </button>
 
             <div id="rating-form" style="display: none;">
-                {{ form_start(rating_form) }}
-                {{ form_row(rating_form.value) }}
-                <button type="submit" class="btn btn-warning">{{ 'action.save'|trans }}</button>
-                {{ form_end(rating_form) }}
+                {% if rating_form is not null %}
+                    {{ form_start(rating_form) }}
+                    {{ form_row(rating_form.value) }}
+                    <button type="submit" class="btn btn-warning">{{ 'action.save'|trans }}</button>
+                    {{ form_end(rating_form) }}
+                {% else %}
+                    <p class="text-muted">{{ 'message.cannot_rate_own_recipe'|trans }}</p>
+                {% endif %}
             </div>
 
             <script>

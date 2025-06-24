@@ -254,6 +254,10 @@
         <source>label.rating_count</source>
         <target>1 rating|%count% ratings</target>
       </trans-unit>
+      <trans-unit id="message.cannot_rate_own_recipe">
+        <source>message.cannot_rate_own_recipe</source>
+        <target>You cannot rate your own recipes.</target>
+      </trans-unit>
 
       <!-- Instructions -->
       <trans-unit id="label.instruction">

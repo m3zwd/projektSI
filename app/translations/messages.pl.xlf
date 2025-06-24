@@ -254,6 +254,10 @@
         <source>label.rating_count</source>
         <target>{1} 1 ocena|[2,4] %count% oceny|[5,*] %count% ocen</target>
       </trans-unit>
+      <trans-unit id="message.cannot_rate_own_recipe">
+        <source>message.cannot_rate_own_recipe</source>
+        <target>Nie możesz oceniać własnych przepisów.</target>
+      </trans-unit>
 
       <!-- Instrukcje -->
       <trans-unit id="label.instruction">

@@ -159,28 +159,10 @@ class RecipeController extends AbstractController
         /**
          * Ratings.
          */
-        /*
         $ratings = $this->ratingService->getRecipeRatings($recipe);
         $this->ratingService->updateAverageRating($recipe);
         $ratingCount = $this->ratingService->countRatings($recipe);
 
-        $rating = $this->ratingService->createRating($recipe, $author);
-        $ratingForm = $this->createForm(RatingType::class, $rating);
-        $ratingForm->handleRequest($request);
-
-        if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
-            $this->ratingService->save($rating);
-
-            $this->addFlash('success', $this->translator->trans('message.created_successfully'));
-
-            return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
-        }
-        */
-        $ratings = $this->ratingService->getRecipeRatings($recipe);
-        $this->ratingService->updateAverageRating($recipe);
-        $ratingCount = $this->ratingService->countRatings($recipe);
-
-        // Edycja oceny
         $editRatingId = $request->request->get('edit_rating_id');
         $editRating = null;
         $editRatingForm = null;
@@ -204,35 +186,33 @@ class RecipeController extends AbstractController
             }
         }
 
-        // Usuwanie oceny (własnej lub przez admina)
         $deleteRatingId = $request->request->get('delete_rating_id');
         if ($deleteRatingId) {
             $deleteRating = $this->ratingService->getRatingForRecipe($deleteRatingId, $recipe);
 
-            if ($deleteRating && (
-                    $this->isGranted('RATING_DELETE', $deleteRating) // uprawnienia do usuwania własnej oceny
-                    || $this->isGranted('ROLE_ADMIN') // admin może usuwać każdą ocenę
-                )) {
+            if ($deleteRating && ($this->isGranted('RATING_DELETE', $deleteRating) || $this->isGranted('ROLE_ADMIN'))) {
                 $this->ratingService->delete($deleteRating);
                 $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
-            } else {
-                $this->addFlash('error', $this->translator->trans('message.access_denied'));
             }
 
             return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
         }
 
-        // Dodanie nowej oceny
-        $rating = $this->ratingService->createRating($recipe, $author);
-        $ratingForm = $this->createForm(RatingType::class, $rating);
-        $ratingForm->handleRequest($request);
+        // jesli uzytkownik jest autorem przepisu, to nie moze dodac oceny
+        if ($author === $recipe->getAuthor()) {
+            $ratingForm = null;
+        } else {
+            $rating = $this->ratingService->createRating($recipe, $author);
+            $ratingForm = $this->createForm(RatingType::class, $rating);
+            $ratingForm->handleRequest($request);
 
-        if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
-            $this->ratingService->save($rating);
+            if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
+                $this->ratingService->save($rating);
 
-            $this->addFlash('success', $this->translator->trans('message.created_successfully'));
+                $this->addFlash('success', $this->translator->trans('message.created_successfully'));
 
-            return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
+                return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
+            }
         }
 
         return $this->render(
@@ -244,7 +224,7 @@ class RecipeController extends AbstractController
                 'edit_comment_form' => $editCommentForm?->createView(),
                 'edit_comment' => $editComment,
                 'ratings' => $ratings,
-                'rating_form' => $ratingForm->createView(),
+                'rating_form' => $ratingForm?->createView(),
                 'edit_rating_form' => $editRatingForm?->createView(),
                 'edit_rating' => $editRating,
                 'ratingCount' => $ratingCount,

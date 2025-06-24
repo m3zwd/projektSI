@@ -75,8 +75,8 @@ final class RatingVoter extends Voter
     /**
      * Checks if user can edit rating.
      *
-     * @param Rating        $rating  Rating entity
-     * @param UserInterface $user    User
+     * @param Rating        $rating Rating entity
+     * @param UserInterface $user   User
      *
      * @return bool Result
      */
@@ -88,8 +88,8 @@ final class RatingVoter extends Voter
     /**
      * Checks if user can delete rating.
      *
-     * @param Rating        $rating  Rating entity
-     * @param UserInterface $user    User
+     * @param Rating        $rating Rating entity
+     * @param UserInterface $user   User
      *
      * @return bool Result
      */
