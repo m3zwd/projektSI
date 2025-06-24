@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block body %}
-    {# Lista tagów #}
     {% if pagination is defined and pagination.items|length %}
         <table class="table table-striped">
             <thead>
@@ -57,7 +56,6 @@
                 {{ knp_pagination_render(pagination) }}
             </div>
 
-            {#
             {% if is_granted('ROLE_ADMIN') %}
                 <p>
                     <a href="{{ url('tag_create') }}" class="btn btn-primary">
@@ -65,7 +63,6 @@
                     </a>
                 </p>
             {% endif %}
-            #}
         </div>
 
     {% else %}

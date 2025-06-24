@@ -7,11 +7,15 @@
 namespace App\Controller;
 
 use App\Entity\Tag;
+use App\Form\Type\TagType;
 use App\Service\TagServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -69,5 +73,41 @@ class TagController extends AbstractController
             'tag' => $tag,
             'recipes' => $recipes,
         ]);
+    }
+
+    /**
+     * Create action.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response
+     */
+    #[Route(
+        '/tag/create',
+        name: 'tag_create',
+        methods: 'GET|POST'
+    )]
+    #[IsGranted('ROLE_ADMIN')]
+    public function create(Request $request): Response
+    {
+        $tag = new Tag();
+        $form = $this->createForm(TagType::class, $tag);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->tagService->save($tag);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.created_successfully')
+            );
+
+            return $this->redirectToRoute('tag_index');
+        }
+
+        return $this->render(
+            'tag/create.html.twig',
+            ['form' => $form->createView()]
+        );
     }
 }

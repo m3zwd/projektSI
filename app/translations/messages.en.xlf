@@ -154,6 +154,14 @@
         <source>title.tag_list</source>
         <target>Tags</target>
       </trans-unit>
+      <trans-unit id="action.tag_create">
+        <source>action.tag_create</source>
+        <target>Create tag</target>
+      </trans-unit>
+      <trans-unit id="title.tag_create">
+        <source>title.tag_create</source>
+        <target>Create tag</target>
+      </trans-unit>
 
       <!-- Filters -->
       <trans-unit id="label.filters">
