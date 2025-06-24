@@ -29,7 +29,9 @@
             <dd>
                 {% if recipe.tags|length > 0 %}
                     {% for tag in recipe.tags %}
-                        <span class="badge bg-secondary">{{ tag.title }}</span>
+                        <a href="{{ path('tag_view', {id: tag.id}) }}" class="btn btn-info btn-sm">
+                            {{ tag.title }}
+                        </a>
                     {% endfor %}
                 {% else %}
                     <span class="text-muted">{{ 'label.none'|trans }}</span>
