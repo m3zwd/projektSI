@@ -94,6 +94,10 @@
       </trans-unit>
 
       <!-- Przepisy -->
+      <trans-unit id="label.recipe">
+        <source>label.recipe</source>
+        <target>Przepis</target>
+      </trans-unit>
       <trans-unit id="title.recipe_list">
         <source>title.recipe_list</source>
         <target>Przepisy</target>
@@ -150,6 +154,10 @@
       </trans-unit>
 
       <!-- Tagi -->
+      <trans-unit id="label.tag">
+        <source>label.tag</source>
+        <target>Tag</target>
+      </trans-unit>
       <trans-unit id="title.tag_list">
         <source>title.tag_list</source>
         <target>Tagi</target>
@@ -314,6 +322,10 @@
       </trans-unit>
 
       <!-- Użytkownicy -->
+      <trans-unit id="label.user">
+        <source>label.user</source>
+        <target>Użytkownik</target>
+      </trans-unit>
       <trans-unit id="title.user_list">
         <source>title.user_list</source>
         <target>Użytkownicy</target>
