@@ -34,7 +34,6 @@
         {% endif %}
 
         {# Przepisy z danym tagiem #}
-        {#
         <h2>{{ 'title.tag_recipes'|trans }}</h2>
         {% if recipes is defined and recipes|length %}
             <ul>
@@ -47,9 +46,8 @@
                 {% endfor %}
             </ul>
         {% else %}
-            <p>{{ 'message.no_recipes_in_category'|trans }}</p>
+            <p>{{ 'message.no_recipes_with_tag'|trans }}</p>
         {% endif %}
-        #}
 
         <p>
             <a href="{{ url('tag_index') }}" title="{{ 'action.back_to_list'|trans }}">
