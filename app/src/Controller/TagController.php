@@ -156,4 +156,47 @@ class TagController extends AbstractController
             ]
         );
     }
+
+    /**
+     * Delete action.
+     *
+     * @param Request $request HTTP request
+     * @param Tag     $tag     Tag entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route(
+        '/tag/{id}/delete',
+        name: 'tag_delete',
+        requirements: ['id' => '[1-9]\d*'],
+        methods: 'GET|DELETE'
+    )]
+    #[IsGranted('ROLE_ADMIN')]
+    public function delete(Request $request, Tag $tag): Response
+    {
+        $form = $this->createForm(TagType::class, $tag, [
+            'method' => 'DELETE',
+            'action' => $this->generateUrl('tag_delete', ['id' => $tag->getId()]),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->tagService->delete($tag);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.deleted_successfully')
+            );
+
+            return $this->redirectToRoute('tag_index');
+        }
+
+        return $this->render(
+            'tag/delete.html.twig',
+            [
+                'form' => $form->createView(),
+                'tag' => $tag,
+            ]
+        );
+    }
 }
