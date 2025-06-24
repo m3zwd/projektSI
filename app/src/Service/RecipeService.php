@@ -35,13 +35,13 @@ class RecipeService implements RecipeServiceInterface
     /**
      * Constructor.
      *
-     * @param RecipeRepository   $recipeRepository   Recipe repository
-     * @param PaginatorInterface $paginator          Paginator
-     * @param CategoryRepository $categoryRepository Category repository
-     * @param TagRepository      $tagRepository      Tag repository
-     * @param RatingServiceInterface $ratingService  Rating service
+     * @param PaginatorInterface     $paginator          Paginator
+     * @param RecipeRepository       $recipeRepository   Recipe repository
+     * @param CategoryRepository     $categoryRepository Category repository
+     * @param TagRepository          $tagRepository      Tag repository
+     * @param RatingServiceInterface $ratingService      Rating service
      */
-    public function __construct(private readonly RecipeRepository $recipeRepository, private readonly PaginatorInterface $paginator, private readonly CategoryRepository $categoryRepository, private readonly TagRepository $tagRepository, private readonly RatingServiceInterface $ratingService)
+    public function __construct(private readonly PaginatorInterface $paginator, private readonly RecipeRepository $recipeRepository, private readonly CategoryRepository $categoryRepository, private readonly TagRepository $tagRepository, private readonly RatingServiceInterface $ratingService)
     {
     }
 
@@ -85,8 +85,6 @@ class RecipeService implements RecipeServiceInterface
 
     /**
      * Get all categories and tags.
-     *
-     * @return array
      */
     public function getCategoriesAndTags(): array
     {

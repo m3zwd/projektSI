@@ -25,10 +25,10 @@ interface CommentServiceInterface
     /**
      * Create comment.
      *
-     * @param User   $author Comment author
      * @param Recipe $recipe Recipe entity
+     * @param User   $author Comment author
      */
-    public function createComment(User $author, Recipe $recipe): Comment;
+    public function createComment(Recipe $recipe, User $author): Comment;
 
     /**
      * Get comment for given recipe (method used for editing or deleting).

@@ -7,18 +7,14 @@
 namespace App\Controller;
 
 use App\Dto\RecipeListInputFiltersDto;
-use App\Entity\Rating;
 use App\Entity\Recipe;
 use App\Entity\User;
 use App\Form\Type\CommentType;
 use App\Form\Type\RatingType;
 use App\Form\Type\RecipeType;
-use App\Repository\CommentRepository;
-use App\Repository\RatingRepository;
 use App\Resolver\RecipeListInputFiltersDtoResolver;
 use App\Security\Voter\RecipeVoter;
-use App\Service\CommentService;
-use App\Service\RatingService;
+use App\Service\CommentServiceInterface;
 use App\Service\RatingServiceInterface;
 use App\Service\RecipeServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,12 +35,12 @@ class RecipeController extends AbstractController
     /**
      * Constructor.
      *
-     * @param RecipeServiceInterface $recipeService  Recipe service
-     * @param RatingService          $ratingService  Rating service
-     * @param CommentService         $commentService Comment service
-     * @param TranslatorInterface    $translator     Translator
+     * @param RecipeServiceInterface  $recipeService  Recipe service
+     * @param RatingServiceInterface  $ratingService  Rating service
+     * @param CommentServiceInterface $commentService Comment service
+     * @param TranslatorInterface     $translator     Translator
      */
-    public function __construct(private readonly RecipeServiceInterface $recipeService, private readonly RatingService $ratingService, private readonly CommentService $commentService, private readonly TranslatorInterface $translator)
+    public function __construct(private readonly RecipeServiceInterface $recipeService, private readonly RatingServiceInterface $ratingService, private readonly CommentServiceInterface $commentService, private readonly TranslatorInterface $translator)
     {
     }
 
@@ -89,10 +85,8 @@ class RecipeController extends AbstractController
     /**
      * View action.
      *
-     * @param Request                $request           HTTP request
-     * @param Recipe                 $recipe            Recipe entity
-     * @param RatingServiceInterface $ratingService     Rating service interface
-     * @param RatingRepository       $ratingRepository  Rating repository
+     * @param Request $request HTTP request
+     * @param Recipe  $recipe  Recipe entity
      *
      * @return Response HTTP response
      */
@@ -102,13 +96,16 @@ class RecipeController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET|POST'
     )]
-    public function view(Request $request, Recipe $recipe, RatingServiceInterface $ratingService, RatingRepository $ratingRepository): Response
+    public function view(Request $request, Recipe $recipe): Response
     {
-        $comments = $this->commentService->getRecipeComments($recipe);
-
         /** @var User $author */
         $author = $this->getUser();
-        $comment = $this->commentService->createComment($author, $recipe);
+
+        /**
+         * Comments.
+         */
+        $comments = $this->commentService->getRecipeComments($recipe);
+        $comment = $this->commentService->createComment($recipe, $author);
         $commentForm = $this->createForm(CommentType::class, $comment);
 
         $editCommentId = $request->request->get('edit_comment_id');
@@ -160,36 +157,23 @@ class RecipeController extends AbstractController
         }
 
         /**
-         * View average rating for recipe.
+         * Ratings.
          */
+        $ratings = $this->ratingService->getRecipeRatings($recipe);
         $this->ratingService->updateAverageRating($recipe);
+        $ratingCount = $this->ratingService->countRatings($recipe);
 
-        /**
-         * Add rating.
-         */
-        $rating = new Rating();
-        $rating->setRecipe($recipe);
-        $rating->setAuthor($this->getUser());
-        $rating->setCreatedAt(new \DateTimeImmutable());
-
+        $rating = $this->ratingService->createRating($recipe, $author);
         $ratingForm = $this->createForm(RatingType::class, $rating);
         $ratingForm->handleRequest($request);
 
         if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
-            $ratingService->save($rating);
+            $this->ratingService->save($rating);
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('message.created_successfully')
-            );
+            $this->addFlash('success', $this->translator->trans('message.created_successfully'));
 
             return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
         }
-
-        /**
-         * Count ratings.
-         */
-        $ratingCount = $ratingRepository->countRatings($recipe);
 
         return $this->render(
             'recipe/view.html.twig',
@@ -199,6 +183,7 @@ class RecipeController extends AbstractController
                 'comment_form' => $commentForm->createView(),
                 'edit_comment_form' => $editCommentForm?->createView(),
                 'edit_comment' => $editComment,
+                'ratings' => $ratings,
                 'rating_form' => $ratingForm->createView(),
                 'ratingCount' => $ratingCount,
             ]

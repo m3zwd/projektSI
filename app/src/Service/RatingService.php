@@ -8,6 +8,7 @@ namespace App\Service;
 
 use App\Entity\Rating;
 use App\Entity\Recipe;
+use App\Entity\User;
 use App\Repository\RatingRepository;
 use App\Repository\RecipeRepository;
 
@@ -24,6 +25,72 @@ class RatingService implements RatingServiceInterface
      */
     public function __construct(private readonly RatingRepository $ratingRepository, private readonly RecipeRepository $recipeRepository)
     {
+    }
+
+    /**
+     * Calculate average ratings.
+     *
+     * @param Recipe $recipe Recipe entity
+     *
+     * @return float Average rating value
+     */
+    public function calculateAvg(Recipe $recipe): float
+    {
+        return $this->ratingRepository->calculateAvg($recipe);
+    }
+
+    /**
+     * Update average ratings.
+     *
+     * @param Recipe $recipe Recipe entity
+     */
+    public function updateAverageRating(Recipe $recipe): void
+    {
+        $average = $this->ratingRepository->calculateAvg($recipe);
+        $recipe->setAverageRating($average);
+        $this->recipeRepository->save($recipe);
+    }
+
+    /**
+     * Get list of ratings for the recipe.
+     *
+     * @param Recipe $recipe Recipe entity
+     *
+     * @return Rating[] List of ratings
+     */
+    public function getRecipeRatings(Recipe $recipe): array
+    {
+        return $this->ratingRepository->findBy(['recipe' => $recipe], ['createdAt' => 'DESC']);
+    }
+
+    /**
+     * Create rating.
+     *
+     * @param Recipe $recipe Recipe entity
+     * @param User   $author Rating author
+     *
+     * @return Rating Rating entity
+     */
+    public function createRating(Recipe $recipe, User $author): Rating
+    {
+        $rating = new Rating();
+        $rating->setRecipe($recipe);
+        $rating->setAuthor($author);
+        $rating->setCreatedAt(new \DateTimeImmutable());
+
+        return $rating;
+    }
+
+    /**
+     * Count ratings.
+     *
+     * @param Recipe $recipe Recipe entity
+     *
+     * @return int Number of ratings
+     */
+    public function countRatings(Recipe $recipe): int
+    {
+        return $this->ratingRepository->countRatings($recipe);
     }
 
     /**
@@ -48,29 +115,5 @@ class RatingService implements RatingServiceInterface
         $this->ratingRepository->delete($rating);
 
         $this->updateAverageRating($recipe);
-    }
-
-    /**
-     * Calculate average rating for recipe.
-     *
-     * @param Recipe $recipe Recipe entity
-     *
-     * @return float Average rating value
-     */
-    public function calculateAvg(Recipe $recipe): float
-    {
-        return $this->ratingRepository->calculateAvg($recipe);
-    }
-
-    /**
-     * Update average rating.
-     *
-     * @param Recipe $recipe Recipe entity
-     */
-    public function updateAverageRating(Recipe $recipe): void
-    {
-        $average = $this->ratingRepository->calculateAvg($recipe);
-        $recipe->setAverageRating($average);
-        $this->recipeRepository->save($recipe);
     }
 }

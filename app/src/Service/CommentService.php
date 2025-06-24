@@ -40,12 +40,12 @@ class CommentService implements CommentServiceInterface
     /**
      * Create comment.
      *
-     * @param User   $author Comment author
      * @param Recipe $recipe Recipe entity
+     * @param User   $author Comment author
      *
      * @return Comment Comment entity
      */
-    public function createComment(User $author, Recipe $recipe): Comment
+    public function createComment(Recipe $recipe, User $author): Comment
     {
         $comment = new Comment();
         $comment->setRecipe($recipe);

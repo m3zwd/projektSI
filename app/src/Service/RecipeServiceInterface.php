@@ -37,8 +37,6 @@ interface RecipeServiceInterface
 
     /**
      * Get all categories and tags.
-     *
-     * @return array
      */
     public function getCategoriesAndTags(): array;
 
