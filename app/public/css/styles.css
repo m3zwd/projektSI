@@ -263,8 +263,3 @@ a:hover {
     color: #999999;
     pointer-events: none;
 }
-
-/* Tagi (w widoku pojedynczego przepisu) */
-.badge.bg-secondary {
-    background-color: #660033 !important;
-}
