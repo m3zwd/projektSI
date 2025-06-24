@@ -39,10 +39,10 @@ class RecipeController extends AbstractController
     /**
      * Constructor.
      *
-     * @param RecipeServiceInterface $recipeService      Recipe service
-     * @param RatingService          $ratingService      Rating service
-     * @param CommentService         $commentService     Comment service
-     * @param TranslatorInterface    $translator         Translator
+     * @param RecipeServiceInterface $recipeService  Recipe service
+     * @param RatingService          $ratingService  Rating service
+     * @param CommentService         $commentService Comment service
+     * @param TranslatorInterface    $translator     Translator
      */
     public function __construct(private readonly RecipeServiceInterface $recipeService, private readonly RatingService $ratingService, private readonly CommentService $commentService, private readonly TranslatorInterface $translator)
     {
@@ -51,8 +51,8 @@ class RecipeController extends AbstractController
     /**
      * Index action.
      *
-     * @param RecipeListInputFiltersDto $filters       Input filters
-     * @param int                       $page          Page number
+     * @param RecipeListInputFiltersDto $filters Input filters
+     * @param int                       $page    Page number
      *
      * @return Response HTTP response
      */
@@ -91,7 +91,6 @@ class RecipeController extends AbstractController
      *
      * @param Request                $request           HTTP request
      * @param Recipe                 $recipe            Recipe entity
-     * @param CommentRepository      $commentRepository View comments
      * @param RatingServiceInterface $ratingService     Rating service interface
      * @param RatingRepository       $ratingRepository  Rating repository
      *
@@ -120,6 +119,7 @@ class RecipeController extends AbstractController
 
             if (!$editComment || !$this->isGranted('COMMENT_EDIT', $editComment)) {
                 $this->addFlash('error', $this->translator->trans('message.access_denied'));
+
                 return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
             }
 
@@ -129,16 +129,17 @@ class RecipeController extends AbstractController
             if ($editCommentForm->isSubmitted() && $editCommentForm->isValid()) {
                 $this->commentService->save($editComment);
                 $this->addFlash('success', $this->translator->trans('message.edited_successfully'));
+
                 return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
             }
         }
 
         $deleteCommentId = $request->request->get('delete_comment_id');
         if ($deleteCommentId) {
-            $deleteCommentId = $this->commentService->getCommentForRecipe($deleteCommentId, $recipe);
+            $deleteComment = $this->commentService->getCommentForRecipe($deleteCommentId, $recipe);
 
-            if ($deleteCommentId && $deleteCommentId->getRecipe() === $recipe && $this->isGranted('COMMENT_DELETE', $deleteCommentId)) {
-                $this->commentService->delete($deleteCommentId);
+            if ($deleteComment && $this->isGranted('COMMENT_DELETE', $deleteComment)) {
+                $this->commentService->delete($deleteComment);
                 $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
             }
 
