@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.tag_list'|trans }}
+{% endblock %}
+
+{% block title_header %}
+    <h1>{{ 'title.tag_list'|trans }}</h1>
+{% endblock %}
+
+{% block body %}
+    {# Lista tagów #}
+    {% if pagination is defined and pagination.items|length %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'tag.id') }}</th>
+                {% endif %}
+                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'tag.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'tag.createdAt') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'tag.updatedAt') }}</th>
+                <th>{{ 'label.actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for tag in pagination.items %}
+                <tr>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td>{{ tag.id }}</td>
+                    {% endif %}
+                    <td>{{ tag.title }}</td>
+                    <td>{{ tag.createdAt|format_date('long') }}</td>
+                    <td>{{ tag.updatedAt|format_date('long') }}</td>
+                    <td>
+                        <a class="btn btn-outline-success btn-sm" href="{{ url('tag_view', {id: tag.id}) }}" title="{{ 'action.view'|trans }}">
+                            <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> {{ 'action.view'|trans }}
+                        </a>
+                        {#
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="btn btn-outline-primary btn-sm" href="{{ url('tag_edit', {id: tag.id}) }}" title="{{ 'action.edit'|trans }}">
+                                <i class="fas fa-pen me-1"></i> {{ 'action.edit'|trans }}
+                            </a>
+                            <a class="btn btn-outline-danger btn-sm" href="{{ url('tag_delete', {id: tag.id}) }}" title="{{ 'action.delete'|trans }}">
+                                <i class="fa-regular fa-trash-can me-1"></i> {{ 'action.delete'|trans }}
+                            </a>
+                        {% endif %}
+                        #}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="bottom">
+            <div class="navigation text-center">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+
+            {#
+            {% if is_granted('ROLE_ADMIN') %}
+                <p>
+                    <a href="{{ url('tag_create') }}" class="btn btn-primary">
+                        {{ 'action.tag_create'|trans }}
+                    </a>
+                </p>
+            {% endif %}
+            #}
+        </div>
+
+    {% else %}
+        {% include 'default/_single_alert_message.html.twig' with {
+            type: 'warning',
+            message: 'message.empty_list'|trans
+        } %}
+    {% endif %}
+{% endblock %}

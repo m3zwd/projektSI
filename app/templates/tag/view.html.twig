@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ tag.title }}
+{% endblock %}
+
+{% block title_header %}
+    <h1>{{ tag.title }}</h1>
+{% endblock %}
+
+{% block body %}
+    {% if tag is defined and tag|length %}
+
+        {# Dane tagu #}
+        <dl class="dl-horizontal">
+            {% if is_granted('ROLE_ADMIN') %}
+                <dt>{{ 'label.id'|trans }}</dt>
+                <dd>{{ tag.id }}</dd>
+            {% endif %}
+            <dt>{{ 'label.created_at'|trans }}</dt>
+            <dd>{{ tag.createdAt|format_date('long') }}</dd>
+            <dt>{{ 'label.updated_at'|trans }}</dt>
+            <dd>{{ tag.updatedAt|format_date('long') }}</dd>
+        </dl>
+
+        {# Akcje #}
+        {#
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-outline-primary btn-sm" href="{{ url('category_edit', {id: category.id}) }}" title="{{ 'action.edit'|trans }}">
+                <i class="fas fa-pen me-1"></i> {{ 'action.edit'|trans }}
+            </a>
+            <a class="btn btn-outline-danger btn-sm" href="{{ url('category_delete', {id: category.id}) }}" title="{{ 'action.delete'|trans }}">
+                <i class="fa-regular fa-trash-can me-1"></i> {{ 'action.delete'|trans }}
+            </a>
+        {% endif %}
+        #}
+
+        {# Lista przepisów, które są otagowane danym tagiem #}
+        {#
+        <h2>{{ 'title.tag_recipes'|trans }}</h2>
+        {% if recipes is defined and recipes|length %}
+            <ul>
+                {% for recipe in recipes %}
+                    <li>
+                        <a href="{{ url('recipe_view', {id: recipe.id}) }}">
+                            {{ recipe.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>{{ 'message.no_recipes_in_category'|trans }}</p>
+        {% endif %}
+        #}
+
+        <p>
+            <a href="{{ url('tag_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
+            </a>
+        </p>
+    {% else %}
+        <p>{{ 'message.record_not_found'|trans }}</p>
+    {% endif %}
+{% endblock %}

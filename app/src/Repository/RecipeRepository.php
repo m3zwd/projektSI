@@ -9,6 +9,7 @@ namespace App\Repository;
 use App\Dto\RecipeListInputFiltersDto;
 use App\Entity\Recipe;
 use App\Entity\Category;
+use App\Entity\Tag;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -152,5 +153,22 @@ class RecipeRepository extends ServiceEntityRepository
         }
 
         return $qb;
+    }
+
+    /**
+     * Find recipes by tag.
+     *
+     * @param Tag $tag Tag entity
+     *
+     * @return array
+     */
+    public function findByTag(Tag $tag): array
+    {
+        return $this->createQueryBuilder('recipe')
+            ->innerJoin('recipe.tags', 'tag')
+            ->where('tag = :tag')
+            ->setParameter('tag', $tag)
+            ->getQuery()
+            ->getResult();
     }
 }

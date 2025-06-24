@@ -149,7 +149,13 @@
         <target>Nie można usunąć kategorii, ponieważ posiada przepisy.</target>
       </trans-unit>
 
-      <!-- Filtry i tagi -->
+      <!-- Tagi -->
+      <trans-unit id="title.tag_list">
+        <source>title.tag_list</source>
+        <target>Tagi</target>
+      </trans-unit>
+
+      <!-- Filtry -->
       <trans-unit id="label.filters">
         <source>label.filters</source>
         <target>Filtry</target>

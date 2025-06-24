@@ -149,7 +149,13 @@
         <target>Cannot delete category because it contains recipes.</target>
       </trans-unit>
 
-      <!-- Filters & tags -->
+      <!-- Tags -->
+      <trans-unit id="title.tag_list">
+        <source>title.tag_list</source>
+        <target>Tags</target>
+      </trans-unit>
+
+      <!-- Filters -->
       <trans-unit id="label.filters">
         <source>label.filters</source>
         <target>Filters</target>
