@@ -105,8 +105,30 @@ class RecipeController extends AbstractController
          * Comments.
          */
         $comments = $this->commentService->getRecipeComments($recipe);
+        $comment = null;
+        $commentForm = null;
+        /*
         $comment = $this->commentService->createComment($recipe, $author);
         $commentForm = $this->createForm(CommentType::class, $comment);
+        */
+
+        if ($author instanceof User) {
+            $comment = $this->commentService->createComment($recipe, $author);
+            $commentForm = $this->createForm(CommentType::class, $comment);
+
+            $commentForm->handleRequest($request);
+
+            if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+                $this->commentService->save($comment);
+
+                $this->addFlash(
+                    'success',
+                    $this->translator->trans('message.created_successfully')
+                );
+
+                return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
+            }
+        }
 
         $editCommentId = $request->request->get('edit_comment_id');
         $editComment = null;
@@ -139,19 +161,6 @@ class RecipeController extends AbstractController
                 $this->commentService->delete($deleteComment);
                 $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
             }
-
-            return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
-        }
-
-        $commentForm->handleRequest($request);
-
-        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
-            $this->commentService->save($comment);
-
-            $this->addFlash(
-                'success',
-                $this->translator->trans('message.created_successfully')
-            );
 
             return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
         }
@@ -199,18 +208,17 @@ class RecipeController extends AbstractController
         }
 
         // jesli uzytkownik jest autorem przepisu, to nie moze dodac oceny
-        if ($author === $recipe->getAuthor()) {
-            $ratingForm = null;
-        } else {
+        $ratingForm = null;
+        $author = $this->getUser();
+
+        if ($author instanceof User && $author !== $recipe->getAuthor()) {
             $rating = $this->ratingService->createRating($recipe, $author);
             $ratingForm = $this->createForm(RatingType::class, $rating);
             $ratingForm->handleRequest($request);
 
             if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
                 $this->ratingService->save($rating);
-
                 $this->addFlash('success', $this->translator->trans('message.created_successfully'));
-
                 return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
             }
         }
@@ -220,7 +228,7 @@ class RecipeController extends AbstractController
             [
                 'recipe' => $recipe,
                 'comments' => $comments,
-                'comment_form' => $commentForm->createView(),
+                'comment_form' => $commentForm?->createView(),
                 'edit_comment_form' => $editCommentForm?->createView(),
                 'edit_comment' => $editComment,
                 'ratings' => $ratings,
