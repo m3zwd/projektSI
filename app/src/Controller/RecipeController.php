@@ -159,10 +159,70 @@ class RecipeController extends AbstractController
         /**
          * Ratings.
          */
+        /*
         $ratings = $this->ratingService->getRecipeRatings($recipe);
         $this->ratingService->updateAverageRating($recipe);
         $ratingCount = $this->ratingService->countRatings($recipe);
 
+        $rating = $this->ratingService->createRating($recipe, $author);
+        $ratingForm = $this->createForm(RatingType::class, $rating);
+        $ratingForm->handleRequest($request);
+
+        if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
+            $this->ratingService->save($rating);
+
+            $this->addFlash('success', $this->translator->trans('message.created_successfully'));
+
+            return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
+        }
+        */
+        $ratings = $this->ratingService->getRecipeRatings($recipe);
+        $this->ratingService->updateAverageRating($recipe);
+        $ratingCount = $this->ratingService->countRatings($recipe);
+
+        // Edycja oceny
+        $editRatingId = $request->request->get('edit_rating_id');
+        $editRating = null;
+        $editRatingForm = null;
+        if ($editRatingId) {
+            $editRating = $this->ratingService->getRatingForRecipe($editRatingId, $recipe);
+
+            if (!$editRating || !$this->isGranted('RATING_EDIT', $editRating)) {
+                $this->addFlash('error', $this->translator->trans('message.access_denied'));
+
+                return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
+            }
+
+            $editRatingForm = $this->createForm(RatingType::class, $editRating);
+            $editRatingForm->handleRequest($request);
+
+            if ($editRatingForm->isSubmitted() && $editRatingForm->isValid()) {
+                $this->ratingService->save($editRating);
+                $this->addFlash('success', $this->translator->trans('message.edited_successfully'));
+
+                return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
+            }
+        }
+
+        // Usuwanie oceny (własnej lub przez admina)
+        $deleteRatingId = $request->request->get('delete_rating_id');
+        if ($deleteRatingId) {
+            $deleteRating = $this->ratingService->getRatingForRecipe($deleteRatingId, $recipe);
+
+            if ($deleteRating && (
+                    $this->isGranted('RATING_DELETE', $deleteRating) // uprawnienia do usuwania własnej oceny
+                    || $this->isGranted('ROLE_ADMIN') // admin może usuwać każdą ocenę
+                )) {
+                $this->ratingService->delete($deleteRating);
+                $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
+            } else {
+                $this->addFlash('error', $this->translator->trans('message.access_denied'));
+            }
+
+            return $this->redirectToRoute('recipe_view', ['id' => $recipe->getId()]);
+        }
+
+        // Dodanie nowej oceny
         $rating = $this->ratingService->createRating($recipe, $author);
         $ratingForm = $this->createForm(RatingType::class, $rating);
         $ratingForm->handleRequest($request);
@@ -185,6 +245,8 @@ class RecipeController extends AbstractController
                 'edit_comment' => $editComment,
                 'ratings' => $ratings,
                 'rating_form' => $ratingForm->createView(),
+                'edit_rating_form' => $editRatingForm?->createView(),
+                'edit_rating' => $editRating,
                 'ratingCount' => $ratingCount,
             ]
         );

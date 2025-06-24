@@ -142,11 +142,37 @@
             <ul class="list-group mb-4">
                 {% for rating in recipe.ratings %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>
-                            <i class="bi bi-star-fill text-warning"></i> {{ rating.value }} / 5 –
-                            <strong>{{ rating.author.email }}</strong>
-                            <small>({{ rating.createdAt|format_date('long') }}, {{ rating.createdAt|format_time('short') }})</small>
-                        </span>
+                        <div>
+                            {% if edit_rating is defined and edit_rating and edit_rating.id == rating.id %}
+                                {{ form_start(edit_rating_form) }}
+                                <input type="hidden" name="edit_rating_id" value="{{ edit_rating.id }}">
+                                {{ form_row(edit_rating_form.value) }}
+                                <button type="submit" class="btn btn-warning btn-sm">{{ 'action.save'|trans }}</button>
+                                {{ form_end(edit_rating_form) }}
+                            {% else %}
+                                <i class="bi bi-star-fill text-warning"></i> {{ rating.value }} / 5 –
+                                <strong>{{ rating.author.email }}</strong>
+                                <small>({{ rating.createdAt|format_date('long') }}, {{ rating.createdAt|format_time('short') }})</small>
+
+                                {% if is_granted('RATING_EDIT', rating) %}
+                                    <form method="post" action="{{ path('recipe_view', {'id': recipe.id}) }}" style="display: inline-block;">
+                                        <input type="hidden" name="edit_rating_id" value="{{ rating.id }}">
+                                        <button type="submit" class="btn btn-outline-warning btn-sm">
+                                            <i class="fas fa-pen me-1"></i> {{ 'action.edit'|trans }}
+                                        </button>
+                                    </form>
+                                {% endif %}
+
+                                {% if is_granted('RATING_DELETE', rating) %}
+                                    <form method="post" action="{{ path('recipe_view', {'id': recipe.id}) }}" onsubmit="return confirm('{{ 'message.confirm_delete'|trans }}')" style="display: inline-block;">
+                                        <input type="hidden" name="delete_rating_id" value="{{ rating.id }}">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                                            <i class="fa-regular fa-trash-can me-1"></i> {{ 'action.delete'|trans }}
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                        </div>
                     </li>
                 {% endfor %}
             </ul>

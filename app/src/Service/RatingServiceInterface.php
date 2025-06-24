@@ -41,6 +41,15 @@ interface RatingServiceInterface
     public function getRecipeRatings(Recipe $recipe): array;
 
     /**
+     * Count ratings.
+     *
+     * @param Recipe $recipe Recipe entity
+     *
+     * @return int Number of ratings
+     */
+    public function countRatings(Recipe $recipe): int;
+
+    /**
      * Create rating.
      *
      * @param Recipe $recipe Recipe entity
@@ -51,13 +60,14 @@ interface RatingServiceInterface
     public function createRating(Recipe $recipe, User $author): Rating;
 
     /**
-     * Count ratings.
+     * Get rating for given recipe (method used for editing or deleting).
      *
-     * @param Recipe $recipe Recipe entity
+     * @param int    $id     Rating ID
+     * @param Recipe $recipe Recipe entity the rating belongs to
      *
-     * @return int Number of ratings
+     * @return Rating|null The rating if found and belongs to the recipe, or null
      */
-    public function countRatings(Recipe $recipe): int;
+    public function getRatingForRecipe(int $id, Recipe $recipe): ?Rating;
 
     /**
      * Save entity.
