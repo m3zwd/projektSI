@@ -1,92 +1,59 @@
-# Docker Symfony Starter Kit
+# Projekt: Książka kucharska
 
-Starter kit is based on [The perfect kit starter for a Symfony 4 project with Docker and PHP 7.2](https://medium.com/@romaricp/the-perfect-kit-starter-for-a-symfony-4-project-with-docker-and-php-7-2-fda447b6bca1).
+## Wymagania
 
-## What is inside?
+- [Docker](https://www.docker.com/products/docker-desktop)
+- [Docker Compose](https://docs.docker.com/compose/install)
 
-* Apache 2.4.57 (Debian)
-* PHP 8.3 FPM
-* MySQL 8.3.1
-* NodeJS LTS (latest)
-* Composer
-* Symfony CLI 
-* xdebug
-* djfarrelly/maildev
+## Instalacja i uruchomienie
 
-## Requirements
+1. Sklonuj repozytorium:
 
-* Install [Docker](https://www.docker.com/products/docker-desktop) and [Docker Compose](https://docs.docker.com/compose/install) on your machine 
+    ```bash
+    git clone https://github.com/m3zwd/projektSI.git
+    cd projektSI
+    ```
 
-## Installation
+2. Zbuduj i uruchom kontenery Docker:
 
-* (optional) Add 
+    ```bash
+    docker-compose up -d --build
+    ```
 
-```bash
-127.0.0.1   symfony.local
-```
-in your `host` file.
+3. Wejdź do kontenera PHP:
 
-* Run `build-env.sh` (or `build-env.ps1` on Windows box)
+    ```bash
+    docker-compose exec php bash
+    ```
 
-* Enter the PHP container:
+4. Wejdź do katalogu app:
 
-```bash
-docker-compose exec php bash
-```
+   ```bash
+   cd app
+   ```
+   
+5. Zainstaluj zależności PHP:
 
-* To install Symfony LTS inside container execute:
+    ```bash
+    composer install
+    ```
 
-```bash
-cd app
-rm .gitkeep
-git config --global user.email "you@example.com"
-symfony new ../app --version=lts --webapp
-chown -R dev.dev *
-```
+6. Skonfiguruj plik `.env` z danymi do bazy danych:
 
-## Container URLs and ports
+    ```
+    DATABASE_URL="mysql://username:password@host:port/database?serverVersion=8.0"
+    ```
 
-* Project URL
+7. Utwórz bazę danych, wykonaj migracje i załaduj przykładowe dane:
 
-```bash
-http://localhost:8000
-```
+    ```bash
+    php bin/console doctrine:database:create
+    php bin/console doctrine:migrations:migrate
+    php bin/console doctrine:fixtures:load
+    ```
 
-or 
+8. Aplikacja będzie dostępna pod adresem:
 
-```bash
-http://symfony.local:8000
-```
-
-* MySQL
-
-    * inside container: host is `mysql`, port: `3306`
-    * outside container: host is `localhost`, port: `3307`
-    * passwords, db name are in `docker-compose.yml`
-    
-* djfarrelly/maildev i available from the browser on port `8001`
-
-* xdebug i available remotely on port `9000`
-
-* Database connection in Symfony `.env` file:
-```yaml
-DATABASE_URL=mysql://symfony:symfony@mysql:3306/symfony?serverVersion=5.7
-```
-
-## Useful commands
-
-* `docker-compose up -d` - start containers
-* `docker-compose down` - stop containers
-* `docker-compose exec php bash` - enter into PHP container
-* `docker-compose exec mysql bash` - enter into MySQL container
-* `docker-compose exec apache bash` - enter into Apache2 container
-
-## Troubleshooting
-
-* **2024.05.11 - ERROR: for apache  'ContainerConfig'**
-
-  Error `ERROR: for apache  'ContainerConfig'` after `docker-compose up -d` execution can be solved `docker compose up -d --force-recreate`
-
-  
-
-
+    ```
+    http://localhost:8000
+    ```
