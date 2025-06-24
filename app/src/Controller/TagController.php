@@ -10,7 +10,6 @@ use App\Entity\Tag;
 use App\Form\Type\TagType;
 use App\Service\TagServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
@@ -108,6 +107,53 @@ class TagController extends AbstractController
         return $this->render(
             'tag/create.html.twig',
             ['form' => $form->createView()]
+        );
+    }
+
+    /**
+     * Edit action.
+     *
+     * @param Request $request  HTTP request
+     * @param Tag     $tag      Tag entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route(
+        '/tag/{id}/edit',
+        name: 'tag_edit',
+        requirements: ['id' => '[1-9]\d*'],
+        methods: 'GET|PUT'
+    )]
+    #[IsGranted('ROLE_ADMIN')]
+    public function edit(Request $request, Tag $tag): Response
+    {
+        $form = $this->createForm(
+            TagType::class,
+            $tag,
+            [
+                'method' => 'PUT',
+                'action' => $this->generateUrl('tag_edit', ['id' => $tag->getId()]),
+            ]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->tagService->save($tag);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.edited_successfully')
+            );
+
+            return $this->redirectToRoute('tag_index');
+        }
+
+        return $this->render(
+            'tag/edit.html.twig',
+            [
+                'form' => $form->createView(),
+                'tag' => $tag,
+            ]
         );
     }
 }
